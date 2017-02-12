@@ -15,3 +15,5 @@ export function bootstrapDomReady() {
 }
 
 bootstrapDomReady();
+
+require('./assets/css/app.css');

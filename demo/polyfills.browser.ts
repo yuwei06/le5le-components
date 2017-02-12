@@ -43,4 +43,4 @@ if ('production' === ENV) {
 }
 
 // Others
-require('./assets/css/app.css');
+

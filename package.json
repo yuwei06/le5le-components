@@ -51,7 +51,7 @@
   "license": "MIT",
   "dependencies": {
     "normalize.css": "^4.1.1",
-    "le5le-ui": "^0.0.1",
+    "le5le-ui": "~0.0.4",
     "@angular/common": "~2.4.6",
     "@angular/compiler": "~2.4.6",
     "@angular/core": "~2.4.6",
