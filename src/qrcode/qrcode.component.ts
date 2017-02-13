@@ -5,10 +5,10 @@ import {
   OnInit
 } from '@angular/core';
 
-import {QrCode} from './';
+import {QrCode} from './qrcode';
 
 @Component({
-  selector: 'qr-code',
+  selector: 'ui-qrcode',
   template: ''
 })
 export class QRCodeComponent implements OnInit {

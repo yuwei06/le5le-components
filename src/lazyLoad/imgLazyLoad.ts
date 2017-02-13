@@ -5,8 +5,8 @@ import {Observable, Subscription} from "rxjs/Rx";
   selector: '[imageLazyLoad]'
 })
 export class ImageLazyLoad {
-  @Input('imageLazyLoad') url: string;
-  @Input('imageLazyLoadParams') params: string;
+  @Input('imageLazyLoad') url: string = '';
+  @Input('imageLazyLoadParams') params: string = '';
   @Input() threshold: number = 0;
   private scrollSubscription: Subscription;
   constructor(private el: ElementRef, private renderer: Renderer) {
@@ -39,7 +39,7 @@ export class ImageLazyLoad {
 
   setImage() {
     this.scrollSubscription.unsubscribe();
-    this.scrollSubscription = undefined;
+    this.scrollSubscription = null;
     this.renderer.setElementAttribute(this.el.nativeElement, 'src', this.url + this.params);
   }
 }

@@ -1,18 +1,18 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 
 @Component({
-  selector: 'switch-component',
+  selector: 'ui-switch',
   template: `
-    <span *ngIf="checked" class="ui-switch on {{onClass}}" (click)="onCheck(0)">
+    <span *ngIf="checked" class="ui-switch on {{onClass}}" (click)="onCheck(false)">
       <span class="desc">{{onDesc}}</span>
     </span>
-    <span *ngIf="!checked" class="ui-switch off {{offClass}}" (click)="onCheck(1)">
+    <span *ngIf="!checked" class="ui-switch off {{offClass}}" (click)="onCheck(true)">
       <span class="desc">{{offDesc}}</span>
     </span>
   `
 })
 export class SwitchComponent {
-  @Input() checked: number;
+  @Input() checked: boolean;
   @Output() checkedChange = new EventEmitter<any>();
   @Input() onDesc: string;
   @Input() offDesc: string;
@@ -22,7 +22,7 @@ export class SwitchComponent {
   constructor() {
   }
 
-  onCheck (b: number) {
+  onCheck (b: boolean) {
     this.checked = b;
     this.checkedChange.emit(b);
     this.change.emit(b);

@@ -1,0 +1,51 @@
+<div class="p20">
+  <h2>cookie</h2>
+  <div>cookie服务</div>
+  <h4>例子</h4>
+  <div>
+    <button class="button success mr10" (click)="onSetCookie()">设置一个随机cookie：rand</button>
+    <button class="button primary mr10" (click)="onGetCookie()">读取cookie：name={{rand}}</button>
+  </div>
+  <br>
+  <h4>使用方式</h4>
+  <div>
+    <b>getCookie(name:string)：</b><br>
+    [静态方法]读取名为name的cookie。<br>
+    <br><br>
+
+    <b>setCookie(name:string, value:string, expires?:number, path?:string, domain?:string)：</b><br>
+    [静态方法]设置名为name的cookie。<br>
+    value - cookie值<br>
+    expires - cookie有效期的毫秒数<br>
+    path - cookie所在的目录<br>
+    domain - cookie域名<br>
+    <br><br>
+
+    <b>deleteCookie(name:string, value:string, expires?:number, path?:string, domain?:string)：</b><br>
+    [静态方法]删除名为name的cookie。<br>
+    expires - cookie有效期的毫秒数<br>
+    path - cookie所在的目录<br>
+    domain - cookie域名<br>
+    <br><br>
+
+    使用步骤和代码依次如下：
+  </div>
+  <textarea class="input mt20 full" rows="20" style="resize: none;" readonly="readonly">
+    1.
+    import {CookieService} from "le5le-component/src/cookie/cookie.service";
+    2.
+    @NgModule({
+      imports:       [CommonModule,  FormsModule, routing],
+      declarations: [
+        ComponentCookieComponent
+      ]
+    })
+    export class SharedModule { }
+
+    3.
+    CookieService.setCookie('rand', new Date().getTime()+'');
+
+    this.rand = CookieService.getCookie('rand');
+  </textarea>
+</div>
+

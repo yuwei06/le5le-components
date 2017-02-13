@@ -1,0 +1,42 @@
+<div class="p20">
+  <h2>switch</h2>
+  <div>switch开关</div>
+  <h4>例子</h4>
+  <div>
+    <ui-switch class="mr10" [(checked)]="checked1" [onDesc]="'开'" [offDesc]="'关'"></ui-switch>
+    <ui-switch class="mr10" [(checked)]="checked2" [onDesc]="'开'" [offDesc]="'关'" [onClass]="'success'"></ui-switch>
+    <ui-switch class="mr10" [(checked)]="checked3" [onDesc]="'开'" [offDesc]="'关'" [onClass]="'warning'"></ui-switch>
+    <ui-switch class="mr10" [(checked)]="checked4" [onDesc]="'开'" [offDesc]="'关'" [onClass]="'cyan'"></ui-switch>
+  </div>
+  <br>
+  <h4>使用方式</h4>
+  <div>
+    使用ui-switch标签即可。有如下属性：<br>
+    checked - 绑定选择的值<br>
+    onDesc - 开关开时文本描述<br>
+    offDesc - 开关关时文本描述<br>
+    onClass - 开关开时theme类或自定义class， 例如 success、warning、error等主题<br>
+    offClass - 开关关时theme类或自定义class<br>
+
+    使用步骤和代码依次如下：
+  </div>
+  <textarea class="input mt20 full" rows="20" style="resize: none;" readonly="readonly">
+    1.
+    import {SwitchComponent} from "le5le-component/src/switch/switch.component";
+    2.
+    @NgModule({
+      imports:       [CommonModule,  FormsModule, routing],
+      declarations: [
+        SwitchComponent
+      ]
+    })
+    export class SharedModule { }
+
+    3.
+    <ui-switch class="mr10" [(checked)]="checked1" [onDesc]="'开'" [offDesc]="'关'"></ui-switch>
+    <ui-switch class="mr10" [(checked)]="checked2" [onDesc]="'开'" [offDesc]="'关'" [onClass]="'success'"></ui-switch>
+    <ui-switch class="mr10" [(checked)]="checked3" [onDesc]="'开'" [offDesc]="'关'" [onClass]="'warning'"></ui-switch>
+    <ui-switch class="mr10" [(checked)]="checked4" [onDesc]="'开'" [offDesc]="'关'" [onClass]="'cyan'"></ui-switch>
+  </textarea>
+</div>
+
