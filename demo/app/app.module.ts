@@ -1,5 +1,4 @@
 import { NgModule }       from '@angular/core';
-import { APP_BASE_HREF } from '@angular/common';
 
 import { BrowserModule }  from '@angular/platform-browser';
 import {HttpModule} from "@angular/http";
@@ -27,8 +26,7 @@ import {ComponentModule} from "./component/component.module";
     StartComponent,
   ],
   providers: [
-    appRoutingProviders,
-    // {provide: APP_BASE_HREF, useValue: '/'}
+    appRoutingProviders
   ],
   bootstrap: [ AppComponent ]
 })

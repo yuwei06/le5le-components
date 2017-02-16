@@ -5,7 +5,7 @@ import {Component} from '@angular/core';
   templateUrl: "validator.component.html"
 })
 export class ComponentValidatorComponent {
-  private form: any = {};
+  form: any = {};
   constructor() {
   }
 }

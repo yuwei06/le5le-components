@@ -6,7 +6,7 @@ import {CookieService} from "../../../../src/cookie/cookie.service";
   templateUrl: "cookie.component.html"
 })
 export class ComponentCookieComponent {
-  private rand: string = '';
+  rand: string = '';
   constructor() {
   }
 

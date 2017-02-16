@@ -5,10 +5,10 @@ import {Component} from '@angular/core';
   templateUrl: "switch.component.html"
 })
 export class ComponentSwitchComponent {
-  private checked1: boolean = true;
-  private checked2: boolean = true;
-  private checked3: boolean = false;
-  private checked4: boolean = false;
+  checked1: boolean = true;
+  checked2: boolean = true;
+  checked3: boolean = false;
+  checked4: boolean = false;
   constructor() {
   }
 }

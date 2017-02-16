@@ -5,7 +5,7 @@ import {Component} from '@angular/core';
   templateUrl: "ellipsis.component.html"
 })
 export class ComponentEllipsisComponent {
-  private text: string = '123456712345678123456789';
+  text: string = '123456712345678123456789';
   constructor() {
   }
 }
