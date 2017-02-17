@@ -20,6 +20,8 @@ import {PasswordValidator} from "../../../src/validator/password.directive";
 import {PositiveIntegerValidator} from "../../../src/validator/positiveInteger.directive";
 import {SameValidator} from "../../../src/validator/same.directive";
 import {EmailValidator} from "../../../src/validator/email.directive";
+import {ComponentFileUploadComponent} from "./fileUpload/fileUpload.component";
+import {FileSelectDirective} from "../../../src/fileUpload/fileSelect.directive";
 
 @NgModule({
   imports:       [FormsModule, CommonModule, componentRouting],
@@ -41,7 +43,8 @@ import {EmailValidator} from "../../../src/validator/email.directive";
     PositiveIntegerValidator,
     SameValidator ,
     EmailValidator,
-
+    ComponentFileUploadComponent,
+    FileSelectDirective,
   ]
 })
 export class ComponentModule { }

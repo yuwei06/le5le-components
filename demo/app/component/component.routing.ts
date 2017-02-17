@@ -9,6 +9,7 @@ import {ComponentEllipsisComponent} from "./ellipsis/ellipsis.component";
 import {ComponentSwitchComponent} from "./switch/switch.component";
 import {ComponentQrcodeComponent} from "./qrcode/qrcode.component";
 import {ComponentValidatorComponent} from "./validator/validator.component";
+import {ComponentFileUploadComponent} from "./fileUpload/fileUpload.component";
 
 export const componentRouting: ModuleWithProviders = RouterModule.forChild([
   {
@@ -22,6 +23,7 @@ export const componentRouting: ModuleWithProviders = RouterModule.forChild([
       { path: 'switch', component: ComponentSwitchComponent},
       { path: 'qrcode', component: ComponentQrcodeComponent},
       { path: 'validator', component: ComponentValidatorComponent},
+      { path: 'fileUpload', component: ComponentFileUploadComponent},
     ]
   },
 ]);
