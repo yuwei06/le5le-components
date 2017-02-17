@@ -1,0 +1,30 @@
+.ui-file-upload{
+  position: relative;
+  margin-right: .05rem;
+  vertical-align: middle;
+}
+
+.ui-file-upload.border {
+  display: inline-flex;
+}
+
+.ui-file-upload input[type='file'] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  max-width: 100%;
+  opacity: 0;
+}
+
+.ui-file-upload img {
+  height: calc($box-width * $box-aspect-ratio);
+}
+
+.ui-file-upload .icon-close {
+  position: absolute;
+  top: 0;
+  right: .03rem;
+  cursor: pointer;
+}

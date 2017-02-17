@@ -69,8 +69,32 @@
 
   <div>
     B、组件方式上传 <br>
-
+    <ui-file-upload [(urls)]="fileUrls" [options]="fileUploadOptions"></ui-file-upload>
   </div>
+  <br>
+  <h4>使用方式</h4>
+  <div>
+    urls - 数组。已经上传的图片urls<br>
+    options - 参数对象。 其中：url - 上传url。headers：添加的头部信息。 <br>
+    <br>
 
+    使用步骤和代码依次如下：
+  </div>
+  <textarea class="input mt20 full" rows="20" style="resize: none;" readonly="readonly">
+    1.
+    import {FileSelectDirective} from "le5le-component/src/fileUpload/fileUpload.component";
+    2.
+    @NgModule({
+      imports:       [CommonModule,  FormsModule, routing],
+      declarations: [
+        FileUploadComponent
+      ]
+    })
+    export class SharedModule { }
+
+    3.
+    <ui-file-upload [(urls)]="fileUrls" [options]="fileUploadOptions"></ui-file-upload>
+
+  </textarea>
 </div>
 

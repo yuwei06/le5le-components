@@ -8,6 +8,8 @@ import {FileUploader} from "../../../../src/fileUpload/fileUploader";
 export class ComponentFileUploadComponent {
   uploader: FileUploader;
   fileUploadStatus: any = {};
+  fileUrls: string[] = ['/assets/img/user.jpg'];
+  fileUploadOptions: any = {};
   constructor() {
   }
 
