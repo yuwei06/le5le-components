@@ -27,9 +27,9 @@
               <img *ngIf="!subItem.cover" src="/assets/img/notFound.png">
             </div>
             <div class="text">{{subItem.title}}</div>
-            <button class="btn" *ngIf="(subItem.author && subItem.author.id == user.id) || (user.roles && user.roles.admin)"
+            <button class="btn" *ngIf="canEditTemplates"
                     (click)="editTemplate(subItem, $event)">编辑</button>
-            <button class="btn" *ngIf="(subItem.author && subItem.author.id == user.id) || (user.roles && user.roles.admin)"
+            <button class="btn" *ngIf="canEditTemplates"
                     (click)="delTemplate(subItem, $event)">删除</button>
           </i>
         </div>
@@ -38,26 +38,60 @@
   </div>
   <div class="editor">
     <textarea [class.hidden]="editable" [(ngModel)]="content" (blur)="onContentEdit()"></textarea>
-    <div [class.hidden]="!editable" class="article" contenteditable></div>
+    <div [class.hidden]="!editable" class="article" contenteditable="true"
+         (blur)="onBlur()"></div>
   </div>
 
   <div class="modal" *ngIf="progress">
     <div class="modal-content">
-      <span>正在上传文件{{filename}}: </span>
-      <span>{{progress}}%</span>
+      正在上传文件{{filename}}: {{progress}}%
     </div>
   </div>
 
-  <div class="modal" *ngIf="error">
-    <div class="modal-content" (click)="$event.stopPropagation();">
-      <div class="p15">
-        <span>上传图片{{filename}}失败: </span>
-        <span class="error">{{error}}</span>
+  <div class="modal primary" *ngIf="link.show" style="user-select: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="caption">插入链接</div>
+        <i class="fr iconfont icon-close" (click)="link.show=false"></i>
       </div>
-
-      <div class="text-center">
-        <button class="button" (click)="error=''">关  闭</button>
+      <div class="modal-body">
+        <div class="mb5">
+          <label>链接显示文字</label> <br>
+          <input class="input full" [(ngModel)]="link.text" >
+        </div>
+        <div class="mb10">
+          <label class="required">链接地址 </label> <br>
+          <input class="input full" [(ngModel)]="link.href" required>
+        </div>
+        <label class="checkbox">
+          <input type="checkbox" [(ngModel)]="link.blank">
+          在新页面打开
+        </label>
+      </div>
+      <div class="modal-footer">
+        <button class="button primary mr5" (click)="onAddLink()">确定</button>
+        <button class="button" (click)="link.show=false">取消</button>
       </div>
     </div>
   </div>
+
+  <div class="modal primary" *ngIf="img.show" style="user-select: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="caption">插入图片</div>
+        <i class="fr iconfont icon-close" (click)="img.show=false"></i>
+      </div>
+      <div class="modal-body">
+        <div class="mb10">
+          <label class="required">图片地址 </label> <br>
+          <input class="input full" [(ngModel)]="img.src" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="button primary mr5" (click)="onAddImage()">确定</button>
+        <button class="button" (click)="img.show=false">取消</button>
+      </div>
+    </div>
+  </div>
+
 </div>

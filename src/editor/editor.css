@@ -23,7 +23,7 @@ ui-editor {
   outline: none;
 }
 
-.ui-editor .toolbar * {
+.ui-editor .toolbar *, .ui-editor .modal * {
   user-select: none;
 }
 
@@ -99,10 +99,6 @@ ui-editor {
   right: 0;
   opacity: 0;
   cursor: pointer;
-}
-
-.ui-editor .modal .modal-content {
-  padding: .1rem .25rem;
 }
 
 .ui-editor .toolbar .dropdown .item .image-text {

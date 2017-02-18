@@ -2,6 +2,7 @@ import {Component, Input, Output, EventEmitter, OnChanges, OnInit} from '@angula
 
 import {EditorToolbarItem, toolbarItems, URL} from "./config";
 import {FileUploader} from "../fileUpload/fileUploader";
+import {NoticeService} from "../notice/notice.service";
 
 @Component({
   selector: 'ui-editor',
@@ -17,6 +18,7 @@ export class EditorComponent implements OnInit, OnChanges {
   @Input() images: string[] = [];
   @Output() imagesChange = new EventEmitter<any>();
   @Input() templates: any[] = [];
+  @Input() canEditTemplates: boolean = false;
   @Input() requestHeaders: any = {};
   @Input() toolbarItems: EditorToolbarItem[];
   @Output("selectTemplate") selectTemplateChange: EventEmitter<any> = new EventEmitter<any>();
@@ -26,10 +28,12 @@ export class EditorComponent implements OnInit, OnChanges {
   editable: boolean = true;
   private timer: any;
   private uploader:FileUploader;
-  public filename: string;
-  public progress: number;
-  public error: string;
-  constructor() {
+  filename: string;
+  progress: number;
+  link: any = {show: false, text: '', href: '', blank: true};
+  img: any = {show: false, src: ''};
+  private selectedRange: any;
+  constructor(private _noticeService: NoticeService) {
     if (!this.toolbarItems || !this.toolbarItems.length) this.toolbarItems = toolbarItems;
 
     this.uploader = new FileUploader({
@@ -52,12 +56,9 @@ export class EditorComponent implements OnInit, OnChanges {
           this.progress = 0;
           break;
         case 'error':
-          this.filename = ret.fileItem.file.name;
-          this.error = ret.fileItem.error;
-          break;
         case 'filterError':
-          this.error = ret.fileItem.error;
           this.progress = 0;
+          this._noticeService.notice({theme: 'error', body: '上传图片' + ret.fileItem.file.name + '失败：' + ret.fileItem.error});
           break;
       }
     });
@@ -76,29 +77,32 @@ export class EditorComponent implements OnInit, OnChanges {
     }
   }
 
+  getSelectRange(): any {
+    if (!window.getSelection()) return null;
+    this.selectedRange = window.getSelection().getRangeAt(0);
+
+    return this.selectedRange;
+  }
+
   command (event:any, cmd: string, val: string) {
     event.stopPropagation();
 
     switch (cmd) {
       case 'formatBlock':
         // 如果已经是blockquote，则取消。
-        if (window.getSelection() && window.getSelection().focusNode
-          && window.getSelection().focusNode.parentNode && window.getSelection().focusNode.parentNode.nodeName
-          && window.getSelection().focusNode.parentNode.nodeName.toLowerCase() !== 'div') {
+        let select = window.getSelection();
+        if (!select) return;
+        if (select.focusNode && select.focusNode.parentNode && select.focusNode.parentNode.nodeName
+          && select.focusNode.parentNode.nodeName.toLowerCase() === 'blockquote') {
           val = 'div'
         }
         break;
       case 'createLink':
-        val = prompt('请输入链接URL');
-        if (!val) return;
-        break;
+        if (this.getSelectRange()) this.link.show = true;
+        return;
       case 'insertImage':
-        val = prompt('请输入图片URL');
-        if (!val) return;
-
-        this.images.push(val);
-        this.imagesChange.emit(this.images);
-        break;
+        if (this.getSelectRange()) this.img.show = true;
+        return;
       case 'localImage':
         return;
       case 'remoteImage':
@@ -119,6 +123,35 @@ export class EditorComponent implements OnInit, OnChanges {
     document.execCommand(cmd, false, val)
   }
 
+  onAddLink () {
+    if (!this.link.href || !this.selectedRange) return;
+
+    this.link.show = false;
+
+    let node = document.createElement('A');
+    node.innerHTML = this.link.text || this.link.href;
+    node.setAttribute('href', this.link.href);
+    if (this.link.blank) node.setAttribute('target', '_blank');
+    this.selectedRange.deleteContents();
+    this.selectedRange.insertNode(node);
+    this.link.text = this.link.href = '';
+  }
+
+  onAddImage () {
+    if (!this.img.src || !this.selectedRange) return;
+
+    this.img.show = false;
+
+    let node = document.createElement('IMG');
+    node.setAttribute('src', this.img.src);
+    this.selectedRange.deleteContents();
+    this.selectedRange.insertNode(node);
+    this.img.src = '';
+
+    this.images.push(this.img.src);
+    this.imagesChange.emit(this.images);
+  }
+
   getContent(): string {
     this.content = this.editor.innerHTML;
     this.contentChange.emit(this.content);
@@ -134,7 +167,7 @@ export class EditorComponent implements OnInit, OnChanges {
   getTitle (): string {
     for (let i = 0; i < this.editor.childNodes.length; i++) {
       if (this.editor.childNodes[i].nodeName && this.editor.childNodes[i].nodeName.toLowerCase() == "h1") {
-        this.title = this.editor.childNodes[i].innerHTML;
+        this.title = (this.editor.childNodes[i] as HTMLElement).innerHTML;
         this.titleChange.emit(this.title);
         break;
       }
@@ -149,7 +182,7 @@ export class EditorComponent implements OnInit, OnChanges {
     let i: number = 0;
     for (; i < this.editor.childNodes.length; i++) {
       if (this.editor.childNodes[i].nodeName && this.editor.childNodes[i].nodeName.toLowerCase() == "h1") {
-        this.editor.childNodes[i].innerHTML = data;
+        (this.editor.childNodes[i] as HTMLElement).innerHTML = data;
         this.title = data;
         break;
       }
@@ -169,8 +202,8 @@ export class EditorComponent implements OnInit, OnChanges {
 
   getAbstract (): string {
     for (let i = 0; i < this.editor.childNodes.length; i++) {
-      if (this.editor.childNodes[i].className == "abstract") {
-        this.abstract = this.editor.childNodes[i].innerHTML;
+      if ((this.editor.childNodes[i] as HTMLElement).className == "abstract") {
+        this.abstract = (this.editor.childNodes[i] as HTMLElement).innerHTML;
         this.abstractChange.emit(this.abstract);
         break;
       }
@@ -184,8 +217,8 @@ export class EditorComponent implements OnInit, OnChanges {
 
     let i: number = 0;
     for (; i < this.editor.childNodes.length; i++) {
-      if (this.editor.childNodes[i].className == "abstract") {
-        this.editor.childNodes[i].innerHTML = data;
+      if ((this.editor.childNodes[i] as HTMLElement).className == "abstract") {
+        (this.editor.childNodes[i] as HTMLElement).innerHTML = data;
         this.abstract = data;
         break;
       }
@@ -230,6 +263,20 @@ export class EditorComponent implements OnInit, OnChanges {
     event.stopPropagation();
 
     this.deleteTemplateChange.emit(template);
+  }
+
+  onBlur () {
+    if (this.timer) {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
+
+    this.timer = setTimeout(()=>{
+      this.timer = null;
+      this.getContent();
+      this.getTitle();
+      this.getAbstract();
+    }, 300);
   }
 }
 
