@@ -23,6 +23,8 @@ import {EmailValidator} from "../../../src/validator/email.directive";
 import {ComponentFileUploadComponent} from "./fileUpload/fileUpload.component";
 import {FileSelectDirective} from "../../../src/fileUpload/fileSelect.directive";
 import {FileUploadComponent} from "../../../src/fileUpload/fileUpload.component";
+import {EditorComponent} from "../../../src/editor/editor.component";
+import {ComponentEditorComponent} from "./editor/editor.component";
 
 @NgModule({
   imports:       [FormsModule, CommonModule, componentRouting],
@@ -47,6 +49,8 @@ import {FileUploadComponent} from "../../../src/fileUpload/fileUpload.component"
     ComponentFileUploadComponent,
     FileSelectDirective,
     FileUploadComponent,
+    ComponentEditorComponent,
+    EditorComponent,
   ]
 })
 export class ComponentModule { }

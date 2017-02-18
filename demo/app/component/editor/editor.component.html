@@ -1,0 +1,30 @@
+<div class="p20">
+  <h2>editor</h2>
+  <div>富文本编辑器</div>
+  <h4>例子</h4>
+  <div>
+    <ui-editor #editor class="full" [templates]="templates" [(content)]="article.content"  ></ui-editor>
+  </div>
+  <br>
+  <h4>使用方式</h4>
+  <div>
+
+    使用步骤和代码依次如下：
+  </div>
+  <textarea class="input mt20 full" rows="20" style="resize: none;" readonly="readonly">
+    1.
+    import {SwitchComponent} from "le5le-component/src/editor/editor.component";
+    2.
+    @NgModule({
+      imports:       [CommonModule,  FormsModule, routing],
+      declarations: [
+        EditorComponent
+      ]
+    })
+    export class SharedModule { }
+
+    3.
+
+  </textarea>
+</div>
+

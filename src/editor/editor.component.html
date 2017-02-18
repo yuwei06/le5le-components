@@ -1,0 +1,63 @@
+<div class="ui-editor">
+  <div class="toolbar" tabindex="-1" >
+    <div class="item" *ngFor="let item of toolbarItems" [class.active]="item.command === 'html' && !editable">
+      <button class="button" [class.separator]="item.class==='separator'" [ngStyle]="item.style" title="{{item.tooltip}}"
+         (click)="command($event, item.command, item.val)">
+        <i class="{{item.class}}"></i>
+        {{item.caption}}
+      </button>
+
+      <div class="dropdown" [class.flex]="item.childrenInline" *ngIf="item.children && item.children.length" >
+        <div class="item" [class.inline]="item.childrenInline"
+             *ngFor="let subItem of item.children"  [class.separator]="subItem.class==='separator'" >
+          <button class="button" [class.color-button]="subItem.class==='color-button'" [ngStyle]="subItem.style" title="{{subItem.tooltip}}"
+                  (click)="command($event, subItem.command, subItem.val)">
+            <i *ngIf="subItem.class" class="{{subItem.class}}"></i>
+            {{subItem.caption}}
+          </button>
+          <input *ngIf="subItem.command =='localImage'" type="file" file-select [uploader]="uploader" />
+        </div>
+      </div>
+
+      <div class="dropdown" *ngIf="item.command === 'templates'">
+        <div class="item"  *ngFor="let subItem of templates">
+          <i class="image-text" (click)="selectTemplate(subItem)">
+            <div class="image">
+              <img *ngIf="subItem.cover" [src]="subItem.cover">
+              <img *ngIf="!subItem.cover" src="/assets/img/notFound.png">
+            </div>
+            <div class="text">{{subItem.title}}</div>
+            <button class="btn" *ngIf="(subItem.author && subItem.author.id == user.id) || (user.roles && user.roles.admin)"
+                    (click)="editTemplate(subItem, $event)">编辑</button>
+            <button class="btn" *ngIf="(subItem.author && subItem.author.id == user.id) || (user.roles && user.roles.admin)"
+                    (click)="delTemplate(subItem, $event)">删除</button>
+          </i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="editor">
+    <textarea [class.hidden]="editable" [(ngModel)]="content" (blur)="onContentEdit()"></textarea>
+    <div [class.hidden]="!editable" class="article" contenteditable></div>
+  </div>
+
+  <div class="modal" *ngIf="progress">
+    <div class="modal-content">
+      <span>正在上传文件{{filename}}: </span>
+      <span>{{progress}}%</span>
+    </div>
+  </div>
+
+  <div class="modal" *ngIf="error">
+    <div class="modal-content" (click)="$event.stopPropagation();">
+      <div class="p15">
+        <span>上传图片{{filename}}失败: </span>
+        <span class="error">{{error}}</span>
+      </div>
+
+      <div class="text-center">
+        <button class="button" (click)="error=''">关  闭</button>
+      </div>
+    </div>
+  </div>
+</div>
