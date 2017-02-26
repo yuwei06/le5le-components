@@ -1,11 +1,11 @@
-var QRErrorCorrectionLevel: any = {
+const QRErrorCorrectionLevel: any = {
   L: 1,
   M: 0,
   Q: 3,
   H: 2
 };
 
-var QRMaskPattern = {
+const QRMaskPattern = {
   PATTERN000: 0,
   PATTERN001: 1,
   PATTERN010: 2,
@@ -16,7 +16,7 @@ var QRMaskPattern = {
   PATTERN111: 7
 };
 
-var QRMode: any = {
+const QRMode: any = {
   MODE_NUMBER: 1 << 0,
   MODE_ALPHA_NUM: 1 << 1,
   MODE_8BIT_BYTE: 1 << 2,
@@ -381,7 +381,7 @@ class QRUtil {
     }
 
     // LEVEL4
-    var darkCount = 0;
+    let darkCount = 0;
     for (let col = 0; col < moduleCount; col += 1) {
       for (let row = 0; row < moduleCount; row += 1) {
         if (qrcode.isDark(row, col)) {
@@ -731,10 +731,10 @@ class qrBitBuffer {
   };
 }
 
-var stringToBytes = function (s: any): any {
-  var bytes = new Array();
-  for (var i = 0; i < s.length; i += 1) {
-    var c = s.charCodeAt(i);
+let stringToBytes = function (s: any): any {
+  let bytes = new Array();
+  for (let i = 0; i < s.length; i += 1) {
+    let c = s.charCodeAt(i);
     bytes.push(c & 0xff);
   }
   return bytes;

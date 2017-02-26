@@ -11,7 +11,7 @@ export interface EditorToolbarItem {
   childrenInline?: boolean;
 }
 
-export var toolbarItems: EditorToolbarItem[] = [{
+export let toolbarItems: EditorToolbarItem[] = [{
   class: 'iconfont icon-template',
   tooltip:'模板',
   command: 'templates'
