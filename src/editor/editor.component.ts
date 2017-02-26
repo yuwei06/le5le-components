@@ -281,4 +281,4 @@ export class EditorComponent implements OnInit, OnChanges {
 }
 
 
-require("./editor.css");
+require("./editor.pcss");

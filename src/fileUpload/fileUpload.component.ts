@@ -53,4 +53,4 @@ export class FileUploadComponent {
   }
 }
 
-require('./fileUpload.css');
+require('./fileUpload.pcss');

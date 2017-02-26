@@ -15,4 +15,4 @@ export function main(): Promise<any> {
 // in prod this is replace for document ready
 bootloader(main);
 
-require('./assets/css/app.css');
+require('./assets/css/app.pcss');

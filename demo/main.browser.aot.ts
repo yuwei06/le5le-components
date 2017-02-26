@@ -16,4 +16,4 @@ export function bootstrapDomReady() {
 
 bootstrapDomReady();
 
-require('./assets/css/app.css');
+require('./assets/css/app.pcss');

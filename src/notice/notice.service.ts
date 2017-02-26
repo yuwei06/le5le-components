@@ -192,4 +192,4 @@ export class NoticeService {
   }
 }
 
-require('./notice.css');
+require('./notice.pcss');

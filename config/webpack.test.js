@@ -120,7 +120,7 @@ module.exports = function (options) {
          * See: https://github.com/webpack/raw-loader
          */
         {
-          test: /\.css$/,
+          test: /\.pcss$/,
           loader: ['to-string-loader', 'css-loader'],
           exclude: [helpers.root('demo/index.html')]
         },

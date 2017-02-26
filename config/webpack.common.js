@@ -67,7 +67,7 @@ module.exports = function (options) {
         },
 
         {
-          test: /\.css$/,
+          test: /\.pcss$/,
           loader: ExtractTextPlugin.extract({
             fallback: "style-loader",
             use: [{

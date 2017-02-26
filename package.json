@@ -1,6 +1,6 @@
 {
   "name": "le5le-components",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Angular2 components for le5le.",
   "main": "index.ts",
   "scripts": {
@@ -51,7 +51,7 @@
   "license": "MIT",
   "dependencies": {
     "normalize.css": "^4.1.1",
-    "le5le-ui": "~0.0.5",
+    "le5le-ui": "~0.1.0",
     "@angular/common": "~2.4.6",
     "@angular/compiler": "~2.4.6",
     "@angular/core": "~2.4.6",
