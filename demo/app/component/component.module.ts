@@ -6,25 +6,20 @@ import {componentRouting} from "./component.routing";
 import {ComponentComponent} from "./component.component";
 import {ComponentNoticeComponent} from "./notice/notice.component";
 import {ComponentLazyLoadComponent} from "./lazyLoad/lazyLoad.component";
-import {ImageLazyLoad} from "../../../src/lazyLoad/imgLazyLoad";
 import {ComponentCookieComponent} from "./cookie/cookie.component";
-import {EllipsisPipe} from "../../../src/pipe/ellipsis.pipe";
 import {ComponentEllipsisComponent} from "./ellipsis/ellipsis.component";
 import {ComponentSwitchComponent} from "./switch/switch.component";
-import {SwitchComponent} from "../../../src/switch/switch.component";
 import {ComponentQrcodeComponent} from "./qrcode/qrcode.component";
-import {QRCodeComponent} from "../../../src/qrcode/qrcode.component";
 import {ComponentValidatorComponent} from "./validator/validator.component";
-import {PhoneValidator} from "../../../src/validator/phone.directive";
-import {PasswordValidator} from "../../../src/validator/password.directive";
-import {PositiveIntegerValidator} from "../../../src/validator/positiveInteger.directive";
-import {SameValidator} from "../../../src/validator/same.directive";
-import {EmailValidator} from "../../../src/validator/email.directive";
 import {ComponentFileUploadComponent} from "./fileUpload/fileUpload.component";
-import {FileSelectDirective} from "../../../src/fileUpload/fileSelect.directive";
-import {FileUploadComponent} from "../../../src/fileUpload/fileUpload.component";
-import {EditorComponent} from "../../../src/editor/editor.component";
 import {ComponentEditorComponent} from "./editor/editor.component";
+
+import {
+  ImageLazyLoad, QRCodeComponent, SwitchComponent, FileUploadComponent, EditorComponent,
+  PasswordValidator, PhoneValidator, PositiveIntegerValidator, SameValidator, EmailValidator,
+  FileSelectDirective,
+  EllipsisPipe,
+  CookieService } from '../../../index'
 
 @NgModule({
   imports:       [FormsModule, CommonModule, componentRouting],

@@ -1,6 +1,6 @@
 {
   "name": "le5le-components",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Angular2 components for le5le.",
   "main": "index.ts",
   "scripts": {
