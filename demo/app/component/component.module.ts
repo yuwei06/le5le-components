@@ -6,7 +6,6 @@ import {componentRouting} from "./component.routing";
 import {ComponentComponent} from "./component.component";
 import {ComponentNoticeComponent} from "./notice/notice.component";
 import {ComponentLazyLoadComponent} from "./lazyLoad/lazyLoad.component";
-import {ComponentCookieComponent} from "./cookie/cookie.component";
 import {ComponentEllipsisComponent} from "./ellipsis/ellipsis.component";
 import {ComponentSwitchComponent} from "./switch/switch.component";
 import {ComponentQrcodeComponent} from "./qrcode/qrcode.component";
@@ -18,8 +17,7 @@ import {
   ImageLazyLoad, QRCodeComponent, SwitchComponent, FileUploadComponent, EditorComponent,
   PasswordValidator, PhoneValidator, PositiveIntegerValidator, SameValidator, EmailValidator,
   FileSelectDirective,
-  EllipsisPipe,
-  CookieService } from '../../../index'
+  EllipsisPipe} from '../../../index'
 
 @NgModule({
   imports:       [FormsModule, CommonModule, componentRouting],
@@ -28,7 +26,6 @@ import {
     ComponentNoticeComponent,
     ComponentLazyLoadComponent,
     ImageLazyLoad,
-    ComponentCookieComponent,
     EllipsisPipe,
     ComponentEllipsisComponent,
     ComponentSwitchComponent,

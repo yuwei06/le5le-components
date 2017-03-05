@@ -13,7 +13,6 @@ le5le-components是le5le的公用angular2组件。
 + 富文本编辑器editor   
 
 
-+ cookie  
 + 文字过长省略号显示ellipsis
 
 #使用

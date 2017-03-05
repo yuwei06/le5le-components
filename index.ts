@@ -1,4 +1,3 @@
-export { CookieService } from './src/cookie/cookie.service';
 export { NoticeService } from './src/notice/notice.service';
 export { ImageLazyLoad } from './src/lazyLoad/imgLazyLoad';
 export { EllipsisPipe } from './src/pipe/ellipsis.pipe';
