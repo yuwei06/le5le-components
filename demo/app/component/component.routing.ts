@@ -10,6 +10,7 @@ import {ComponentQrcodeComponent} from "./qrcode/qrcode.component";
 import {ComponentValidatorComponent} from "./validator/validator.component";
 import {ComponentFileUploadComponent} from "./fileUpload/fileUpload.component";
 import {ComponentEditorComponent} from "./editor/editor.component";
+import {ComponentBtnSavingComponent} from "./btnSaving/btnSaving.component";
 
 export const componentRouting: ModuleWithProviders = RouterModule.forChild([
   {
@@ -24,6 +25,7 @@ export const componentRouting: ModuleWithProviders = RouterModule.forChild([
       { path: 'validator', component: ComponentValidatorComponent},
       { path: 'fileUpload', component: ComponentFileUploadComponent},
       { path: 'editor', component: ComponentEditorComponent},
+      { path: 'btnSaving', component: ComponentBtnSavingComponent},
     ]
   },
 ]);

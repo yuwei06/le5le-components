@@ -12,11 +12,12 @@ import {ComponentQrcodeComponent} from "./qrcode/qrcode.component";
 import {ComponentValidatorComponent} from "./validator/validator.component";
 import {ComponentFileUploadComponent} from "./fileUpload/fileUpload.component";
 import {ComponentEditorComponent} from "./editor/editor.component";
+import {ComponentBtnSavingComponent} from "./btnSaving/btnSaving.component";
 
 import {
   ImageLazyLoad, QRCodeComponent, SwitchComponent, FileUploadComponent, EditorComponent,
   PasswordValidator, PhoneValidator, PositiveIntegerValidator, SameValidator, EmailValidator,
-  FileSelectDirective,
+  FileSelectDirective, BtnSavingDirective,
   EllipsisPipe} from '../../../index'
 
 @NgModule({
@@ -43,6 +44,8 @@ import {
     FileUploadComponent,
     ComponentEditorComponent,
     EditorComponent,
+    BtnSavingDirective,
+    ComponentBtnSavingComponent,
   ]
 })
 export class ComponentModule { }

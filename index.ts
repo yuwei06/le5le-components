@@ -11,4 +11,4 @@ export { EmailValidator } from './src/validator/email.directive';
 export { FileSelectDirective } from './src/fileUpload/fileSelect.directive';
 export { FileUploadComponent } from './src/fileUpload/fileUpload.component';
 export { EditorComponent } from './src/editor/editor.component';
-
+export { BtnSavingDirective } from './src/form/btnSaving.directive';
