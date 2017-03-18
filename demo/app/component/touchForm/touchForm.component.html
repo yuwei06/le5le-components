@@ -1,0 +1,60 @@
+<div class="p20">
+  <h2>touchForm</h2>
+  <div>在form的ngSubmit中设置form为touch状态，方便显示错误输入提示</div>
+  <h4>例子</h4>
+  <form #myForm="ngForm" (ngSubmit)="onSubmit()" [touchForm]="myForm">
+    <div class="mb10">
+      <input class="input" name="phone" [(ngModel)]="form.phone" #phone="ngModel" isPhone required placeholder="手机" >
+      <div *ngIf="phone.touched && !phone.valid" class="error"> 请填写正确的手机 </div>
+    </div>
+    <div class="mb10">
+      <input class="input" name="email" [(ngModel)]="form.email" #email="ngModel" isEmail required placeholder="邮箱" >
+      <div *ngIf="email.touched && !email.valid" class="error"> 请填写正确的邮箱 </div>
+    </div>
+    <div class="mb10">
+      <input class="input" name="integer" [(ngModel)]="form.integer" #integer="ngModel" positiveInteger placeholder="正整数" >
+      <div *ngIf="integer.touched && !integer.valid" class="error"> 请填写正整数 </div>
+    </div>
+    <div class="mb10">
+      <input class="input" name="password" [(ngModel)]="form.password" #password="ngModel" isPassword required placeholder="密码" >
+      <div *ngIf="password.touched && !password.valid" class="error"> 请填写6-20位的密码 </div>
+    </div>
+    <div class="mb10">
+      <input class="input" name="same" [(ngModel)]="form.same" #same="ngModel" [sameTo]="form.password" required placeholder="确认密码" >
+      <div *ngIf="same.touched && !same.valid" class="error"> 请填写相同的密码 </div>
+    </div>
+
+    <button type="submit" class="button primary mr10">提交</button>
+    <button type="button" class="button mr10" >取消</button>
+  </form>
+  <br>
+  <h4>使用方式</h4>
+  <div>
+    在form中添加touchForm属性，属性值为form控件
+
+    <br><br>
+    代码依次如下：
+  </div>
+  <textarea class="input mt20 full" rows="20" style="resize: none;" readonly="readonly">
+    1.
+    import {TouchFormDirective} from "le5le-component";
+    2.
+    @NgModule({
+      imports:       [CommonModule,  FormsModule, routing],
+      declarations: [
+        TouchFormDirective
+      ],
+      exports:       [
+        CommonModule,
+        FormsModule,
+      ],
+      providers:     [
+      ]
+    })
+    export class SharedModule { }
+
+    3.
+    <form #myForm="ngForm" (ngSubmit)="onSubmit()" [touchForm]="myForm"></form>
+  </textarea>
+</div>
+

@@ -21,7 +21,7 @@ export function isPhone(value?: any, locale?: any): boolean {
   return (new RegExp(pattern)).test(value);
 }
 
-export function isEmail(value?: any, locale?: any): boolean {
+export function isEmail(value?: any): boolean {
   return /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(value);
 }
 

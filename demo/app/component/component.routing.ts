@@ -11,6 +11,7 @@ import {ComponentValidatorComponent} from "./validator/validator.component";
 import {ComponentFileUploadComponent} from "./fileUpload/fileUpload.component";
 import {ComponentEditorComponent} from "./editor/editor.component";
 import {ComponentBtnSavingComponent} from "./btnSaving/btnSaving.component";
+import {ComponentTouchFormComponent} from "./touchForm/touchForm.component";
 
 export const componentRouting: ModuleWithProviders = RouterModule.forChild([
   {
@@ -26,6 +27,7 @@ export const componentRouting: ModuleWithProviders = RouterModule.forChild([
       { path: 'fileUpload', component: ComponentFileUploadComponent},
       { path: 'editor', component: ComponentEditorComponent},
       { path: 'btnSaving', component: ComponentBtnSavingComponent},
+      { path: 'touchForm', component: ComponentTouchFormComponent},
     ]
   },
 ]);

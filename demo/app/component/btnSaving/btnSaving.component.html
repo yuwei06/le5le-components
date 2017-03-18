@@ -3,10 +3,11 @@
   <div>button保存中状态指令</div>
   <h4>例子</h4>
   <div>
-    <button class="button success mr10" (click)="onSave1()" [btnSaving]="saving1" >保存1</button>
-    <button class="button primary mr10" (click)="onSave2()" [btnSaving]="saving2" [savingText]="'saving...'">保存2</button>
+    <button type="button" class="button success mr10" (click)="onSave1()" [btnSaving]="saving1" >保存1</button>
+    <button type="button" class="button primary mr10" (click)="onSave2()" [btnSaving]="saving2" [savingText]="'saving...'">保存2</button>
 
-    <button class="button warning mr10" (click)="onCancel()" >取消保存状态</button>
+    <button type="button" class="button warning mr10" (click)="onCancel()" >取消保存状态</button>
+
   </div>
   <br>
   <h4>使用方式</h4>

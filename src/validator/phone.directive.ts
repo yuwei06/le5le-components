@@ -1,28 +1,20 @@
-import { Directive, Attribute, forwardRef } from '@angular/core';
+import { Directive, Input } from '@angular/core';
 import { NG_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
 
 import {isPhone} from './validator.service';
 
 @Directive({
-  selector: '' +
-  '[is-phone][ngModel],' +
-  '[is-phone][formControl],' +
-  '',
+  selector: '[isPhone]',
   providers: [{
     provide: NG_VALIDATORS,
-    useExisting: forwardRef(() => PhoneValidator),
+    useExisting: PhoneValidator,
     multi: true
   }]
 })
 export class PhoneValidator implements Validator {
-  private val: string;
-
-  constructor(@Attribute('is-phone') val: string) {
-    this.val = val;
-  }
-
+  @Input('isPhone') local: string = 'zh-CN';
   validate(c: AbstractControl): {[key: string]: any} {
-    if (!isPhone(c.value, this.val)) {
+    if (c.value && !isPhone(c.value, this.local)) {
       return {'phone': true};
     }
   }

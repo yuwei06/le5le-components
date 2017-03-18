@@ -1,22 +1,19 @@
-import { Directive, forwardRef } from '@angular/core';
+import { Directive } from '@angular/core';
 import { NG_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
 
 import {isPassword} from './validator.service';
 
 @Directive({
-  selector: '' +
-  '[is-password][ngModel],' +
-  '[is-password][formControl],' +
-  '',
+  selector: '[isPassword]',
   providers: [{
     provide: NG_VALIDATORS,
-    useExisting: forwardRef(() => PasswordValidator),
+    useExisting: PasswordValidator,
     multi: true
   }]
 })
 export class PasswordValidator implements Validator {
   validate(c: AbstractControl): {[key: string]: any} {
-    if (!isPassword(c.value)) {
+    if (c.value && !isPassword(c.value)) {
       return {'password': true};
     }
   }

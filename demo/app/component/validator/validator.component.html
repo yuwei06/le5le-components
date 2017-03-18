@@ -4,23 +4,23 @@
   <h4>例子</h4>
   <div>
     <div class="mb10">
-      <input class="input" name="phone" [(ngModel)]="form.phone" is-phone #phone="ngModel" placeholder="手机" >
+      <input class="input" name="phone" [(ngModel)]="form.phone" #phone="ngModel" isPhone placeholder="手机" >
       <div *ngIf="phone.touched && !phone.valid" class="error"> 请填写正确的手机 </div>
     </div>
     <div class="mb10">
-      <input class="input" name="email" [(ngModel)]="form.email" is-email #email="ngModel" placeholder="邮箱" >
+      <input class="input" name="email" [(ngModel)]="form.email" #email="ngModel" isEmail placeholder="邮箱" >
       <div *ngIf="email.touched && !email.valid" class="error"> 请填写正确的邮箱 </div>
     </div>
     <div class="mb10">
-      <input class="input" name="integer" [(ngModel)]="form.integer" is-positive-integer #integer="ngModel" placeholder="正整数" >
+      <input class="input" name="integer" [(ngModel)]="form.integer" #integer="ngModel" positiveInteger placeholder="正整数" >
       <div *ngIf="integer.touched && !integer.valid" class="error"> 请填写正整数 </div>
     </div>
     <div class="mb10">
-      <input class="input" name="password" [(ngModel)]="form.password" is-password #password="ngModel" placeholder="密码" >
+      <input class="input" name="password" [(ngModel)]="form.password" #password="ngModel" isPassword placeholder="密码" >
       <div *ngIf="password.touched && !password.valid" class="error"> 请填写6-20位的密码 </div>
     </div>
     <div class="mb10">
-      <input class="input" name="same" [(ngModel)]="form.same" [is-same]="form.password" #same="ngModel" placeholder="确认密码" >
+      <input class="input" name="same" [(ngModel)]="form.same" #same="ngModel" [sameTo]="form.password" placeholder="确认密码" >
       <div *ngIf="same.touched && !same.valid" class="error"> 请填写相同的密码 </div>
     </div>
   </div>
@@ -53,23 +53,23 @@
 
     3.
     <div class="mb10">
-      <input class="input" name="phone" [(ngModel)]="form.phone" is-phone #phone="ngModel" placeholder="手机" >
+      <input class="input" name="phone" [(ngModel)]="form.phone" #phone="ngModel" isPhone placeholder="手机" >
       <div *ngIf="phone.touched && !phone.valid" class="error"> 请填写正确的手机 </div>
     </div>
     <div class="mb10">
-      <input class="input" name="email" [(ngModel)]="form.email" is-email #email="ngModel" placeholder="邮箱" >
+      <input class="input" name="email" [(ngModel)]="form.email" #email="ngModel" isEmail placeholder="邮箱" >
       <div *ngIf="email.touched && !email.valid" class="error"> 请填写正确的邮箱 </div>
     </div>
     <div class="mb10">
-      <input class="input" name="integer" [(ngModel)]="form.integer" is-positive-integer #integer="ngModel" placeholder="正整数" >
+      <input class="input" name="integer" [(ngModel)]="form.integer" #integer="ngModel" positiveInteger placeholder="正整数" >
       <div *ngIf="integer.touched && !integer.valid" class="error"> 请填写正整数 </div>
     </div>
     <div class="mb10">
-      <input class="input" name="password" [(ngModel)]="form.password" is-password #password="ngModel" placeholder="密码" >
+      <input class="input" name="password" [(ngModel)]="form.password" #password="ngModel" isPassword placeholder="密码" >
       <div *ngIf="password.touched && !password.valid" class="error"> 请填写6-20位的密码 </div>
     </div>
     <div class="mb10">
-      <input class="input" name="same" [(ngModel)]="form.same" [is-same]="form.password" #same="ngModel" placeholder="确认密码" >
+      <input class="input" name="same" [(ngModel)]="form.same" #same="ngModel" [sameTo]="form.password" placeholder="确认密码" >
       <div *ngIf="same.touched && !same.valid" class="error"> 请填写相同的密码 </div>
     </div>
   </textarea>

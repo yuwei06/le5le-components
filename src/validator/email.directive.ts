@@ -1,28 +1,22 @@
-import { Directive, Attribute, forwardRef } from '@angular/core';
+import { Directive } from '@angular/core';
 import { NG_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
 
 import {isEmail} from './validator.service';
 
 @Directive({
-  selector: '' +
-  '[is-email][ngModel],' +
-  '[is-email][formControl],' +
-  '',
+  selector:  '[isEmail]',
   providers: [{
     provide: NG_VALIDATORS,
-    useExisting: forwardRef(() => EmailValidator),
+    useExisting: EmailValidator,
     multi: true
   }]
 })
 export class EmailValidator implements Validator {
-  private val: string;
-
-  constructor(@Attribute('is-email') val: string) {
-    this.val = val;
+  constructor() {
   }
 
   validate(c: AbstractControl): {[key: string]: any} {
-    if (!isEmail(c.value, this.val)) {
+    if (c.value && !isEmail(c.value)) {
       return {'email': true};
     }
   }
