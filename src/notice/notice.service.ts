@@ -182,7 +182,7 @@ export class NoticeService {
     inputElem.onkeyup = function (event:any) {
       let keyCode: any = event.which || event.keyCode;
       if(keyCode == 13) okCallback(event);
-      else cancelCallback(event);
+      else if(keyCode == 27)  cancelCallback(event);
     };
     bodyElem.appendChild(inputElem);
     modalContentElem.appendChild(this.getFooterElem(okCallback, cancelCallback));
