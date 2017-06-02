@@ -19,6 +19,7 @@ import { EditorComponent } from './editor/editor.component';
 import { UiLoadingComponent } from './loading/ui.loading.component';
 import { BtnSavingDirective } from './form/btnSaving.directive';
 import { TouchFormDirective } from './form/touchForm.directive';
+import { PaginationComponent } from './pagination/pagination.component';
 
 export { NoticeService } from './notice/notice.service';
 export { ImageLazyLoad } from './lazyLoad/imgLazyLoad';
@@ -37,6 +38,7 @@ export { EditorComponent } from './editor/editor.component';
 export { UiLoadingComponent } from './loading/ui.loading.component';
 export { BtnSavingDirective } from './form/btnSaving.directive';
 export { TouchFormDirective } from './form/touchForm.directive';
+export { PaginationComponent } from './pagination/pagination.component';
 
 const MODULES = [
   ImageLazyLoad,
@@ -53,6 +55,7 @@ const MODULES = [
   FileUploadComponent,
   EditorComponent,
   UiLoadingComponent,
+  PaginationComponent,
   BtnSavingDirective,
   TouchFormDirective,
 ];
