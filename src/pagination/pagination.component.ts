@@ -11,7 +11,7 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
           <a *ngIf="item === 1 && !canShow(1)">...</a>
           <a *ngIf="canShow(item)" (click)="goPage(item)" [class.active]="pageIndex===item">{{item}}</a>
         </ng-template>        
-        <a *ngIf="pages.length - pageIndex > 4">...</a>
+        <a *ngIf="pageIndex > 5 && pages.length - pageIndex > 4">...</a>
         <a (click)="goPage(pageIndex+1)"><i class="iconfont icon-angle-right"></i></a>
       </div>
     </div>
