@@ -7,8 +7,11 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
       <div class="full">当前为第{{pageIndex}}页，共{{pages.length}}页 {{pageTotal}}条记录</div>
       <div class="buttons">
         <a (click)="goPage(pageIndex-1)"><i class="iconfont icon-angle-left"></i></a>
-        <a *ngFor="let i of pages" (click)="goPage(i)" [class.active]="pageIndex===i">{{i}}</a>
-        <a *ngIf="pages.length > 10">...</a>
+        <ng-template ngFor let-item let-i="index" [ngForOf]="pages" >
+          <a *ngIf="item === 1 && !canShow(1)">...</a>
+          <a *ngIf="canShow(item)" (click)="goPage(item)" [class.active]="pageIndex===item">{{item}}</a>
+        </ng-template>        
+        <a *ngIf="pages.length - pageIndex > 4">...</a>
         <a (click)="goPage(pageIndex+1)"><i class="iconfont icon-angle-right"></i></a>
       </div>
     </div>
@@ -32,11 +35,32 @@ export class PaginationComponent {
     }
   }
 
-  goPage (pageIndex: number) {
+  goPage(pageIndex: number) {
     if (pageIndex < 1 || pageIndex > this.pages.length) return;
 
     this.pageIndex = pageIndex;
     this.pageIndexChange.emit(pageIndex);
     this.change.emit(pageIndex);
+  }
+
+  canShow(index: number) {
+    if (this.pages.length <= 10 || index === this.pageIndex) return true;
+
+    if (this.pageIndex < 6) {
+      if (index <= 10) return true;
+
+      return false;
+    }
+
+    if (this.pages.length - this.pageIndex < 4) {
+      if (index > this.pageIndex || (this.pageIndex - index) < (10 - this.pages.length + this.pageIndex)) return true;
+
+      return false;
+    }
+
+    if (index < this.pageIndex && (this.pageIndex - index) < 6) return true;
+    if (index > this.pageIndex && (index - this.pageIndex) < 5) return true;
+
+    return false;
   }
 }
