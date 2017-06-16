@@ -50,6 +50,8 @@ export class ImageUploadComponent {
         }
         this.urls = urls;
         this.urlsChange.emit(urls);
+        this.files = files;
+        this.filesChange.emit(files);
       }
       else if (ret.event === 'completeAll') {
         let urls = [];
