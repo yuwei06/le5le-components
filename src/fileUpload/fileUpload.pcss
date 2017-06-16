@@ -1,14 +1,17 @@
-.ui-file-upload{
+.ui-image-upload{
   position: relative;
+  display: inline-flex;
   margin-right: .05rem;
   vertical-align: middle;
+  border: 1px solid transparent;
+  border-radius: .04rem;
 }
 
-.ui-file-upload.border {
-  display: inline-flex;
+.ui-image-upload:hover {
+  border: 1px solid #eee;
 }
 
-.ui-file-upload input[type='file'] {
+.ui-image-upload input[type='file'] {
   position: absolute;
   left: 0;
   top: 0;
@@ -18,13 +21,22 @@
   opacity: 0;
 }
 
-.ui-file-upload img {
-  height: calc($box-width * $box-aspect-ratio);
+.ui-image-upload img {
+  height: $image-preview-height;
 }
 
-.ui-file-upload .icon-close {
+.ui-image-upload.box {
+  width: $image-preview-height;
+  height: $image-preview-height;
+}
+
+.ui-image-upload .icon-close {
   position: absolute;
   top: 0;
   right: .03rem;
   cursor: pointer;
+  display: none;
+}
+.ui-image-upload:hover .icon-close {
+  display: block;
 }

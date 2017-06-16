@@ -1,191 +1,124 @@
 import {Injectable, EventEmitter} from '@angular/core';
-import {FileItem} from './fileItem.model';
+import { FileItem, FileStatus, UploadParam } from './fileUpload.model';
 
 @Injectable()
 export class FileUploader {
-  public isUploading:boolean = false;
-  public queue:Array<any> = [];
-  public progress:number = 0;
-  public maxLength:number = 2048*1024;
-  public filters:Array<any> = [];
-  public fieldName:string = 'file';
-  public emitter: EventEmitter<any> = new EventEmitter(true);
-  constructor(public options:any) {
-    this.filters.unshift({name: 'maxLength', fn: this._maxLengthFilter});
+  fileList: FileItem[] = [];
+  emitter: EventEmitter<any> = new EventEmitter(true);
+  constructor(public params: UploadParam) {
   }
 
-  public addToQueue(files:any[]) {
-    if (!this.options.multi) {
-      this.queue = [];
-    }
-
-    let list:any[] = [];
+  addFiles(files: any[]) {
     for (let file of files) {
       let fileItem = new FileItem(file);
       if (this._isValidFile(fileItem)) {
-        fileItem.isReady = this.options.autoUpload;
-        this.queue.push(fileItem);
+        let reader = new FileReader();
+        reader.onload = () => {
+          fileItem.url = reader.result;
+          this._onMessage('ready', fileItem);
+        };
+        reader.readAsDataURL(file);
+        this.fileList.push(fileItem);
       }
     }
 
-    this.progress = this._getTotalProgress();
-
-    if (this.options.autoUpload) {
-      this.uploadAll();
-    }
+    if (this.params.autoUpload) this.uploadAll();
   }
 
-  public uploadAll() {
-    let items = this.getReadyItems().filter(item => !item.isUploading);
-    if (!items.length) {
-      return;
-    }
+  uploadAll() {
+    let items = this.fileList.filter(item => (item.status === FileStatus.Ready));
+    if (!items.length) return;
 
     this.uploadFile(items[0]);
   }
 
-  public getIndexOfItem(value:any) {
-    return typeof value === 'number' ? value : this.queue.indexOf(value);
-  }
-
-  public getReadyItems() {
-    return this.queue.filter(item => (item.isReady && !item.error && !item.isUploading));
-  }
-
-  private _getTotalProgress(value = 0) {
-    let notUploaded = this.getReadyItems().length;
-    let uploaded = notUploaded ? this.queue.length - notUploaded : this.queue.length;
-    let ratio = 100 / this.queue.length;
-    let current = value * ratio / 100;
-
-    return Math.round(uploaded * ratio + current);
-  }
-
-  private _maxLengthFilter(item:any): boolean {
-    if (item.file.size > this.maxLength) {
-      item.error = "文件大小不能超过" + this.maxLength/1024/1024 + "M";
-      this.emitter.emit({
-        event: 'filterError',
-        fileItem: item
-      });
+  private _isValidFile(item: FileItem): boolean {
+    if (item.file.size > this.params.maxLength) {
+      item.status = FileStatus.Fail;
+      item.error = "文件大小不能超过" + this.params.maxLength/1024/1024 + "M";
       return false;
     }
 
     return true;
   }
 
-  private _isValidFile(item:any): boolean {
-    return this.filters.every((filter:any) => {
-      return filter.fn.call(this, item);
-    });
-  }
-
-  private uploadFile(file: any): void {
-    this.isUploading = true;
+  private uploadFile(fileItem: FileItem): void {
+    fileItem.status = FileStatus.Uploading;
 
     let xhr = new XMLHttpRequest();
     let form = new FormData();
-    form.append(this.fieldName, file.file, file.file.name);
+    form.append(this.params.field, fileItem.file, fileItem.file.name);
 
     xhr.upload.onprogress = (event) => {
-      file.progress = Math.round(event.lengthComputable? event.loaded * 100 / event.total : 0);
-      this._onProgressItem(file);
+      fileItem.progress = Math.round(event.lengthComputable? event.loaded * 100 / event.total : 0);
+      this._onMessage('progress', fileItem);
     };
 
     xhr.upload.onabort = (e) => {
-      file.isCancel = true;
-      this._onCompleteItem(file);
+      fileItem.status = FileStatus.Cancel;
+      this._onMessage('cancel', fileItem);
+      this._onNext();
     };
 
     xhr.upload.onerror = (e) => {
-      file.error = "文件上传错误";
-      this._onError(file);
-      this._onCompleteItem(file);
+      fileItem.error = "文件上传错误";
+      this._onMessage('error', fileItem);
+      this._onNext();
     };
 
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE) {
-        file.isReady = false;
-        file.isUploading = false;
+        fileItem.status = FileStatus.Success;
         try {
           if (xhr.status == 404) {
-            file.error = "文件上传错误：404" ;
-            this._onError(file);
+            fileItem.error = "文件上传错误：404" ;
+            this._onMessage('error', fileItem);
           }
           else {
             let response = JSON.parse(xhr.responseText);
             if (xhr.status == 200) {
               if (response && response.error) {
-                file.error = "文件上传错误："  + response.error;
-                this._onError(file);
+                fileItem.error = "文件上传错误："  + response.error;
+                this._onMessage('error', fileItem);
               } else {
-                file.url =  response.url;
-                this._onSuccessItem(file);
+                fileItem.url =  response.url;
+                this._onMessage('complete', fileItem);
               }
             } else {
-              if (response && response.error) file.error = "文件上传错误："  + response.error;
-              this._onError(file);
+              if (response && response.error) fileItem.error = "文件上传错误："  + response.error;
+              this._onMessage('error', fileItem);
             }
-            this._onCompleteItem(file);
           }
+          this._onNext();
         } catch (e) {
-          file.error = "文件上传错误：返回结果不是一个json" ;
-          this._onError(file);
+          fileItem.error = "文件上传错误：返回结果不是一个json" ;
+          this._onMessage('error', fileItem);
         }
       }
     };
 
-    xhr.open("POST", this.options.url, true);
-    if (this.options.withCredentials) xhr.withCredentials = true;
+    xhr.open("POST", this.params.url, true);
+    if (this.params.withCredentials) xhr.withCredentials = true;
 
-    if (this.options.headers) {
-      Object.keys(this.options.headers).forEach((key) => {
-        xhr.setRequestHeader(key, this.options.headers[key]);
+    if (this.params.headers) {
+      Object.keys(this.params.headers).forEach((key) => {
+        xhr.setRequestHeader(key, this.params.headers[key]);
       });
     }
-
-    file.isUploading = true;
     xhr.send(form);
   }
 
-  private _onCompleteItem(item:any) {
-    item.isUploading = false;
-    let nextItem = this.getReadyItems()[0];
-    this.isUploading = false;
-    this.progress = this._getTotalProgress();
+  private _onNext() {
+    let items = this.fileList.filter(item => (item.status === FileStatus.Ready));
+    if (!items.length) return this._onMessage('completeAll', null);
 
-    if (nextItem) {
-      this.uploadFile(nextItem);
-      return;
-    }
-
-    this._onCompleteAll();
+    this.uploadFile(items[0]);
   }
 
-  private _onProgressItem(fileItem:any) {
+  private _onMessage(event: string, fileItem: FileItem) {
     this.emitter.emit({
-      event: 'progress',
+      event: event,
       fileItem: fileItem
-    });
-  }
-
-  private _onError(fileItem:any) {
-    this.emitter.emit({
-      event: 'error',
-      fileItem: fileItem
-    });
-  }
-
-  private _onSuccessItem(fileItem:any) {
-    this.emitter.emit({
-      event: 'success',
-      fileItem: fileItem
-    });
-  }
-
-  private _onCompleteAll() {
-    this.emitter.emit({
-      event: 'completeAll'
     });
   }
 }

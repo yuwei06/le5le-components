@@ -1,8 +1,9 @@
-import {Component, Input, Output, EventEmitter, OnChanges, OnInit} from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from '@angular/core';
 
-import {EditorToolbarItem, toolbarItems, URL} from "./config";
-import {FileUploader} from "../fileUpload/fileUploader";
-import {NoticeService} from "../notice/notice.service";
+import { EditorToolbarItem, toolbarItems, URL } from "./config";
+import { FileUploader } from "../fileUpload/fileUploader";
+import { NoticeService } from "../notice/notice.service";
+import { UploadParam } from '../fileUpload/fileUpload.model';
 
 @Component({
   selector: 'ui-editor',
@@ -36,12 +37,8 @@ export class EditorComponent implements OnInit, OnChanges {
   constructor(private _noticeService: NoticeService) {
     if (!this.toolbarItems || !this.toolbarItems.length) this.toolbarItems = toolbarItems;
 
-    this.uploader = new FileUploader({
-      url: URL,
-      headers: this.requestHeaders,
-      autoUpload: true
-    });
-
+    let params: UploadParam = new UploadParam(URL, this.requestHeaders, true);
+    this.uploader = new FileUploader(params);
     this.uploader.emitter.subscribe((ret: any) => {
       switch (ret.event) {
         case 'progress':

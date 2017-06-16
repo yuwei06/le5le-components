@@ -14,12 +14,13 @@ import { SameValidator } from './validator/same.directive';
 import { EmailValidator } from './validator/email.directive';
 import { UrlValidator } from './validator/url.directive';
 import { FileSelectDirective } from './fileUpload/fileSelect.directive';
-import { FileUploadComponent } from './fileUpload/fileUpload.component';
+import { ImageUploadComponent } from './fileUpload/imageUpload.component';
 import { EditorComponent } from './editor/editor.component';
 import { UiLoadingComponent } from './loading/ui.loading.component';
 import { BtnSavingDirective } from './form/btnSaving.directive';
 import { TouchFormDirective } from './form/touchForm.directive';
 import { PaginationComponent } from './pagination/pagination.component';
+import { WizardHorizontalComponent } from './wizard/wizard-horizontal.component';
 
 export { NoticeService } from './notice/notice.service';
 export { ImageLazyLoad } from './lazyLoad/imgLazyLoad';
@@ -33,12 +34,14 @@ export { SameValidator } from './validator/same.directive';
 export { EmailValidator } from './validator/email.directive';
 export { UrlValidator } from './validator/url.directive';
 export { FileSelectDirective } from './fileUpload/fileSelect.directive';
-export { FileUploadComponent } from './fileUpload/fileUpload.component';
+export { ImageUploadComponent } from './fileUpload/imageUpload.component';
 export { EditorComponent } from './editor/editor.component';
 export { UiLoadingComponent } from './loading/ui.loading.component';
 export { BtnSavingDirective } from './form/btnSaving.directive';
 export { TouchFormDirective } from './form/touchForm.directive';
 export { PaginationComponent } from './pagination/pagination.component';
+export { WizardHorizontalComponent } from './wizard/wizard-horizontal.component';
+
 
 const MODULES = [
   ImageLazyLoad,
@@ -52,10 +55,11 @@ const MODULES = [
   EmailValidator,
   UrlValidator,
   FileSelectDirective,
-  FileUploadComponent,
+  ImageUploadComponent,
   EditorComponent,
   UiLoadingComponent,
   PaginationComponent,
+  WizardHorizontalComponent,
   BtnSavingDirective,
   TouchFormDirective,
 ];

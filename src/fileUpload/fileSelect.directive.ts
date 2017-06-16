@@ -12,7 +12,6 @@ export class FileSelectDirective {
 
   @HostListener('change')
   onChange() {
-    let files = this.element.nativeElement.files;
-    if (files.length) this.uploader.addToQueue(files);
+    this.uploader.addFiles(this.element.nativeElement.files);
   }
 }
