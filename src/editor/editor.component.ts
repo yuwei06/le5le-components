@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from '@angular/core';
 
-import { EditorToolbarItem, toolbarItems, URL } from "./config";
+import { toolbarItems } from "./config";
 import { FileUploader } from "../fileUpload/fileUploader";
 import { NoticeService } from "../notice/notice.service";
 import { UploadParam } from '../fileUpload/fileUpload.model';
@@ -18,10 +18,13 @@ export class EditorComponent implements OnInit, OnChanges {
   @Output() abstractChange = new EventEmitter<any>();
   @Input() images: string[] = [];
   @Output() imagesChange = new EventEmitter<any>();
-  @Input() templates: any[] = [];
-  @Input() canEditTemplates: boolean = false;
-  @Input() requestHeaders: any = {};
-  @Input() toolbarItems: EditorToolbarItem[];
+  @Input() options: any = {
+    templates: [],
+    canEditTemplates: false,
+    url: '',
+    headers: {},
+    toolbarItems: toolbarItems
+  };
   @Output("selectTemplate") selectTemplateChange: EventEmitter<any> = new EventEmitter<any>();
   @Output("editTemplate") editTemplateChange: EventEmitter<any> = new EventEmitter<any>();
   @Output("deleteTemplate") deleteTemplateChange: EventEmitter<any> = new EventEmitter<any>();
@@ -35,9 +38,9 @@ export class EditorComponent implements OnInit, OnChanges {
   img: any = {show: false, src: ''};
   private selectedRange: any;
   constructor(private _noticeService: NoticeService) {
-    if (!this.toolbarItems || !this.toolbarItems.length) this.toolbarItems = toolbarItems;
+    if (!this.options.toolbarItems || !this.options.toolbarItems.length) this.options.toolbarItems = toolbarItems;
 
-    let params: UploadParam = new UploadParam(URL, this.requestHeaders, true);
+    let params: UploadParam = new UploadParam(this.options.url, this.options.headers, true);
     this.uploader = new FileUploader(params);
     this.uploader.emitter.subscribe((ret: any) => {
       switch (ret.event) {

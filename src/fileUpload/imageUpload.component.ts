@@ -20,6 +20,8 @@ import { UploadParam } from './fileUpload.model';
 export class ImageUploadComponent {
   @Input() urls: string[] = [];
   @Output() urlsChange = new EventEmitter<any>();
+  @Input() files: any[] = [];
+  @Output() filesChange = new EventEmitter<any>();
   @Input() completed: boolean = false;
   @Output() completedChange = new EventEmitter<boolean>();
   @Input() options: any = {};
@@ -41,8 +43,10 @@ export class ImageUploadComponent {
       }
       else if (ret.event === 'ready') {
         let urls = [];
+        let files = [];
         for (let item of this.uploader.fileList) {
-          urls.push(ret.fileItem.url);
+          urls.push(item.url);
+          files.push(item.file);
         }
         this.urls = urls;
         this.urlsChange.emit(urls);
@@ -50,7 +54,7 @@ export class ImageUploadComponent {
       else if (ret.event === 'completeAll') {
         let urls = [];
         for (let item of this.uploader.fileList) {
-          urls.push(ret.fileItem.url);
+          urls.push(item.url);
         }
         this.urls = urls;
         this.urlsChange.emit(urls);

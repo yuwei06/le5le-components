@@ -13,6 +13,7 @@ import { PositiveIntegerValidator } from './validator/positiveInteger.directive'
 import { SameValidator } from './validator/same.directive';
 import { EmailValidator } from './validator/email.directive';
 import { UrlValidator } from './validator/url.directive';
+import { MinValidator } from './validator/min.directive';
 import { FileSelectDirective } from './fileUpload/fileSelect.directive';
 import { ImageUploadComponent } from './fileUpload/imageUpload.component';
 import { EditorComponent } from './editor/editor.component';
@@ -21,6 +22,7 @@ import { BtnSavingDirective } from './form/btnSaving.directive';
 import { TouchFormDirective } from './form/touchForm.directive';
 import { PaginationComponent } from './pagination/pagination.component';
 import { WizardHorizontalComponent } from './wizard/wizard-horizontal.component';
+
 
 export { NoticeService } from './notice/notice.service';
 export { ImageLazyLoad } from './lazyLoad/imgLazyLoad';
@@ -33,6 +35,7 @@ export { PositiveIntegerValidator } from './validator/positiveInteger.directive'
 export { SameValidator } from './validator/same.directive';
 export { EmailValidator } from './validator/email.directive';
 export { UrlValidator } from './validator/url.directive';
+export { MinValidator } from './validator/min.directive';
 export { FileSelectDirective } from './fileUpload/fileSelect.directive';
 export { ImageUploadComponent } from './fileUpload/imageUpload.component';
 export { EditorComponent } from './editor/editor.component';
@@ -54,6 +57,7 @@ const MODULES = [
   SameValidator,
   EmailValidator,
   UrlValidator,
+  MinValidator,
   FileSelectDirective,
   ImageUploadComponent,
   EditorComponent,
