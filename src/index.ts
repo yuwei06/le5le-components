@@ -22,6 +22,7 @@ import { BtnSavingDirective } from './form/btnSaving.directive';
 import { TouchFormDirective } from './form/touchForm.directive';
 import { PaginationComponent } from './pagination/pagination.component';
 import { WizardHorizontalComponent } from './wizard/wizard-horizontal.component';
+import { SelectComponent } from './select/select.component';
 
 
 export { NoticeService } from './notice/notice.service';
@@ -44,7 +45,7 @@ export { BtnSavingDirective } from './form/btnSaving.directive';
 export { TouchFormDirective } from './form/touchForm.directive';
 export { PaginationComponent } from './pagination/pagination.component';
 export { WizardHorizontalComponent } from './wizard/wizard-horizontal.component';
-
+export { SelectComponent } from './select/select.component';
 
 const MODULES = [
   ImageLazyLoad,
@@ -64,6 +65,7 @@ const MODULES = [
   UiLoadingComponent,
   PaginationComponent,
   WizardHorizontalComponent,
+  SelectComponent,
   BtnSavingDirective,
   TouchFormDirective,
 ];

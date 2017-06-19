@@ -1,0 +1,32 @@
+.ui-select {
+  display: inline-flex;
+  position: relative;
+  min-width: 1rem;
+  flex-wrap: wrap;
+}
+
+.ui-select .dropdown {
+  top: 100%;
+  left: 0;
+  margin-top: 1px;
+}
+
+.ui-select:focus .dropdown {
+  display: block;
+}
+
+.ui-select .dropdown .item{
+  padding: .02rem .1rem;
+  white-space: nowrap;
+}
+
+.ui-select .selected {
+  background-color: #efefef;
+  padding: 0 .05rem;
+  margin: .02rem;
+}
+
+.ui-select .selected i {
+  font-size: .14rem;
+  cursor: pointer;
+}
