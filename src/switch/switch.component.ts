@@ -19,10 +19,13 @@ export class SwitchComponent {
   @Input() onClass: string;
   @Input() offClass: string;
   @Output() change = new EventEmitter<any>();
+  @Input() readonly : boolean = false;
   constructor() {
   }
 
   onCheck (b: boolean) {
+    if (this.readonly) return;
+
     this.checked = b;
     this.checkedChange.emit(b);
     this.change.emit(b);
