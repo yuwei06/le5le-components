@@ -23,6 +23,7 @@ import { TouchFormDirective } from './form/touchForm.directive';
 import { PaginationComponent } from './pagination/pagination.component';
 import { WizardHorizontalComponent } from './wizard/wizard-horizontal.component';
 import { SelectComponent } from './select/select.component';
+import { DivMoveDirective } from './move/divMove.directive';
 
 
 export { NoticeService } from './notice/notice.service';
@@ -46,6 +47,7 @@ export { TouchFormDirective } from './form/touchForm.directive';
 export { PaginationComponent } from './pagination/pagination.component';
 export { WizardHorizontalComponent } from './wizard/wizard-horizontal.component';
 export { SelectComponent } from './select/select.component';
+export { DivMoveDirective } from './move/divMove.directive';
 
 const MODULES = [
   ImageLazyLoad,
@@ -68,6 +70,7 @@ const MODULES = [
   SelectComponent,
   BtnSavingDirective,
   TouchFormDirective,
+  DivMoveDirective,
 ];
 
 @NgModule({
