@@ -19,9 +19,8 @@ export class DivMoveDirective {
   ngOnInit () {
    this.nativeElement = this.element.nativeElement;
    if (this.isHead) this.nativeElement = this.nativeElement.parentElement;
-   console.info(123, this.nativeElement);
 
-    this.mouseDown$ = Observable.fromEvent(this.nativeElement, 'mousedown');
+    this.mouseDown$ = Observable.fromEvent(this.element.nativeElement, 'mousedown');
     this.mouseMove$ = Observable.fromEvent(document, 'mousemove');
     this.mouseUp$ = Observable.fromEvent(document, 'mouseup');
 
@@ -34,8 +33,7 @@ export class DivMoveDirective {
       return this.mouseMove$.map((moveEvent) => ({
         x: moveEvent.clientX - clientX + initialPos.x,
         y: moveEvent.clientY - clientY + initialPos.y,
-      }))
-        .takeUntil(this.mouseUp$)
+      })).takeUntil(this.mouseUp$);
     }).subscribe((pos) => {
       this.setPos(this.nativeElement, pos)
     });
