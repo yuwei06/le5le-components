@@ -31,7 +31,7 @@ export class ImageUploadComponent {
 
   ngOnInit() {
     if (!this.options.maxCount) this.options.maxCount = 1;
-    if (!this.options.accept) this.options.accept = 'image/gif, image/jpeg';
+    if (!this.options.accept) this.options.accept = 'image/gif, image/jpeg, image/png, image/svg';
     let params: UploadParam = new UploadParam(<string>this.options.url, this.options.headers, <boolean>this.options.autoUpload);
     this.uploader = new FileUploader(params);
 
