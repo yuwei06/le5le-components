@@ -5,7 +5,7 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
   selector: 'ui-select',
   template: `
     <div class="ui-select input" [attr.contenteditable]="multi" [class.dropdown-container]="!multi">      
-      <div [class.selected]="multi" *ngFor="let item of selected;let i = index">
+      <div contenteditable="false" [class.selected]="multi" *ngFor="let item of selected;let i = index">
         {{item[option.name]}}
         <i *ngIf="multi" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
       </div>
@@ -78,7 +78,7 @@ export class SelectComponent implements ControlValueAccessor, Validator {
   }
 
   showItem(option: any): boolean {
-    if (!this.val) return true;
+    if (!this.val || !this.multi) return true;
 
     let show = true;
     for (let item of this.selected) {
