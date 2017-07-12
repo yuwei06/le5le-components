@@ -88,107 +88,114 @@ export class NoticeService {
   // noticeService.dialog({body: '是否继续？', callback:(ret:boolean)=>{}});
   // callback 单击确定 ret = true。其他： ret = false。
   dialog(option:any) {
-    let elem = document.createElement('div');
-    elem.className = 'modal';
-    if (option.theme) elem.className += ' ' + option.theme;
-    let cancelCallback: any = function (event: any) {
-      event.stopPropagation();
-      document.body.removeChild(elem);
-      if (option.callback) option.callback(false);
-    };
-    elem.onclick = cancelCallback;
+    return new Promise((resolve, reject) => {
+      let elem = document.createElement('div');
+      elem.className = 'modal';
+      if (option.theme) elem.className += ' ' + option.theme;
+      let cancelCallback: any = function (event: any) {
+        event.stopPropagation();
+        document.body.removeChild(elem);
+        if (option.callback) option.callback(false);
+        resolve(false);
+      };
+      elem.onclick = cancelCallback;
 
-    let modalContentElem = document.createElement('div');
-    modalContentElem.className = 'modal-content';
-    modalContentElem.onclick = function (event: any) {
-      event.stopPropagation();
-    };
-    elem.appendChild(modalContentElem);
+      let modalContentElem = document.createElement('div');
+      modalContentElem.className = 'modal-content';
+      modalContentElem.onclick = function (event: any) {
+        event.stopPropagation();
+      };
+      elem.appendChild(modalContentElem);
 
-    if (option.title) {
-      let titleContentElem = document.createElement('div');
-      titleContentElem.className = 'modal-header';
-      titleContentElem.innerHTML = option.title;
-      modalContentElem.appendChild(titleContentElem);
-    }
+      if (option.title) {
+        let titleContentElem = document.createElement('div');
+        titleContentElem.className = 'modal-header';
+        titleContentElem.innerHTML = option.title;
+        modalContentElem.appendChild(titleContentElem);
+      }
 
-    let contentElem = document.createElement('div');
-    contentElem.className = 'modal-body';
-    modalContentElem.appendChild(contentElem);
+      let contentElem = document.createElement('div');
+      contentElem.className = 'modal-body';
+      modalContentElem.appendChild(contentElem);
 
-    let bodyElem = document.createElement('div');
-    bodyElem.innerHTML = option.body;
-    contentElem.appendChild(bodyElem);
+      let bodyElem = document.createElement('div');
+      bodyElem.innerHTML = option.body;
+      contentElem.appendChild(bodyElem);
 
-    let okCallback: any = function (event: any) {
-      event.stopPropagation();
-      document.body.removeChild(elem);
-      if (option.callback) option.callback(true);
-    };
-    modalContentElem.appendChild(this.getFooterElem(okCallback, cancelCallback));
-    document.body.appendChild(elem);
+      let okCallback: any = function (event: any) {
+        event.stopPropagation();
+        document.body.removeChild(elem);
+        if (option.callback) option.callback(true);
+        resolve(true);
+      };
+      modalContentElem.appendChild(this.getFooterElem(okCallback, cancelCallback));
+      document.body.appendChild(elem);
+    });
   }
 
   // noticeService.input({text: '初始值', placeholder: '请输入', required: true, type: 'text', callback:(ret: any)=>{}});
   // required: true - 不允许为空。 type:可选，默认文本
-  input(option:any) {
-    let inputElem: any;
-    let elem = document.createElement('div');
-    elem.className = 'modal';
-    if (option.theme) elem.className += ' ' + option.theme;
-    let cancelCallback: any = function (event: any) {
-      event.stopPropagation();
-      document.body.removeChild(elem);
-    };
-    elem.onclick = cancelCallback;
+  input(option:any): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let inputElem: any;
+      let elem = document.createElement('div');
+      elem.className = 'modal';
+      if (option.theme) elem.className += ' ' + option.theme;
+      let cancelCallback: any = function (event: any) {
+        event.stopPropagation();
+        document.body.removeChild(elem);
+      };
+      elem.onclick = cancelCallback;
 
-    let modalContentElem = document.createElement('div');
-    modalContentElem.className = 'modal-content';
-    modalContentElem.onclick = function (event: any) {
-      event.stopPropagation();
-    };
-    elem.appendChild(modalContentElem);
+      let modalContentElem = document.createElement('div');
+      modalContentElem.className = 'modal-content';
+      modalContentElem.onclick = function (event: any) {
+        event.stopPropagation();
+      };
+      elem.appendChild(modalContentElem);
 
-    if (option.title) {
-      let titleContentElem = document.createElement('div');
-      titleContentElem.className = 'modal-header';
-      titleContentElem.innerHTML = option.title;
-      modalContentElem.appendChild(titleContentElem);
-    }
+      if (option.title) {
+        let titleContentElem = document.createElement('div');
+        titleContentElem.className = 'modal-header';
+        titleContentElem.innerHTML = option.title;
+        modalContentElem.appendChild(titleContentElem);
+      }
 
-    let contentElem = document.createElement('div');
-    contentElem.className = 'modal-body';
-    modalContentElem.appendChild(contentElem);
+      let contentElem = document.createElement('div');
+      contentElem.className = 'modal-body';
+      modalContentElem.appendChild(contentElem);
 
-    let bodyElem = document.createElement('div');
-    bodyElem.className = 'flex';
-    contentElem.appendChild(bodyElem);
+      let bodyElem = document.createElement('div');
+      bodyElem.className = 'flex';
+      contentElem.appendChild(bodyElem);
 
-    inputElem = document.createElement('input');
-    inputElem.className = 'input full';
-    if (option.text) inputElem.value = option.text;
-    if (option.placeholder) inputElem.setAttribute("placeholder", option.placeholder);
-    if (option.type) inputElem.setAttribute("type", option.type);
-    inputElem.onclick = function (event:any) {
-      event.stopPropagation();
-    };
-    let okCallback: any = function (event: any) {
-      event.stopPropagation();
-      if (option.required && !inputElem.value) return;
+      inputElem = document.createElement('input');
+      inputElem.className = 'input full';
+      if (option.text) inputElem.value = option.text;
+      if (option.placeholder) inputElem.setAttribute("placeholder", option.placeholder);
+      if (option.type) inputElem.setAttribute("type", option.type);
+      inputElem.onclick = function (event:any) {
+        event.stopPropagation();
+      };
+      let okCallback: any = function (event: any) {
+        event.stopPropagation();
+        if (option.required && !inputElem.value) return;
 
-      document.body.removeChild(elem);
-      if (option.callback) option.callback(inputElem.value);
-    };
-    inputElem.onkeyup = function (event:any) {
-      let keyCode: any = event.which || event.keyCode;
-      if(keyCode == 13) okCallback(event);
-      else if(keyCode == 27)  cancelCallback(event);
-    };
-    bodyElem.appendChild(inputElem);
-    modalContentElem.appendChild(this.getFooterElem(okCallback, cancelCallback));
+        document.body.removeChild(elem);
+        if (option.callback) option.callback(inputElem.value);
+        resolve(inputElem.value);
+      };
+      inputElem.onkeyup = function (event:any) {
+        let keyCode: any = event.which || event.keyCode;
+        if(keyCode == 13) okCallback(event);
+        else if(keyCode == 27)  cancelCallback(event);
+      };
+      bodyElem.appendChild(inputElem);
+      modalContentElem.appendChild(this.getFooterElem(okCallback, cancelCallback));
 
-    document.body.appendChild(elem);
-    inputElem.focus();
+      document.body.appendChild(elem);
+      inputElem.focus();
+    });
   }
 }
 
