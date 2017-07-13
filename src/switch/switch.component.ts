@@ -4,10 +4,12 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
   selector: 'ui-switch',
   template: `
     <span *ngIf="checked" class="ui-switch on {{onClass}}" (click)="onCheck(false)">
-      <span class="desc">{{onDesc}}</span>
+      <span>{{onDesc}}</span>
+      <span class="blank">{{onDesc}}</span>
     </span>
     <span *ngIf="!checked" class="ui-switch off {{offClass}}" (click)="onCheck(true)">
-      <span class="desc">{{offDesc}}</span>
+      <span class="blank">{{offDesc}}</span>
+      <span>{{offDesc}}</span>     
     </span>
   `
 })
