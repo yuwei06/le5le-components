@@ -41,7 +41,7 @@ export class DivMoveDirective {
 
   getPos(nativeElement: any): any {
     const style = getComputedStyle(nativeElement);
-    const regExp = /matrix\((\d+,\s){4}(\d+),\s(\d+)/i;
+    const regExp = /matrix\((\d+,\s){4}([-]*\d+),\s([-]*\d+)/i;
     const result = style.transform.match(regExp);
     if (result) {
       return {
