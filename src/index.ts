@@ -24,6 +24,8 @@ import { PaginationComponent } from './pagination/pagination.component';
 import { WizardHorizontalComponent } from './wizard/wizard-horizontal.component';
 import { SelectComponent } from './select/select.component';
 import { DivMoveDirective } from './move/divMove.directive';
+import { RepExpValidator } from './validator/regExp.directive';
+import { CalendarComponent } from './datetime/calendar.component';
 
 
 export { NoticeService } from './notice/notice.service';
@@ -38,6 +40,7 @@ export { SameValidator } from './validator/same.directive';
 export { EmailValidator } from './validator/email.directive';
 export { UrlValidator } from './validator/url.directive';
 export { MinValidator } from './validator/min.directive';
+export { RepExpValidator } from './validator/regExp.directive';
 export { FileSelectDirective } from './fileUpload/fileSelect.directive';
 export { ImageUploadComponent } from './fileUpload/imageUpload.component';
 export { EditorComponent } from './editor/editor.component';
@@ -48,6 +51,7 @@ export { PaginationComponent } from './pagination/pagination.component';
 export { WizardHorizontalComponent } from './wizard/wizard-horizontal.component';
 export { SelectComponent } from './select/select.component';
 export { DivMoveDirective } from './move/divMove.directive';
+export { CalendarComponent } from './datetime/calendar.component';
 
 const MODULES = [
   ImageLazyLoad,
@@ -61,6 +65,7 @@ const MODULES = [
   EmailValidator,
   UrlValidator,
   MinValidator,
+  RepExpValidator,
   FileSelectDirective,
   ImageUploadComponent,
   EditorComponent,
@@ -71,6 +76,7 @@ const MODULES = [
   BtnSavingDirective,
   TouchFormDirective,
   DivMoveDirective,
+  CalendarComponent,
 ];
 
 @NgModule({

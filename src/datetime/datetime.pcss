@@ -1,0 +1,63 @@
+.ui-calendar {
+  border: 1px solid rgba(0,0,0,.2);
+  width: 3rem;
+}
+
+.ui-calendar .caption {
+  border-bottom: 1px solid rgba(0,0,0,.2);
+  display: flex;
+}
+
+.ui-calendar .caption > span{
+  width: 50%;
+  text-align: center;
+}
+
+.ui-calendar .caption select{
+  border: none;
+  outline: none;
+  font-size: .14rem;
+  padding: .15rem;
+}
+
+.ui-calendar .caption select option{
+  padding: 0 .1rem;
+}
+
+.ui-calendar .week {
+  display: flex;
+}
+
+.ui-calendar .day{
+  flex-grow: 1;
+  display: flex;
+  justify-content: center ;
+  align-items: center ;
+  min-height: .4rem;
+  font-size: .14rem;
+  cursor: pointer;
+  border-right: 1px solid rgba(0,0,0,.05);
+  border-bottom: 1px solid rgba(0,0,0,.05);
+}
+
+.ui-calendar .day:last-child{
+  border-right: none;
+}
+
+.ui-calendar .week:last-child .day{
+  border-bottom: none;
+}
+
+.ui-calendar .day:hover{
+  background-color: #eee;
+}
+
+.ui-calendar .day > span{
+  width: .2rem;
+  text-align: center;
+}
+
+.ui-calendar .day.active{
+  background-color: #26bbf0;
+  color: #fff;
+}
