@@ -11,6 +11,9 @@ import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/cor
       <div class="dropdown" [class.block]="showDropdown">
         <ui-calendar [(date)]="dateTime" (dateChange)="onChange()" [options]="opts" [readonly]="readonly"  class="block"></ui-calendar>
         <ui-time [(date)]="timeTime" (dateChange)="onChange()" [options]="opts" [readonly]="readonly"  class="block"></ui-time>
+        <div class="p15">
+          <button class="button success full" (click)="onShow($event, true)">确定</button>
+        </div>
       </div>     
     </div>
   `,
@@ -59,9 +62,11 @@ export class TimepickerComponent {
     this.timeFormat();
   }
 
-  onShow(event: any) {
+  onShow(event: any, hide?: boolean) {
     event.stopPropagation();
-    this.showDropdown = true;
+
+    if (hide) this.showDropdown = false;
+    else this.showDropdown = true;
   }
 
   onClickDocument(event) {
