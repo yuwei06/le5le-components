@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'ui-timepicker',
@@ -14,6 +14,9 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
       </div>     
     </div>
   `,
+  host: {
+    '(document:click)': 'onClickDocument($event)',
+  },
 })
 export class TimepickerComponent {
   @Input() date: string; // 必须是一个有效的Date字符串
@@ -26,10 +29,7 @@ export class TimepickerComponent {
   loaded: boolean;
   opts: any;
   showDropdown: boolean;
-  constructor() {
-    document.onclick = () => {
-      this.showDropdown = false;
-    };
+  constructor(private _elemRef: ElementRef) {
   }
 
   ngOnInit () {
@@ -62,6 +62,12 @@ export class TimepickerComponent {
   onShow(event: any) {
     event.stopPropagation();
     this.showDropdown = true;
+  }
+
+  onClickDocument(event) {
+    if (!this._elemRef.nativeElement.contains(event.target)) {
+      this.showDropdown = false;
+    }
   }
 }
 
