@@ -3,15 +3,15 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'ui-calendar',
   template: `
-    <div class="ui-calendar" > 
+    <div class="ui-calendar" [class.readonly]="readonly"> 
       <div class="caption" *ngIf="!options.hideCaption">
         <span>
-          <select  [(ngModel)]="year" (change)="onChange()">
+          <select [(ngModel)]="year" (change)="onChange()" [disabled]="readonly">
             <option *ngFor="let item of years" [value]="item">{{item}}年</option>
           </select>
         </span>
         <span>
-          <select  [(ngModel)]="month" (change)="onChange()">
+          <select [(ngModel)]="month" (change)="onChange()" [disabled]="readonly">
             <option value="0">1月</option>
             <option value="1">2月</option>
             <option value="2">3月</option>
@@ -37,30 +37,30 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   `,
 })
 export class CalendarComponent {
-  @Input() ngModel: string;
-  @Output() ngModelChange = new EventEmitter<string>();
-  @Input() options: any = {init: 'today'};
+  @Input() date: string; // 必须是一个有效的Date字符串
+  @Output() dateChange = new EventEmitter<string>();
+  @Input() options: any = {init: 'now'};
   @Input() readonly: boolean = false;
   year: number;
   month: number; // 从0开始
   day: number;
   calendar: any[] = [];
   years: number[] = [];
+  time: any;
   constructor() {
   }
 
   ngOnInit () {
-    let today: any = new Date(this.ngModel);
-    if (!this.ngModel || today == 'Invalid Date') today = new Date();
-    this.year = today.getFullYear();
+    this.time = new Date(this.date);
+    if (!this.date || this.time == 'Invalid Date') this.time = new Date();
+    this.year = this.time.getFullYear();
     this.getYearOptions(this.year);
-    this.month = today.getMonth();
+    this.month = this.time.getMonth();
     this.getCalendar(this.year, this.month);
 
-    if (!this.ngModel && this.options.init !== 'today') return;
-    this.day = today.getDate();
-    this.ngModel = this.year + '/' + this.month + '/' + this.day;
-    this.ngModelChange.emit(this.ngModel);
+    if (!this.date && this.options.init !== 'now') return;
+    this.day = this.time.getDate();
+    this.timeFormat();
   }
 
   getYearOptions(year: number) {
@@ -135,14 +135,21 @@ export class CalendarComponent {
   }
 
   onChange(item?: any) {
+    if (this.readonly) return;
+
     if (item) {
       this.year = item.year;
       this.month = item.month;
       this.day = item.day;
     }
     this.getCalendar(this.year, this.month);
-    this.ngModel = this.year + '/' + this.month + '/' + this.day;
-    this.ngModelChange.emit(this.ngModel);
+    this.time = new Date(this.year, this.month, this.day);
+    this.timeFormat();
+  }
+
+  timeFormat() {
+    this.date = this.time.toISOString();
+    this.dateChange.emit(this.date);
   }
 }
 

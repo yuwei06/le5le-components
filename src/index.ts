@@ -26,6 +26,8 @@ import { SelectComponent } from './select/select.component';
 import { DivMoveDirective } from './move/divMove.directive';
 import { RepExpValidator } from './validator/regExp.directive';
 import { CalendarComponent } from './datetime/calendar.component';
+import { TimeComponent } from './datetime/time.component';
+import { TimepickerComponent } from './datetime/timepicker.component';
 
 
 export { NoticeService } from './notice/notice.service';
@@ -52,6 +54,8 @@ export { WizardHorizontalComponent } from './wizard/wizard-horizontal.component'
 export { SelectComponent } from './select/select.component';
 export { DivMoveDirective } from './move/divMove.directive';
 export { CalendarComponent } from './datetime/calendar.component';
+export { TimeComponent } from './datetime/time.component';
+export { TimepickerComponent } from './datetime/timepicker.component';
 
 const MODULES = [
   ImageLazyLoad,
@@ -77,6 +81,8 @@ const MODULES = [
   TouchFormDirective,
   DivMoveDirective,
   CalendarComponent,
+  TimeComponent,
+  TimepickerComponent,
 ];
 
 @NgModule({

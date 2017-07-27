@@ -52,12 +52,44 @@
   background-color: #eee;
 }
 
+.ui-calendar.readonly .day{
+  cursor: default;
+}
+
+.ui-calendar.readonly .day:hover{
+  background-color: inherit;
+}
+
 .ui-calendar .day > span{
   width: .2rem;
   text-align: center;
 }
 
 .ui-calendar .day.active{
-  background-color: #26bbf0;
+  background-color: #26bbf0!important;
   color: #fff;
+}
+
+.ui-timepicker {
+  position: relative;
+}
+
+.ui-timepicker i {
+  line-height: 1;
+}
+
+.ui-timepicker>.input>i:hover {
+  line-height: 1;
+}
+
+.ui-timepicker .ui-calendar {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.ui-timepicker .ui-time {
+  display: block;
+  padding: .1rem 0;
+  text-align: center;
 }
