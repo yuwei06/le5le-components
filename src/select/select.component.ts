@@ -7,12 +7,12 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
     <div class="ui-select input" [attr.contenteditable]="multi && !readonly" [class.dropdown-container]="!multi"
       [class.readonly]="readonly">      
       <div contenteditable="false" [class.selected]="multi" *ngFor="let item of selected;let i = index">
-        {{item[option.name]}}
+        {{item[options.name]}}
         <i *ngIf="multi && !readonly" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
       </div>
       <div class="dropdown" contenteditable="false" *ngIf="!readonly">
-        <ng-template ngFor let-item let-i="index" [ngForOf]="option.list">
-          <div class="item" *ngIf="showItem(item)" (click)="onSelect(item)">{{item[option.name]}}</div>
+        <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
+          <div class="item" *ngIf="showItem(item)" (click)="onSelect(item)">{{item[options.name]}}</div>
         </ng-template>        
       </div>
     </div>
