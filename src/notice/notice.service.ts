@@ -87,7 +87,7 @@ export class NoticeService {
 
   // noticeService.dialog({body: '是否继续？', callback:(ret:boolean)=>{}});
   // callback 单击确定 ret = true。其他： ret = false。
-  dialog(option:any) {
+  dialog(option: any): Promise<boolean> {
     return new Promise((resolve, reject) => {
       let elem = document.createElement('div');
       elem.className = 'modal';
