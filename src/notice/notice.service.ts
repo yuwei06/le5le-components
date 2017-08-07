@@ -8,13 +8,13 @@ export class NoticeService {
 
   // noticeService.notice({body: '已经给您发送找回密码邮件了，请查收！', theme: 'success', timeout:3000});
   // theme - 风格主题: success, warning, error, cyan 。 success
-  notice(option:any) {
-    if (!option.theme) option.theme = 'success';
+  notice(options:any) {
+    if (!options.theme) options.theme = 'success';
 
     let timeout: any;
 
     let rootElem: any = document.createElement('div');
-    rootElem.className = 'notice in ' + option.theme;
+    rootElem.className = 'notice in ' + options.theme;
 
     let close = function() {
       if (!rootElem) return;
@@ -35,7 +35,7 @@ export class NoticeService {
 
     let bodyElem =  document.createElement('div');
     bodyElem.className = 'body';
-    bodyElem.innerHTML = option.body;
+    bodyElem.innerHTML = options.body;
 
     let closeElem =  document.createElement('i');
     closeElem.className = 'iconfont icon-close pointer fr';
@@ -45,10 +45,10 @@ export class NoticeService {
     rootElem.appendChild(bodyElem);
 
     let timer = function () {
-      if (!option.timeout) option.timeout = 2*1000;
+      if (!options.timeout) options.timeout = 2*1000;
       timeout = setTimeout(function() {
         close();
-      }, option.timeout);
+      }, options.timeout);
     };
     rootElem.onmouseout = timer;
     rootElem.onmouseover = () => {
@@ -64,20 +64,22 @@ export class NoticeService {
     timer();
   }
 
-  getFooterElem (okCallback: any, cancelCallback: any): any {
+  getFooterElem(okCallback: any, cancelCallback: any, options?: any): any {
     let footerElem = document.createElement('div');
     footerElem.className = 'modal-footer';
 
+    if (!options) options = {};
+
     let ok = document.createElement('button');
     ok.className = 'button primary';
-    ok.innerHTML = '确定';
+    ok.innerHTML = options.okText || '确定';
     ok.onclick = okCallback;
     footerElem.appendChild(ok);
 
     if (cancelCallback) {
       let cancel = document.createElement('button');
       cancel.className = 'button default ml10';
-      cancel.innerHTML = '取消';
+      cancel.innerHTML = options.cancelText || '取消';
       cancel.onclick = cancelCallback;
       footerElem.appendChild(cancel);
     }
@@ -87,15 +89,15 @@ export class NoticeService {
 
   // noticeService.dialog({body: '是否继续？', callback:(ret:boolean)=>{}});
   // callback 单击确定 ret = true。其他： ret = false。
-  dialog(option: any): Promise<boolean> {
+  dialog(options: any): Promise<boolean> {
     return new Promise((resolve, reject) => {
       let elem = document.createElement('div');
       elem.className = 'modal';
-      if (option.theme) elem.className += ' ' + option.theme;
+      if (options.theme) elem.className += ' ' + options.theme;
       let cancelCallback: any = function (event: any) {
         event.stopPropagation();
         document.body.removeChild(elem);
-        if (option.callback) option.callback(false);
+        if (options.callback) options.callback(false);
         resolve(false);
       };
       elem.onclick = cancelCallback;
@@ -107,10 +109,10 @@ export class NoticeService {
       };
       elem.appendChild(modalContentElem);
 
-      if (option.title) {
+      if (options.title) {
         let titleContentElem = document.createElement('div');
         titleContentElem.className = 'modal-header';
-        titleContentElem.innerHTML = option.title;
+        titleContentElem.innerHTML = options.title;
         modalContentElem.appendChild(titleContentElem);
       }
 
@@ -119,28 +121,28 @@ export class NoticeService {
       modalContentElem.appendChild(contentElem);
 
       let bodyElem = document.createElement('div');
-      bodyElem.innerHTML = option.body;
+      bodyElem.innerHTML = options.body;
       contentElem.appendChild(bodyElem);
 
       let okCallback: any = function (event: any) {
         event.stopPropagation();
         document.body.removeChild(elem);
-        if (option.callback) option.callback(true);
+        if (options.callback) options.callback(true);
         resolve(true);
       };
-      modalContentElem.appendChild(this.getFooterElem(okCallback, cancelCallback));
+      modalContentElem.appendChild(this.getFooterElem(okCallback, cancelCallback, options));
       document.body.appendChild(elem);
     });
   }
 
   // noticeService.input({text: '初始值', placeholder: '请输入', required: true, type: 'text', callback:(ret: any)=>{}});
   // required: true - 不允许为空。 type:可选，默认文本
-  input(option:any): Promise<any> {
+  input(options:any): Promise<any> {
     return new Promise((resolve, reject) => {
       let inputElem: any;
       let elem = document.createElement('div');
       elem.className = 'modal';
-      if (option.theme) elem.className += ' ' + option.theme;
+      if (options.theme) elem.className += ' ' + options.theme;
       let cancelCallback: any = function (event: any) {
         event.stopPropagation();
         document.body.removeChild(elem);
@@ -154,10 +156,10 @@ export class NoticeService {
       };
       elem.appendChild(modalContentElem);
 
-      if (option.title) {
+      if (options.title) {
         let titleContentElem = document.createElement('div');
         titleContentElem.className = 'modal-header';
-        titleContentElem.innerHTML = option.title;
+        titleContentElem.innerHTML = options.title;
         modalContentElem.appendChild(titleContentElem);
       }
 
@@ -171,18 +173,18 @@ export class NoticeService {
 
       inputElem = document.createElement('input');
       inputElem.className = 'input full';
-      if (option.text) inputElem.value = option.text;
-      if (option.placeholder) inputElem.setAttribute("placeholder", option.placeholder);
-      if (option.type) inputElem.setAttribute("type", option.type);
+      if (options.text) inputElem.value = options.text;
+      if (options.placeholder) inputElem.setAttribute("placeholder", options.placeholder);
+      if (options.type) inputElem.setAttribute("type", options.type);
       inputElem.onclick = function (event:any) {
         event.stopPropagation();
       };
       let okCallback: any = function (event: any) {
         event.stopPropagation();
-        if (option.required && !inputElem.value) return;
+        if (options.required && !inputElem.value) return;
 
         document.body.removeChild(elem);
-        if (option.callback) option.callback(inputElem.value);
+        if (options.callback) options.callback(inputElem.value);
         resolve(inputElem.value);
       };
       inputElem.onkeyup = function (event:any) {
@@ -191,7 +193,7 @@ export class NoticeService {
         else if(keyCode == 27)  cancelCallback(event);
       };
       bodyElem.appendChild(inputElem);
-      modalContentElem.appendChild(this.getFooterElem(okCallback, cancelCallback));
+      modalContentElem.appendChild(this.getFooterElem(okCallback, cancelCallback, options));
 
       document.body.appendChild(elem);
       inputElem.focus();
