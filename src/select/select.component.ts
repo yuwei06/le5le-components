@@ -13,7 +13,7 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
         </div>
       </div>
       <div class="flex middle" *ngIf="!multi">
-        <input class="full pl10" [placeholder]="placeholder" [(ngModel)]="inputValue"
+        <input class="full pl10" [placeholder]="placeholder" [(ngModel)]="inputValue" (change)="onInputChange()"
           [readOnly]="this.selected[0] && this.selected[0][this.options.id]"  (click)="onClickInput()">
         <i *ngIf="!multi" class="iconfont icon-triangle-down right" (click)="showDropdown=true"></i>
       </div>
@@ -118,6 +118,12 @@ export class SelectComponent implements ControlValueAccessor, Validator {
       if (this.val || !this.customInput) this.inputValue = item[this.options.name];
       else this.inputValue = '';
     }
+    this.valueChange(this.val);
+  }
+
+  onInputChange() {
+    this.selected = [this.inputValue];
+    this.val = this.inputValue;
     this.valueChange(this.val);
   }
 
