@@ -1,18 +1,15 @@
 .ui-select {
-  display: inline-flex;
   position: relative;
   min-width: 1rem;
-  flex-wrap: wrap;
+  display: inline-block;
+  padding: 0;
 }
 
 .ui-select .dropdown {
+  width: 100%;
   top: 100%;
   left: 0;
   margin-top: 1px;
-}
-
-.ui-select:focus .dropdown {
-  display: block;
 }
 
 .ui-select .dropdown .item{
@@ -21,7 +18,7 @@
 }
 
 .ui-select .selected {
-  background-color: #efefef;
+  background-color: #f3f4f5;
   padding: 0 .05rem;
   margin: .02rem;
 }
@@ -29,4 +26,17 @@
 .ui-select .selected i {
   font-size: .14rem;
   cursor: pointer;
+}
+
+.ui-select .right {
+  border-left: 1px solid #ddd;
+  background-color: #f3f4f5;
+  padding: 0 .05rem;
+  cursor: pointer;
+}
+
+.ui-select .flex input {
+  outline: none;
+  border: none;
+  min-height: .26rem;
 }

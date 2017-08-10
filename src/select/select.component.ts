@@ -1,22 +1,32 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, ElementRef } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
 
 @Component({
   selector: 'ui-select',
   template: `
-    <div class="ui-select input" [attr.contenteditable]="multi && !readonly" [class.dropdown-container]="!multi"
-      [class.readonly]="readonly">      
-      <div contenteditable="false" [class.selected]="multi" *ngFor="let item of selected;let i = index">
-        {{item[options.name]}}
-        <i *ngIf="multi && !readonly" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
+    <div class="ui-select input" [attr.contenteditable]="multi && !readonly" [class.readonly]="readonly"
+      (click)="onClick()">
+      <div class="flex ph5" *ngIf="multi">
+        <div contenteditable="false" [class.selected]="multi" *ngFor="let item of selected;let i = index">
+          {{item[options.name]}}
+          <i *ngIf="multi && !readonly" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
+        </div>
       </div>
-      <div class="dropdown" contenteditable="false" *ngIf="!readonly">
+      <div class="flex middle" *ngIf="!multi">
+        <input class="full pl10" [placeholder]="placeholder" [(ngModel)]="inputValue"
+          [readOnly]="this.selected[0] && this.selected[0][this.options.id]"  (click)="onClickInput()">
+        <i *ngIf="!multi" class="iconfont icon-triangle-down right" (click)="showDropdown=true"></i>
+      </div>
+      <div class="dropdown" [class.block]="showDropdown" contenteditable="false" *ngIf="!readonly">
         <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
           <div class="item" *ngIf="showItem(item)" (click)="onSelect(item)">{{item[options.name]}}</div>
-        </ng-template>        
+        </ng-template>
       </div>
     </div>
   `,
+  host: {
+    '(document:click)': 'onClickDocument($event)',
+  },
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => SelectComponent),
@@ -34,12 +44,16 @@ export class SelectComponent implements ControlValueAccessor, Validator {
   @Input() multi: boolean = true;
   @Input() readonly: boolean = false;
   @Input() required: boolean = false;
-  valueChange: (value: any) => void = () => {};
-  constructor() {
+  @Input() placeholder: string = '';
+  @Input() customInput: boolean = false;
+  valueChange: (value: any) => void = () => { };
+  showDropdown: boolean;
+  inputValue: string;
+  constructor(private _elemRef: ElementRef) {
   }
 
   getSelected() {
-    if (!this.val) return;
+    this.inputValue = this.val;
 
     for (let item of this.options.list) {
       if (this.multi) {
@@ -93,6 +107,7 @@ export class SelectComponent implements ControlValueAccessor, Validator {
   }
 
   onSelect(item: any) {
+    this.showDropdown = false;
     if (this.multi) {
       if (!this.val) this.val = [];
       this.selected.push(item);
@@ -100,6 +115,8 @@ export class SelectComponent implements ControlValueAccessor, Validator {
     } else {
       this.selected = [item];
       this.val = item[this.options.id];
+      if (this.val || !this.customInput) this.inputValue = item[this.options.name];
+      else this.inputValue = '';
     }
     this.valueChange(this.val);
   }
@@ -111,6 +128,20 @@ export class SelectComponent implements ControlValueAccessor, Validator {
 
     this.selected.splice(index ,1);
     this.valueChange(this.val);
+  }
+
+  onClick() {
+    if (this.multi || !this.customInput) this.showDropdown = true;
+  }
+
+  onClickInput() {
+    if (this.selected[0] && this.selected[0][this.options.id]) this.showDropdown = true;
+  }
+
+  onClickDocument(event) {
+    if (!this._elemRef.nativeElement.contains(event.target)) {
+      this.showDropdown = false;
+    }
   }
 }
 
