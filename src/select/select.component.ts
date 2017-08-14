@@ -54,9 +54,11 @@ export class SelectComponent implements ControlValueAccessor, Validator {
 
   getSelected() {
     this.inputValue = this.val;
+    if (!this.options.list) return;
 
     for (let item of this.options.list) {
       if (this.multi) {
+        if (!this.val || !this.val.length) return;
         for (let v of this.val) {
           if (v === item[this.options.id]) this.selected.push(item);
         }

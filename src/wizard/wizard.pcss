@@ -33,6 +33,20 @@ ui-wizard-horizontal {
   background-color: #ccc;
 }
 
+.wizard.horizontal>.item.error .desc .icon {
+  background-color: $color-error!important;
+}
+.wizard.horizontal>.item.error, .wizard.horizontal>.item.error .desc .name {
+  color: $color-error!important;
+}
+
+.wizard.horizontal>.item.item.active .desc .icon {
+  background-color: $color-primary!important;
+}
+.wizard.horizontal>.item.active, .wizard.horizontal>.item.active .desc .name {
+  color: $color-primary!important;
+}
+
 .wizard.horizontal>.item .desc .name {
   position: absolute;
   top: 100%;
