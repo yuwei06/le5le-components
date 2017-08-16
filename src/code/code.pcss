@@ -5,56 +5,6 @@ ui-code {
 }
 
 .ui-code {
-  position: relative;
   border: 1px solid #dbdfe1;
-  display: grid;
-  grid-template-columns: minmax($margin-width, 0) auto;
-}
-
-.ui-code>.margin {
-  background-color: #f7f7f7;
-  border-right: 1px solid #ddd;
-  color: transparent;
-}
-
-.ui-code>.text {
-  outline: none;
-  padding: .05rem .1rem;
-}
-
-.ui-code>.text ::selection {
-  background-color:#d9d9d9;
-  text-shadow:none;
-}
-
-.ui-code>.text .row {
-  position: relative;
-}
-
-.ui-code>.text .row .margin-num {
-  position: absolute;
-  right: calc(100% + .18rem);
-  width: .5rem;
-  text-align: right;
-  user-select: none;
-}
-
-.ui-code>.text .row .reserved {
-  color: #af00db;
-}
-
-.ui-code>.text .row .string {
-  color: #a31515;
-}
-
-.ui-code>.text .row .num {
-  color: #05a;
-}
-
-.ui-code>.text .row .time {
-  color: #f00;
-}
-
-.ui-code>.text .row .href {
-  color: #00f;
+  min-height: 3rem;
 }
