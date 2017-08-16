@@ -28,6 +28,7 @@ import { RepExpValidator } from './validator/regExp.directive';
 import { CalendarComponent } from './datetime/calendar.component';
 import { TimeComponent } from './datetime/time.component';
 import { TimepickerComponent } from './datetime/timepicker.component';
+import { CodeComponent } from './code/code.component';
 
 
 export { NoticeService } from './notice/notice.service';
@@ -56,6 +57,7 @@ export { DivMoveDirective } from './move/divMove.directive';
 export { CalendarComponent } from './datetime/calendar.component';
 export { TimeComponent } from './datetime/time.component';
 export { TimepickerComponent } from './datetime/timepicker.component';
+export { CodeComponent } from './code/code.component';
 
 const MODULES = [
   ImageLazyLoad,
@@ -83,6 +85,7 @@ const MODULES = [
   CalendarComponent,
   TimeComponent,
   TimepickerComponent,
+  CodeComponent,
 ];
 
 @NgModule({
