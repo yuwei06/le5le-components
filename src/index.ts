@@ -89,6 +89,10 @@ const MODULES = [
   CodeComponent,
 ];
 
+export const monacoFactory = (ngZone: NgZone) => {
+  return new MonacoEditorLoaderService(ngZone);
+};
+
 @NgModule({
   imports: [CommonModule, FormsModule],
   declarations: MODULES,
@@ -98,9 +102,7 @@ const MODULES = [
     {
       provide: MonacoEditorLoaderService,
       deps: [NgZone],
-      useFactory: (ngZone: NgZone) => {
-        return new MonacoEditorLoaderService(ngZone);
-      }
+      useFactory: monacoFactory
     }
   ]
 })
