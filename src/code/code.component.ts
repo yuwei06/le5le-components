@@ -1,8 +1,8 @@
-import { Component, Input, forwardRef, ElementRef, OnInit, AfterViewInit, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, Input, forwardRef, ElementRef, OnInit, ViewChild, Output, EventEmitter, NgZone } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MonacoEditorLoaderService } from './monaco-loader.service';
 
 declare const monaco: any;
-declare const require: any;
 
 @Component({
   selector: 'ui-code',
@@ -13,15 +13,19 @@ declare const require: any;
     multi: true
   }],
 })
-export class CodeComponent implements OnInit, AfterViewInit {
+export class CodeComponent implements OnInit {
   @ViewChild('editor') editorContent: ElementRef;
   @Input() options: any = {};
   @Output() change = new EventEmitter();
 
+  @Input() set monacoPath(value) {
+    this._monacoLoaderService.monacoPath = value;
+    this._monacoLoaderService.load();
+  }
+
   editor: any;
   private _value = '';
-  constructor() {
-
+  constructor(private _monacoLoaderService: MonacoEditorLoaderService) {
   }
 
   get value(): string { return this._value; };
@@ -33,27 +37,9 @@ export class CodeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-  }
-
-  ngAfterViewInit() {
-    let onGotAmdLoader = () => {
-      // Load monaco
-      (<any>window).require.config({ paths: { 'vs': 'assets/monaco/vs' } });
-      (<any>window).require(['vs/editor/editor.main'], () => {
-        this.initMonaco();
-      });
-    };
-
-    // Load AMD loader if necessary
-    if (!(<any>window).require) {
-      let loaderScript = document.createElement('script');
-      loaderScript.type = 'text/javascript';
-      loaderScript.src = 'assets/monaco/vs/loader.js';
-      loaderScript.addEventListener('load', onGotAmdLoader);
-      document.body.appendChild(loaderScript);
-    } else {
-      onGotAmdLoader();
-    }
+    this._monacoLoaderService.isMonacoLoaded.subscribe(isLoaded => {
+      if (isLoaded) this.initMonaco();
+    });
   }
 
   /**

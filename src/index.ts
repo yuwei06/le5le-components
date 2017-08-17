@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -29,6 +29,7 @@ import { CalendarComponent } from './datetime/calendar.component';
 import { TimeComponent } from './datetime/time.component';
 import { TimepickerComponent } from './datetime/timepicker.component';
 import { CodeComponent } from './code/code.component';
+import { MonacoEditorLoaderService } from './code/monaco-loader.service';
 
 
 export { NoticeService } from './notice/notice.service';
@@ -92,7 +93,16 @@ const MODULES = [
   imports: [CommonModule, FormsModule],
   declarations: MODULES,
   exports: MODULES,
-  providers: [NoticeService]
+  providers: [
+    NoticeService,
+    {
+      provide: MonacoEditorLoaderService,
+      deps: [NgZone],
+      useFactory: (ngZone: NgZone) => {
+        return new MonacoEditorLoaderService(ngZone);
+      }
+    }
+  ]
 })
 export class Le5leComponentsModule {
 }
