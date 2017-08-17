@@ -54,6 +54,7 @@ export class CodeComponent implements OnInit {
     let options = this.options;
     options.value = this._value;
     this.editor = monaco.editor.create(this.editorContent.nativeElement, options);
+    this.options.editor = this.editor;
 
     // Currently setting this option prevents the autocomplete selection with the "Enter" key
     // TODO make sure to propagate the event to the autocomplete
