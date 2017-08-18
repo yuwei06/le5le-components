@@ -4,10 +4,9 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
 @Component({
   selector: 'ui-select',
   template: `
-    <div class="ui-select input" [attr.contenteditable]="multi && !readonly" [class.readonly]="readonly"
-      (click)="onClick()">
+    <div class="ui-select input" [class.readonly]="readonly" (click)="onClick()">
       <div class="flex ph5" *ngIf="multi">
-        <div contenteditable="false" [class.selected]="multi" *ngFor="let item of selected;let i = index">
+        <div [class.selected]="multi" *ngFor="let item of selected;let i = index">
           {{item[options.name]}}
           <i *ngIf="multi && !readonly" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
         </div>
@@ -17,7 +16,7 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
           [readOnly]="this.selected[0] && this.selected[0][this.options.id]"  (click)="onClickInput()">
         <i *ngIf="!multi" class="iconfont icon-triangle-down right" (click)="showDropdown=true"></i>
       </div>
-      <div class="dropdown" [class.block]="showDropdown" contenteditable="false" *ngIf="!readonly">
+      <div class="dropdown" [class.block]="showDropdown" *ngIf="!readonly">
         <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
           <div class="item" *ngIf="showItem(item)" (click)="onSelect(item)">{{item[options.name]}}</div>
         </ng-template>
