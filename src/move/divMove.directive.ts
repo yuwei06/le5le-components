@@ -8,6 +8,7 @@ import 'rxjs/add/observable/fromEvent';
 export class DivMoveDirective {
   @Input() divMove: boolean = true;
   @Input() isHead: boolean = false;
+  @Input() pos: any;
   @Output() move = new EventEmitter<any>();
   nativeElement: any;
   mouseDown$: any;
@@ -59,7 +60,11 @@ export class DivMoveDirective {
 
   setPos(nativeElement: any, pos: any) {
     if (this.move) this.move.emit(Object.assign({}, pos));
-    nativeElement.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+    if (!this.pos) nativeElement.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
+    else {
+      nativeElement.style.left = (this.pos.x + pos.x) + 'px';
+      nativeElement.style.top = (this.pos.y + pos.y) + 'px';
+    }
   }
 
   ngOnDestroy() {
