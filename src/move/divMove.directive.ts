@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input } from '@angular/core';
+import { Directive, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 
@@ -8,6 +8,7 @@ import 'rxjs/add/observable/fromEvent';
 export class DivMoveDirective {
   @Input() divMove: boolean = true;
   @Input() isHead: boolean = false;
+  @Output() move = new EventEmitter<any>();
   nativeElement: any;
   mouseDown$: any;
   mouseMove$: any;
@@ -57,6 +58,7 @@ export class DivMoveDirective {
   }
 
   setPos(nativeElement: any, pos: any) {
+    if (this.move) this.move.emit(Object.assign({}, pos));
     nativeElement.style.transform = `translate(${pos.x}px, ${pos.y}px)`;
   }
 
