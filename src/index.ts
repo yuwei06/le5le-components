@@ -59,6 +59,7 @@ export { CalendarComponent } from './datetime/calendar.component';
 export { TimeComponent } from './datetime/time.component';
 export { TimepickerComponent } from './datetime/timepicker.component';
 export { CodeComponent } from './code/code.component';
+export { MonacoEditorLoaderService } from './code/monaco-loader.service';
 
 const MODULES = [
   ImageLazyLoad,
