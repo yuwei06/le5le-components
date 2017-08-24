@@ -46,6 +46,10 @@ export class XTermComponent {
 
     this.onResize();
   }
+
+  ngOnDestroy() {
+    if (this.socket) this.socket.close();
+  }
 }
 
 require('xterm/dist/xterm.css');
