@@ -88,6 +88,8 @@ export class SliderComponent implements OnInit {
       }
     }
 
+    this.minChange.emit(this.min);
+    this.maxChange.emit(this.max);
     this.change.emit({min: this.min, max: this.max});
   }
 
@@ -139,6 +141,8 @@ export class SliderComponent implements OnInit {
     if (!this.isMouseDown) return;
 
     this.isMouseDown = 0;
+    this.minChange.emit(this.min);
+    this.maxChange.emit(this.max);
     this.change.emit({ min: this.min, max: this.max });
   }
 }
