@@ -13,6 +13,11 @@
   cursor: pointer;
 }
 
+.ui-slider.readonly .bk {
+  background: #6f787e;
+  cursor: not-allowed;
+}
+
 .ui-slider .min, .ui-slider .max {
   position: absolute;
   border: .02rem solid #26bbf0;
@@ -36,4 +41,8 @@
   top: .09rem;
   background: #dbdfe1;
   pointer-events: none;
+}
+
+.ui-slider.readonly .min, .ui-slider.readonly .max {
+  border: .02rem solid #6f787e;
 }

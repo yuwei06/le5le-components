@@ -2,12 +2,12 @@ import { Component, Input, Output, OnInit, EventEmitter, ElementRef, HostListene
 
 @Component({
   selector: 'ui-slider',
-  template: `<div class="ui-slider" (click)="onClick($event)">
+  template: `<div class="ui-slider" [class.readonly]="options.readonly" (click)="onClick($event)">
     <div class="bk"></div>
-    <div class="bk-gray" [ngStyle]="getLeftStyle()" [class.hidden]="!options.range"></div>
-    <div class="bk-gray" [ngStyle]="getRightStyle()"></div>
-    <div class="min" [ngStyle]="getMinStyle()" (mousedown)="onMouseDown($event)" (click)="$event.stopPropagation()">{{min}}</div>
-    <div class="max" [ngStyle]="getMaxStyle()" (mousedown)="onMouseDown($event, true)" (click)="$event.stopPropagation()"
+    <div class="bk-gray" [ngStyle]="getLeftBkStyle()" [class.hidden]="!options.range"></div>
+    <div class="bk-gray" [ngStyle]="getPosStyle(options.range)"></div>
+    <div class="min" [ngStyle]="getPosStyle()" (mousedown)="onMouseDown($event)" (click)="$event.stopPropagation()">{{min}}</div>
+    <div class="max" [ngStyle]="getPosStyle(true)" (mousedown)="onMouseDown($event, true)" (click)="$event.stopPropagation()"
       [class.hidden]="!options.range">{{max}}</div>
   </div>`,
 })
@@ -34,52 +34,57 @@ export class SliderComponent implements OnInit {
   ngOnInit() {
     if (!this.options.min) this.options.min = 0;
     if (!this.options.max) this.options.max = 100;
+    if (!this.min) this.min = this.options.min;
     if (!this.max) this.max = this.options.max;
   }
 
-  getMinStyle() {
+  getPosStyle(isMax?: boolean) {
+    if (!this.options.max) this.options.max = 100;
+    let pos: number = this.min;
+    if (isMax) pos = this.max;
     return {
-      left: (this.min / (this.options.max - this.options.min) * 100) + '%'
+      left: ((pos - this.options.min) / (this.options.max - this.options.min) * 100) + '%'
     }
   }
 
-  getMaxStyle() {
-    return {
-      left: (this.max / (this.options.max - this.options.min) * 100) + '%'
-    }
-  }
-
-  getLeftStyle() {
+  getLeftBkStyle() {
+    if (!this.options.max) this.options.max = 100;
     return {
       width: (this.min / (this.options.max - this.options.min) * 100) + '%'
     }
   }
 
-  getRightStyle() {
-    if (this.options.range) return this.getMaxStyle();
-    else return this.getMinStyle();
-  }
-
   onClick(event: MouseEvent) {
+    if (this.options.readonly) return;
+
+    if (!this.options.max) this.options.max = 100;
+
     let pos: number = (event.offsetX - 11) / this.element.nativeElement.clientWidth;
     let posMin: number = this.min / (this.options.max - this.options.min);
     let posMax: number = this.max / (this.options.max - this.options.min);
-    if (pos < posMin || !this.options.range) {
+    console.info(pos, posMin, posMax, this.min, this.max, this.options)
+    if (!this.options.range) {
       this.min = Math.round(pos * (this.options.max - this.options.min));
       this.checkMin();
     }
-    else if (pos > posMax) {
-      this.max = Math.round(pos * (this.options.max - this.options.min));
-      this.checkMax();
-    }
     else {
-      if (pos - posMin < posMax - pos) {
+      if (pos < posMin) {
         this.min = Math.round(pos * (this.options.max - this.options.min));
         this.checkMin();
       }
-      else {
+      else if (pos > posMax) {
         this.max = Math.round(pos * (this.options.max - this.options.min));
         this.checkMax();
+      }
+      else {
+        if (pos - posMin < posMax - pos) {
+          this.min = Math.round(pos * (this.options.max - this.options.min));
+          this.checkMin();
+        }
+        else {
+          this.max = Math.round(pos * (this.options.max - this.options.min));
+          this.checkMax();
+        }
       }
     }
 
@@ -100,6 +105,8 @@ export class SliderComponent implements OnInit {
   }
 
   onMouseDown(event: MouseEvent, isMax?: boolean) {
+    if (this.options.readonly) return;
+
     this.isMouseDown = 1;
     if (isMax) this.isMouseDown = 2;
 
@@ -112,6 +119,8 @@ export class SliderComponent implements OnInit {
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
     if (!this.isMouseDown) return;
+
+    if (!this.options.max) this.options.max = 100;
 
     if (this.isMouseDown === 1) {
       let pos: number = event.clientX - this.initEvent.clientX;
