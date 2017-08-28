@@ -82,6 +82,8 @@ export class SliderComponent implements OnInit {
         this.checkMax();
       }
     }
+
+    this.change.emit({min: this.min, max: this.max});
   }
 
   checkMin() {
@@ -128,6 +130,7 @@ export class SliderComponent implements OnInit {
     if (!this.isMouseDown) return;
 
     this.isMouseDown = 0;
+    this.change.emit({ min: this.min, max: this.max });
   }
 }
 
