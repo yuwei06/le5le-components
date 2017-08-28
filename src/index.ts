@@ -31,6 +31,7 @@ import { TimepickerComponent } from './datetime/timepicker.component';
 import { CodeComponent } from './code/code.component';
 import { MonacoEditorLoaderService } from './code/monaco-loader.service';
 import { XTermComponent } from './xterm/xterm.component';
+import { SliderComponent } from './slider/slider.component';
 
 
 export { NoticeService } from './notice/notice.service';
@@ -62,6 +63,7 @@ export { TimepickerComponent } from './datetime/timepicker.component';
 export { CodeComponent } from './code/code.component';
 export { MonacoEditorLoaderService } from './code/monaco-loader.service';
 export { XTermComponent } from './xterm/xterm.component';
+export { SliderComponent } from './slider/slider.component';
 
 const MODULES = [
   ImageLazyLoad,
@@ -91,6 +93,7 @@ const MODULES = [
   TimepickerComponent,
   CodeComponent,
   XTermComponent,
+  SliderComponent,
 ];
 
 export function monacoFactory(ngZone: NgZone) {
