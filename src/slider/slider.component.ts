@@ -62,7 +62,7 @@ export class SliderComponent implements OnInit {
     let pos: number = (event.offsetX - 11) / this.element.nativeElement.clientWidth;
     let posMin: number = this.min / (this.options.max - this.options.min);
     let posMax: number = this.max / (this.options.max - this.options.min);
-    console.info(pos, posMin, posMax, this.min, this.max, this.options)
+
     if (!this.options.range) {
       this.min = Math.round(pos * (this.options.max - this.options.min));
       this.checkMin();
