@@ -4,12 +4,14 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
 @Component({
   selector: 'ui-select',
   template: `
-    <div class="ui-select input" [class.readonly]="readonly" (click)="onClick()">
+    <div class="ui-select input" [class.readonly]="readonly" (click)="onClick()" title="单击下拉，支持多选">
       <div class="flex ph5" *ngIf="multi">
         <div [class.selected]="multi" *ngFor="let item of selected;let i = index">
           {{item[options.name]}}
           <i *ngIf="multi && !readonly" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
         </div>
+        <input *ngIf="selected.length" style="width:.1rem" >
+        <input *ngIf="!selected.length" class="full" placeholder="单击下拉，支持多选">
       </div>
       <div class="flex middle" *ngIf="!multi">
         <input class="full pl10" [placeholder]="placeholder" [(ngModel)]="inputValue" (change)="onInputChange()"
