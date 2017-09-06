@@ -8,7 +8,7 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
       <div class="flex ph5" *ngIf="multi">
         <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
           <div [class.selected]="multi" *ngIf="isChecked(item)">
-            {{item[options.name]}}
+            {{options.name? item[options.name]: item}}
             <i *ngIf="!readonly" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
           </div>
         </ng-template>
@@ -21,8 +21,13 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
         <i class="iconfont icon-triangle-down right" (click)="showDropdown=true"></i>
       </div>
       <div class="dropdown" [class.block]="showDropdown" *ngIf="!readonly">
+        <div class="item" *ngIf="!multi && !customInput" (click)="onSelect($event, null)">请选择</div>
+        <div class="item" *ngIf="loading">
+          <span class="iconfont icon-loading icon-spin"></span>
+          Loading...
+        </div>
         <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
-          <div class="item" *ngIf="!multi || !isChecked(item)" (click)="onSelect($event, item)">{{item[options.name]}}</div>
+          <div class="item" *ngIf="!multi || !isChecked(item)" (click)="onSelect($event, item)">{{options.name? item[options.name]: item}}</div>
         </ng-template>
       </div>
     </div>
@@ -42,7 +47,7 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
 })
 export class SelectComponent implements ControlValueAccessor, Validator {
 
-  // 下拉列表选项，list表示下拉列表数组，其中：id表示value的来源，name表示显示来源
+  // 下拉列表选项，list表示下拉列表数组，其中：id表示value的来源，name表示显示来源；当id或name为空时，表示list为字符串数组
   @Input() options: any = { id: 'id', name: 'name', list: [] };
 
   // 是否多选
@@ -51,6 +56,7 @@ export class SelectComponent implements ControlValueAccessor, Validator {
   // 是否支持自定义输入。true - 下拉选项id为空表示自定义输入
   @Input() customInput: boolean = false;
 
+  @Input() loading: boolean = false;
   @Input() readonly: boolean = false;
   @Input() required: boolean = false;
   @Input() placeholder: string = '';
@@ -81,7 +87,7 @@ export class SelectComponent implements ControlValueAccessor, Validator {
   get value(): any { return this._value; };
 
   set value(v: any) {
-    if (v && v !== this._value) {
+    if (v !== this._value) {
       this._value = v;
       if (!this.multi) this.inputValue = this._value;
     }
@@ -97,10 +103,14 @@ export class SelectComponent implements ControlValueAccessor, Validator {
 
   // model -> view
   writeValue(value: any) {
+    console.info(1111, value)
     this.value = value;
     if (!this.multi && value && this.options.list) {
       for (let item of this.options.list) {
-        if (value === item[this.options.id]) this.inputReadonly = true;
+        if (this.options.id) {
+          if (value === item[this.options.id]) this.inputReadonly = true;
+        }
+        else if (value === item) this.inputReadonly = true;
       }
     }
   }
@@ -122,13 +132,15 @@ export class SelectComponent implements ControlValueAccessor, Validator {
 
     if (this.multi) {
       if (!this._value) this._value = [];
-      this._value.push(item[this.options.id]);
+      if (this.options.id) this._value.push(item[this.options.id]);
+      else this._value.push(item);
     } else {
-      this._value = item[this.options.id];
+      if (item) this._value = this.options.id ? item[this.options.id] : item;
+      else this._value = '';
 
       // [customInput自定义输入前提下]id为空表示自定义输入
       if (this._value || !this.customInput) {
-        this.inputValue = item[this.options.name];
+        this.inputValue = this.options.name? item[this.options.name]: item;
         this.inputReadonly = true;
       }
       else {
@@ -149,7 +161,10 @@ export class SelectComponent implements ControlValueAccessor, Validator {
 
   onDel(item: any, index: number) {
     for (let i = 0; i < this._value.length; ++i) {
-      if (this._value[i] === item[this.options.id]) this._value.splice(i, 1);
+      if (this.options.id) {
+        if (this._value[i] === item[this.options.id]) this._value.splice(i, 1);
+      }
+      else if (this._value[i] === item) this._value.splice(i, 1);
     }
 
     this.valueChange(this._value);
@@ -171,11 +186,17 @@ export class SelectComponent implements ControlValueAccessor, Validator {
   }
 
   isChecked(item: any) {
-    if (!this.multi) return this._value === item[this.options.id];
+    if (!this.multi) {
+      if (this.options.id) return this._value === item[this.options.id];
+      else return this._value === item;
+    }
 
     if (!this._value || !this._value.length) return false;
     for (let v of this._value) {
-      if (v === item[this.options.id]) return true;
+      if (this.options.id) {
+        if (v === item[this.options.id]) return true;
+      }
+      else if (v === item) return true;
     }
   }
 }
