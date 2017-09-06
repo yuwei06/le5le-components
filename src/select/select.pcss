@@ -11,16 +11,29 @@ ui-select {
   cursor: text;
 }
 
+ui-select.ng-touched.ng-invalid .input {
+  border-color: #cc6164;
+}
+
+.full .ui-select {
+  width: 100%;
+}
+
 .ui-select .dropdown {
   min-width: 100%;
   top: 100%;
-  left: 0;
+  left: -1px;
   margin-top: 1px;
+  box-shadow: none;
+  border: 1px solid #26bbf0;
+  max-height: 2.8rem;
+  overflow: auto;
 }
 
 .ui-select .dropdown .item{
   padding: .02rem .1rem;
   white-space: nowrap;
+  cursor: default;
 }
 
 .ui-select .selected {
@@ -35,8 +48,6 @@ ui-select {
 }
 
 .ui-select .right {
-  border-left: 1px solid #ddd;
-  background-color: #f3f4f5;
   padding: 0 .05rem;
   cursor: pointer;
 }
@@ -45,4 +56,14 @@ ui-select {
   outline: none;
   border: none;
   min-height: .26rem;
+}
+
+.ui-select input[readonly], .ui-select input[disabled]{
+  background-color: #fff;
+}
+
+.ui-select.readonly input[readonly], .ui-select.readonly input[disabled], .ui-select.readonly {
+  background-color: #f3f4f5;
+  user-select: none;
+  cursor: default;
 }
