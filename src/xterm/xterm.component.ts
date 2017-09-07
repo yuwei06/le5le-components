@@ -5,13 +5,14 @@ import 'xterm/dist/addons/fit/fit.js';
 
 @Component({
   selector: 'ui-xterm',
-  template: `<div class="ui-xterm" #terminal></div>`
+  template: `<div class="ui-xterm" [hidden]="!wsSuccess" #terminal></div>`
 })
 export class XTermComponent {
   @Input() socketUrl: string;
   @ViewChild('terminal') terminalContainer: ElementRef;
   private xterm: Terminal;
   private socket: WebSocket;
+  wsSuccess: boolean;
   constructor() {
   }
 
@@ -35,6 +36,9 @@ export class XTermComponent {
 
 
     this.socket = new WebSocket(this.socketUrl);
+    this.socket.onopen = (event: any) => {
+      this.wsSuccess = true;
+    };
 
     this.xterm.on('data', (data: any) => {
       this.socket.send(data);
@@ -46,6 +50,7 @@ export class XTermComponent {
 
     this.onResize();
   }
+
 
   ngOnDestroy() {
     if (this.socket) this.socket.close();

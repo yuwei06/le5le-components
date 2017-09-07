@@ -1,5 +1,5 @@
 import { Component, Input, forwardRef, ElementRef, OnInit, ViewChild, Output, EventEmitter, NgZone } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
 import { MonacoEditorLoaderService } from './monaco-loader.service';
 
 declare const monaco: any;
@@ -11,10 +11,15 @@ declare const monaco: any;
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => CodeComponent),
     multi: true
+  }, {
+    provide: NG_VALIDATORS,
+    useExisting: forwardRef(() => CodeComponent),
+    multi: true
   }],
 })
-export class CodeComponent implements OnInit {
-  @ViewChild('editor') editorContent: ElementRef;
+export class CodeComponent implements OnInit, ControlValueAccessor, Validator {
+
+  @Input() required: boolean = false;
   @Input() options: any = {};
   @Output() change = new EventEmitter();
 
@@ -24,29 +29,26 @@ export class CodeComponent implements OnInit {
   }
 
   editor: any;
+  @ViewChild('editor') editorContent: ElementRef;
+
+  // ngModeld的实际值
   private _value = '';
+
+  private valueChange = (value: any) => { };
+  private touch = () => { };
+
   constructor(private _monacoLoaderService: MonacoEditorLoaderService) {
   }
 
   get value(): string { return this._value; };
   set value(v: string) {
-    if (v !== this._value) {
-      this._value = v;
-      this.onChange(v);
-    }
+    if (v !== this._value) this._value = v;
   }
 
   ngOnInit() {
     this._monacoLoaderService.isMonacoLoaded.subscribe(isLoaded => {
       if (isLoaded) this.initMonaco();
     });
-  }
-
-  /**
-   * Upon destruction of the component we make sure to dispose both the editor and the extra libs that we might've loaded
-   */
-  ngOnDestroy() {
-    this.editor.dispose();
   }
 
   // Will be called once monaco library is available
@@ -67,26 +69,19 @@ export class CodeComponent implements OnInit {
     this.editor.getModel().onDidChangeContent((e) => {
       this.updateValue(this.editor.getModel().getValue());
     });
+
+    this.editor.onDidBlurEditor(() => {
+      this.change.emit(this._value);
+    });
   }
 
-  /**
-   * UpdateValue
-   *
-   * @param value
-   */
   updateValue(value: string) {
     this.value = value;
-    this.onChange(value);
-    this.onTouched();
-    this.change.emit(value);
+    this.valueChange(value);
+    this.touch();
   }
 
-  /**
-   * WriteValue
-   * Implements ControlValueAccessor
-   *
-   * @param value
-   */
+  // model -> view
   writeValue(value: string) {
     this._value = value || '';
     if (this.editor) {
@@ -94,11 +89,28 @@ export class CodeComponent implements OnInit {
     }
   }
 
-  onChange(_) { }
-  onTouched() { }
-  registerOnChange(fn) { this.onChange = fn; }
-  registerOnTouched(fn) { this.onTouched = fn; }
+  // view -> model，当控件change后，调用的函数通知改变model
+  registerOnChange(fn: any) {
+    this.valueChange = fn;
+  }
 
+  // 通知touched调用的函数
+  registerOnTouched(fn: any) {
+    this.touch = fn;
+  }
+
+  // 实现Validator接口，验证有效性
+  validate(c: AbstractControl): { [key: string]: any } {
+    if (!this.required) return;
+
+    if (!this._value) {
+      return { 'required': true };
+    }
+  }
+
+  ngOnDestroy() {
+    this.editor.dispose();
+  }
 }
 
 require('./code.pcss');

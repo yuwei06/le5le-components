@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, Input, forwardRef, ElementRef, Output, EventEmitter, OnInit } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
 
 @Component({
@@ -45,7 +45,7 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
     multi: true
   }],
 })
-export class SelectComponent implements ControlValueAccessor, Validator {
+export class SelectComponent implements OnInit, ControlValueAccessor, Validator {
 
   // 下拉列表选项，list表示下拉列表数组，其中：id表示value的来源，name表示显示来源；当id或name为空时，表示list为字符串数组
   @Input() options: any = { id: 'id', name: 'name', list: [] };
@@ -93,6 +93,7 @@ export class SelectComponent implements ControlValueAccessor, Validator {
     }
   }
 
+  // 实现Validator接口，验证有效性
   validate(c: AbstractControl): { [key: string]: any } {
     if (!this.required) return;
 
@@ -103,7 +104,6 @@ export class SelectComponent implements ControlValueAccessor, Validator {
 
   // model -> view
   writeValue(value: any) {
-    console.info(1111, value)
     this.value = value;
     if (!this.multi && value && this.options.list) {
       for (let item of this.options.list) {
