@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef, ElementRef, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, forwardRef, ElementRef, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
 
 @Component({
@@ -12,8 +12,11 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
             <i *ngIf="!readonly" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
           </div>
         </ng-template>
-        <input *ngIf="!value.length" class="full" [placeholder]="placeholder">
-        <i class="iconfont icon-triangle-down right"></i>
+
+        <input *ngIf="!value || !value.length" class="full" [placeholder]="placeholder">
+
+        <input #input *ngIf="value && value.length" style="width:.01rem" (keyup.backspace)="onMultiDel()">
+        <i class="iconfont icon-triangle-down right" (click)="onClickMulti()"></i>
       </div>
       <div class="flex middle" *ngIf="!multi">
         <input class="full pl10" [placeholder]="placeholder" [(ngModel)]="inputValue" (change)="onInputChange()"
@@ -61,6 +64,8 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
   @Input() required: boolean = false;
   @Input() placeholder: string = '';
   @Output() change = new EventEmitter<any>();
+
+  @ViewChild('input') input: ElementRef;
 
   private valueChange = (value: any) => { };
   private touch = () => { };
@@ -183,6 +188,18 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
     if (!this._elemRef.nativeElement.contains(event.target)) {
       this.showDropdown = false;
     }
+  }
+
+  onClickMulti() {
+    if (this.input) this.input.nativeElement.focus();
+  }
+
+  onMultiDel() {
+    if (!this._value || !this._value.length) return;
+
+    this._value.pop();
+    this.valueChange(this._value);
+    this.change.emit(this._value);
   }
 
   isChecked(item: any) {
