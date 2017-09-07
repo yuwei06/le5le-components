@@ -64,7 +64,27 @@ export class NoticeService {
     timer();
   }
 
-  getFooterElem(okCallback: any, cancelCallback: any, options?: any): any {
+  makeHeaderElem(parentElem: any, title: string): any {
+    let headerElem = document.createElement('div');
+    headerElem.className = 'modal-header';
+
+    let titleContentElem = document.createElement('div');
+    titleContentElem.className = 'caption';
+    titleContentElem.innerHTML = title;
+    headerElem.appendChild(titleContentElem);
+
+    let closeElem = document.createElement('i');
+    closeElem.className = 'fr iconfont icon-close';
+    closeElem.onclick = (event: any) => {
+      event.stopPropagation();
+      document.body.removeChild(parentElem);
+    };
+    headerElem.appendChild(closeElem);
+
+    return headerElem;
+  };
+
+  makeFooterElem(okCallback: any, cancelCallback: any, options?: any): any {
     let footerElem = document.createElement('div');
     footerElem.className = 'modal-footer';
 
@@ -89,115 +109,96 @@ export class NoticeService {
 
   // noticeService.dialog({body: '是否继续？', callback:(ret:boolean)=>{}});
   // callback 单击确定 ret = true。其他： ret = false。
-  dialog(options: any): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      let elem = document.createElement('div');
-      elem.className = 'modal';
-      if (options.theme) elem.className += ' ' + options.theme;
-      let cancelCallback: any = function (event: any) {
-        event.stopPropagation();
-        document.body.removeChild(elem);
-        if (options.callback) options.callback(false);
-        resolve(false);
-      };
-      elem.onclick = cancelCallback;
+  dialog(options: any) {
+    let elem = document.createElement('div');
+    elem.className = 'modal';
+    if (options.theme) elem.className += ' ' + options.theme;
+    let cancelCallback: any = function (event: any) {
+      event.stopPropagation();
+      document.body.removeChild(elem);
+      if (options.callback) options.callback(false);
+    };
 
-      let modalContentElem = document.createElement('div');
-      modalContentElem.className = 'modal-content';
-      modalContentElem.onclick = function (event: any) {
-        event.stopPropagation();
-      };
-      elem.appendChild(modalContentElem);
+    let modalContentElem = document.createElement('div');
+    modalContentElem.className = 'modal-content';
+    modalContentElem.onclick = function (event: any) {
+      event.stopPropagation();
+    };
+    elem.appendChild(modalContentElem);
 
-      if (options.title) {
-        let titleContentElem = document.createElement('div');
-        titleContentElem.className = 'modal-header';
-        titleContentElem.innerHTML = options.title;
-        modalContentElem.appendChild(titleContentElem);
-      }
+    modalContentElem.appendChild(this.makeHeaderElem(elem, options.title));
 
-      let contentElem = document.createElement('div');
-      contentElem.className = 'modal-body';
-      modalContentElem.appendChild(contentElem);
+    let contentElem = document.createElement('div');
+    contentElem.className = 'modal-body';
+    modalContentElem.appendChild(contentElem);
 
-      let bodyElem = document.createElement('div');
-      bodyElem.innerHTML = options.body;
-      contentElem.appendChild(bodyElem);
+    let bodyElem = document.createElement('div');
+    bodyElem.innerHTML = options.body;
+    contentElem.appendChild(bodyElem);
 
-      let okCallback: any = function (event: any) {
-        event.stopPropagation();
-        document.body.removeChild(elem);
-        if (options.callback) options.callback(true);
-        resolve(true);
-      };
-      modalContentElem.appendChild(this.getFooterElem(okCallback, cancelCallback, options));
-      document.body.appendChild(elem);
-    });
+    let okCallback: any = function (event: any) {
+      event.stopPropagation();
+      document.body.removeChild(elem);
+      if (options.callback) options.callback(true);
+    };
+    modalContentElem.appendChild(this.makeFooterElem(okCallback, cancelCallback, options));
+    document.body.appendChild(elem);
   }
 
   // noticeService.input({text: '初始值', placeholder: '请输入', required: true, type: 'text', callback:(ret: any)=>{}});
   // required: true - 不允许为空。 type:可选，默认文本
-  input(options:any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      let inputElem: any;
-      let elem = document.createElement('div');
-      elem.className = 'modal';
-      if (options.theme) elem.className += ' ' + options.theme;
-      let cancelCallback: any = function (event: any) {
-        event.stopPropagation();
-        document.body.removeChild(elem);
-      };
-      elem.onclick = cancelCallback;
+  input(options:any) {
+    let inputElem: any;
+    let elem = document.createElement('div');
+    elem.className = 'modal';
+    if (options.theme) elem.className += ' ' + options.theme;
+    let cancelCallback: any = function (event: any) {
+      event.stopPropagation();
+      document.body.removeChild(elem);
+    };
 
-      let modalContentElem = document.createElement('div');
-      modalContentElem.className = 'modal-content';
-      modalContentElem.onclick = function (event: any) {
-        event.stopPropagation();
-      };
-      elem.appendChild(modalContentElem);
+    let modalContentElem = document.createElement('div');
+    modalContentElem.className = 'modal-content';
+    modalContentElem.onclick = function (event: any) {
+      event.stopPropagation();
+    };
+    elem.appendChild(modalContentElem);
 
-      if (options.title) {
-        let titleContentElem = document.createElement('div');
-        titleContentElem.className = 'modal-header';
-        titleContentElem.innerHTML = options.title;
-        modalContentElem.appendChild(titleContentElem);
-      }
+    modalContentElem.appendChild(this.makeHeaderElem(elem, options.title));
 
-      let contentElem = document.createElement('div');
-      contentElem.className = 'modal-body';
-      modalContentElem.appendChild(contentElem);
+    let contentElem = document.createElement('div');
+    contentElem.className = 'modal-body';
+    modalContentElem.appendChild(contentElem);
 
-      let bodyElem = document.createElement('div');
-      bodyElem.className = 'flex';
-      contentElem.appendChild(bodyElem);
+    let bodyElem = document.createElement('div');
+    bodyElem.className = 'flex';
+    contentElem.appendChild(bodyElem);
 
-      inputElem = document.createElement('input');
-      inputElem.className = 'input full';
-      if (options.text) inputElem.value = options.text;
-      if (options.placeholder) inputElem.setAttribute("placeholder", options.placeholder);
-      if (options.type) inputElem.setAttribute("type", options.type);
-      inputElem.onclick = function (event:any) {
-        event.stopPropagation();
-      };
-      let okCallback: any = function (event: any) {
-        event.stopPropagation();
-        if (options.required && !inputElem.value) return;
+    inputElem = document.createElement('input');
+    inputElem.className = 'input full';
+    if (options.text) inputElem.value = options.text;
+    if (options.placeholder) inputElem.setAttribute("placeholder", options.placeholder);
+    if (options.type) inputElem.setAttribute("type", options.type);
+    inputElem.onclick = function (event: any) {
+      event.stopPropagation();
+    };
+    let okCallback: any = function (event: any) {
+      event.stopPropagation();
+      if (options.required && !inputElem.value) return;
 
-        document.body.removeChild(elem);
-        if (options.callback) options.callback(inputElem.value);
-        resolve(inputElem.value);
-      };
-      inputElem.onkeyup = function (event:any) {
-        let keyCode: any = event.which || event.keyCode;
-        if(keyCode == 13) okCallback(event);
-        else if(keyCode == 27)  cancelCallback(event);
-      };
-      bodyElem.appendChild(inputElem);
-      modalContentElem.appendChild(this.getFooterElem(okCallback, cancelCallback, options));
+      document.body.removeChild(elem);
+      if (options.callback) options.callback(inputElem.value);
+    };
+    inputElem.onkeyup = function (event: any) {
+      let keyCode: any = event.which || event.keyCode;
+      if (keyCode == 13) okCallback(event);
+      else if (keyCode == 27) cancelCallback(event);
+    };
+    bodyElem.appendChild(inputElem);
+    modalContentElem.appendChild(this.makeFooterElem(okCallback, cancelCallback, options));
 
-      document.body.appendChild(elem);
-      inputElem.focus();
-    });
+    document.body.appendChild(elem);
+    inputElem.focus();
   }
 }
 
