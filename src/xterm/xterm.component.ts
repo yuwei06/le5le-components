@@ -2,13 +2,16 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@
 
 import * as Terminal from 'xterm/dist/xterm';
 import 'xterm/dist/addons/fit/fit.js';
+import 'xterm/dist/addons/attach/attach.js';
 
 @Component({
   selector: 'ui-xterm',
-  template: `<div class="ui-xterm" [hidden]="!wsSuccess" #terminal></div>`
+  template: `<div class="ui-xterm" #terminal></div>`
 })
 export class XTermComponent {
   @Input() socketUrl: string;
+  @Input() options: any = {};
+
   @ViewChild('terminal') terminalContainer: ElementRef;
   private xterm: Terminal;
   private socket: WebSocket;
@@ -32,28 +35,28 @@ export class XTermComponent {
 
   ngOnInit() {
     this.xterm = new Terminal();
-    this.xterm.open(this.terminalContainer.nativeElement, false);
+    this.xterm.open(this.terminalContainer.nativeElement);
 
+    this.options.xterm = this.xterm;
 
     this.socket = new WebSocket(this.socketUrl);
-    this.socket.onopen = (event: any) => {
-      this.wsSuccess = true;
-    };
-
-    this.xterm.on('data', (data: any) => {
-      this.socket.send(data);
-    });
-
-    this.socket.onmessage = (e: any) => {
-      this.xterm.write(e.data);
-    };
+    this.xterm.attach(this.socket, true, true);
 
     this.onResize();
+    this.focus();
   }
 
+  focus() {
+    setTimeout(() => {
+      this.xterm.focus();
+    }, 300);
+  }
 
   ngOnDestroy() {
-    if (this.socket) this.socket.close();
+    if (this.socket) {
+      this.xterm.detach(this.socket);
+      this.socket.close();
+    }
   }
 }
 
