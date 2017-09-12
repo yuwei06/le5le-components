@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChange } from '@angular/core';
 
 @Component({
   selector: 'ui-pagination',
@@ -10,7 +10,7 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
         <ng-template ngFor let-item let-i="index" [ngForOf]="pages" >
           <a *ngIf="item === 1 && !canShow(1)">...</a>
           <a *ngIf="canShow(item)" (click)="goPage(item)" [class.active]="pageIndex===item">{{item}}</a>
-        </ng-template>        
+        </ng-template>
         <a *ngIf="pages.length - pageIndex > 4">...</a>
         <a (click)="goPage(pageIndex+1)"><i class="iconfont icon-angle-right"></i></a>
       </div>
@@ -28,11 +28,15 @@ export class PaginationComponent {
   }
 
   ngOnInit() {
-    if (!this.pageTotal || this.pageTotal < 1) this.pages = [1];
-    else {
-      let size = Math.ceil(this.pageTotal/this.pageCount);
-      for (let i=1; i < size; ++i) this.pages.push(i+1);
+    this.pages = [1];
+    if (this.pageTotal && this.pageTotal > 1) {
+      let size = Math.ceil(this.pageTotal / this.pageCount);
+      for (let i = 1; i < size; ++i) this.pages.push(i + 1);
     }
+  }
+
+  ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
+    this.ngOnInit();
   }
 
   goPage(pageIndex: number) {
