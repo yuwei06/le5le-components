@@ -16,7 +16,6 @@ import { UrlValidator } from './validator/url.directive';
 import { MinValidator } from './validator/min.directive';
 import { FileSelectDirective } from './fileUpload/fileSelect.directive';
 import { ImageUploadComponent } from './fileUpload/imageUpload.component';
-import { EditorComponent } from './editor/editor.component';
 import { UiLoadingComponent } from './loading/ui.loading.component';
 import { BtnSavingDirective } from './form/btnSaving.directive';
 import { TouchFormDirective } from './form/touchForm.directive';
@@ -28,11 +27,7 @@ import { RepExpValidator } from './validator/regExp.directive';
 import { CalendarComponent } from './datetime/calendar.component';
 import { TimeComponent } from './datetime/time.component';
 import { TimepickerComponent } from './datetime/timepicker.component';
-import { CodeComponent } from './code/code.component';
-import { MonacoEditorLoaderService } from './code/monaco-loader.service';
-import { XTermComponent } from './xterm/xterm.component';
 import { SliderComponent } from './slider/slider.component';
-import { EchartsComponent } from './echarts/echarts.component';
 
 
 export { NoticeService } from './notice/notice.service';
@@ -50,7 +45,6 @@ export { MinValidator } from './validator/min.directive';
 export { RepExpValidator } from './validator/regExp.directive';
 export { FileSelectDirective } from './fileUpload/fileSelect.directive';
 export { ImageUploadComponent } from './fileUpload/imageUpload.component';
-export { EditorComponent } from './editor/editor.component';
 export { UiLoadingComponent } from './loading/ui.loading.component';
 export { BtnSavingDirective } from './form/btnSaving.directive';
 export { TouchFormDirective } from './form/touchForm.directive';
@@ -61,11 +55,7 @@ export { DivMoveDirective } from './move/divMove.directive';
 export { CalendarComponent } from './datetime/calendar.component';
 export { TimeComponent } from './datetime/time.component';
 export { TimepickerComponent } from './datetime/timepicker.component';
-export { CodeComponent } from './code/code.component';
-export { MonacoEditorLoaderService } from './code/monaco-loader.service';
-export { XTermComponent } from './xterm/xterm.component';
 export { SliderComponent } from './slider/slider.component';
-export { EchartsComponent } from './echarts/echarts.component';
 
 const MODULES = [
   ImageLazyLoad,
@@ -82,7 +72,6 @@ const MODULES = [
   RepExpValidator,
   FileSelectDirective,
   ImageUploadComponent,
-  EditorComponent,
   UiLoadingComponent,
   PaginationComponent,
   WizardHorizontalComponent,
@@ -93,15 +82,8 @@ const MODULES = [
   CalendarComponent,
   TimeComponent,
   TimepickerComponent,
-  CodeComponent,
-  XTermComponent,
   SliderComponent,
-  EchartsComponent,
 ];
-
-export function monacoFactory(ngZone: NgZone) {
-  return new MonacoEditorLoaderService(ngZone);
-}
 
 @NgModule({
   imports: [CommonModule, FormsModule],
@@ -109,12 +91,7 @@ export function monacoFactory(ngZone: NgZone) {
   exports: MODULES,
   providers: [
     NoticeService,
-    {
-      provide: MonacoEditorLoaderService,
-      deps: [NgZone],
-      useFactory: monacoFactory
-    }
   ]
 })
-export class Le5leComponentsModule {
+export class Le5leBaseComponentsModule {
 }

@@ -12,7 +12,7 @@ export class XTermComponent {
   @Input() socketUrl: string;
   @Input() options: any = {};
 
-  @ViewChild('terminal') terminalContainer: ElementRef;
+  @ViewChild('terminal') terminalHost: ElementRef;
   private xterm: Terminal;
   private socket: WebSocket;
   wsSuccess: boolean;
@@ -35,7 +35,7 @@ export class XTermComponent {
 
   ngOnInit() {
     this.xterm = new Terminal();
-    this.xterm.open(this.terminalContainer.nativeElement);
+    this.xterm.open(this.terminalHost.nativeElement);
 
     this.options.xterm = this.xterm;
 
