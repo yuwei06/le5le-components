@@ -96,7 +96,7 @@ export class NoticeService {
     ok.onclick = okCallback;
     footerElem.appendChild(ok);
 
-    if (cancelCallback) {
+    if (cancelCallback && !options.noCancel) {
       let cancel = document.createElement('button');
       cancel.className = 'button default ml10';
       cancel.innerHTML = options.cancelText || '取消';
