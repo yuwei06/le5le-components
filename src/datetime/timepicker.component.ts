@@ -5,16 +5,17 @@ import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/cor
   template: `
     <div class="ui-timepicker" *ngIf="loaded" (click)="onShow($event)" >
       <div class="flex middle input">
-        <span class="full">{{time | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+        <span *ngIf="!options.hideTime" class="full">{{time | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+        <span *ngIf="options.hideTime" class="full">{{time | date:'yyyy-MM-dd'}}</span>
         <i class="iconfont icon-triangle-down"></i>
       </div>
       <div class="dropdown" [class.block]="showDropdown">
         <ui-calendar [(date)]="dateTime" (dateChange)="onChange()" [options]="opts" [readonly]="readonly"  class="block"></ui-calendar>
-        <ui-time [(date)]="timeTime" (dateChange)="onChange()" [options]="opts" [readonly]="readonly"  class="block"></ui-time>
+        <ui-time *ngIf="!options.hideTime" [(date)]="timeTime" (dateChange)="onChange()" [options]="opts" [readonly]="readonly"  class="block"></ui-time>
         <div class="p15">
-          <button class="button success full" (click)="onShow($event, true)">确定</button>
+          <button type="button" class="button success full" (click)="onShow($event, true)">确定</button>
         </div>
-      </div>     
+      </div>
     </div>
   `,
   host: {
@@ -24,7 +25,7 @@ import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/cor
 export class TimepickerComponent {
   @Input() date: string; // 必须是一个有效的Date字符串
   @Output() dateChange = new EventEmitter<string>();
-  @Input() options: any = {init: 'now', showSecond: false};
+  @Input() options: any = { init: 'now', showSecond: false, hideTime: false };
   @Input() readonly: boolean = false;
   time: any;
   dateTime: string;
@@ -35,7 +36,7 @@ export class TimepickerComponent {
   constructor(private _elemRef: ElementRef) {
   }
 
-  ngOnInit () {
+  ngOnInit() {
     this.opts = Object.assign({}, this.options);
     delete this.opts.init;
     this.time = new Date(this.date);
