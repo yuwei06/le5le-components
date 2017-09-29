@@ -44,6 +44,21 @@ export class XTermComponent {
 
     this.onResize();
     this.focus();
+
+    this.xterm.attachCustomKeyEventHandler((e) => {
+      if (e.ctrlKey) {
+        // Ctrl  + C
+        if (e.keyCode == 67 && this.xterm.hasSelection()) {
+          document.execCommand('copy');
+          return false;
+        }
+        // Ctrl  + V
+        else if (e.keyCode == 86) {
+          document.execCommand('paste');
+          return false;
+        }
+      }
+    });
   }
 
   focus() {
