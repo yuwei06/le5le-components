@@ -32,7 +32,12 @@ export class ImageUploadComponent {
   ngOnInit() {
     if (!this.options.maxCount) this.options.maxCount = 1;
     if (!this.options.accept) this.options.accept = 'image/gif, image/jpeg, image/png, image/svg';
-    let params: UploadParam = new UploadParam(<string>this.options.url, this.options.headers, <boolean>this.options.autoUpload);
+    if (!this.options.cdn) this.options.cdn = '';
+    let params: UploadParam = new UploadParam(
+      <string>this.options.url,
+      this.options.headers,
+      <boolean>this.options.autoUpload
+    );
     this.uploader = new FileUploader(params);
 
     this.uploader.emitter.subscribe( ret => {
@@ -56,7 +61,7 @@ export class ImageUploadComponent {
       else if (ret.event === 'completeAll') {
         let urls = [];
         for (let item of this.uploader.fileList) {
-          urls.push(item.url);
+          urls.push(this.options.cdn + item.url);
         }
         this.urls = urls;
         this.urlsChange.emit(urls);

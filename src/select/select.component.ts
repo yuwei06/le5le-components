@@ -155,7 +155,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
     }
     this.valueChange(this._value);
     this.touch();
-    this.change.emit(this._value);
+    this.change.emit(item);
   }
 
   onInputChange() {
