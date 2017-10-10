@@ -20,17 +20,21 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
       </div>
       <div class="flex middle" *ngIf="!multi">
         <input class="full pl10" [placeholder]="placeholder" [(ngModel)]="inputValue" (change)="onInputChange()"
-          [readOnly]="readonly || !customInput || inputReadonly"  (click)="onClickInput()">
-        <i class="iconfont icon-triangle-down right" (click)="showDropdown=true"></i>
+          [readOnly]="readonly || inputReadonly"  (click)="onClickInput($event)">
+        <i *ngIf="!options.autocomplete" class="iconfont icon-triangle-down right" (click)="showDropdown=true"></i>
       </div>
       <div class="dropdown" [class.block]="showDropdown" *ngIf="!readonly">
-        <div class="item" *ngIf="!multi && !customInput" (click)="onSelect($event, null)">请选择</div>
+        <div class="item" *ngIf="!multi && !options.autocomplete && !options.noDefaultOption"
+          (click)="onSelect($event, null)">请选择</div>
         <div class="item" *ngIf="loading">
           <span class="iconfont icon-loading icon-spin"></span>
           Loading...
         </div>
         <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
-          <div class="item" *ngIf="!multi || !isChecked(item)" (click)="onSelect($event, item)">{{options.name? item[options.name]: item}}</div>
+          <div class="item flex middle" *ngIf="!multi || !isChecked(item)" (click)="onSelect($event, item)">
+            <label class="full">{{options.name? item[options.name]: item}}</label>
+            <span class="iconfont icon-close pointer" *ngIf="item.del" (click)="onDelOption($event, item, i)"></span>
+          </div>
         </ng-template>
       </div>
     </div>
@@ -51,13 +55,11 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
 export class SelectComponent implements OnInit, ControlValueAccessor, Validator {
 
   // 下拉列表选项，list表示下拉列表数组，其中：id表示value的来源，name表示显示来源；当id或name为空时，表示list为字符串数组
+  // autocomplete 表示自动完成；noDefaultOption 表示不要“请选择”
   @Input() options: any = { id: 'id', name: 'name', list: [] };
 
   // 是否多选
   @Input() multi: boolean = true;
-
-  // 是否支持自定义输入。true - 下拉选项id为空表示自定义输入
-  @Input() customInput: boolean = false;
 
   @Input() loading: boolean = false;
   @Input() readonly: boolean = false;
@@ -79,17 +81,23 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
   // 单选显示数据
   inputValue: string;
   // 单选输入框只读属性
-  inputReadonly: boolean;
+  inputReadonly: boolean = true;
 
   constructor(private _elemRef: ElementRef) {
   }
 
   ngOnInit() {
     if (this.multi) this._value = [];
+    else if (this.options.autocomplete) this.inputReadonly = false;
     if (!this.placeholder) this.placeholder = this.multi ? '请选择 [可多选]' : '请选择';
   }
 
-  get value(): any { return this._value; };
+  checkInputReadonly(item: any) {
+    // 默认单选输入是只读的；自动完成模式或者input标识则可输入
+    this.inputReadonly = (!this.options.autocomplete && !item.input) ? true : false;
+  }
+
+  get value(): any { return this._value; }
 
   set value(v: any) {
     if (v !== this._value) {
@@ -110,12 +118,13 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
   // model -> view
   writeValue(value: any) {
     this.value = value;
+
     if (!this.multi && value && this.options.list) {
       for (let item of this.options.list) {
         if (this.options.id) {
-          if (value === item[this.options.id]) this.inputReadonly = true;
+          if (value === item[this.options.id]) this.checkInputReadonly(item);
         }
-        else if (value === item) this.inputReadonly = true;
+        else if (value === item) this.checkInputReadonly(item);
       }
     }
   }
@@ -143,15 +152,10 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
       if (item) this._value = this.options.id ? item[this.options.id] : item;
       else this._value = '';
 
-      // [customInput自定义输入前提下]id为空表示自定义输入
-      if (this._value || !this.customInput) {
-        this.inputValue = this.options.name? item[this.options.name]: item;
-        this.inputReadonly = true;
-      }
-      else {
-        this.inputValue = '';
-        this.inputReadonly = false;
-      }
+      if (this._value) this.inputValue = this.options.name ? item[this.options.name] : item;
+      else this.inputValue = '';
+
+      this.checkInputReadonly(item);
     }
     this.valueChange(this._value);
     this.touch();
@@ -177,11 +181,11 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
   }
 
   onClick() {
-    if (this.multi || !this.customInput) this.showDropdown = true;
+    if (this.multi) this.showDropdown = true;
   }
 
-  onClickInput() {
-    if (!this.customInput || this.inputReadonly) this.showDropdown = true;
+  onClickInput(event: any) {
+    if ((this.options.autocomplete && this.options.list.length) || this.inputReadonly) this.showDropdown = true;
   }
 
   onClickDocument(event) {
@@ -215,6 +219,11 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
       }
       else if (v === item) return true;
     }
+  }
+
+  onDelOption(event: any, item: any, i: number) {
+    event.stopPropagation();
+    if (this.options.delOption) this.options.delOption(item, i);
   }
 }
 
