@@ -18,7 +18,7 @@ export class UploadParam {
   field: string = 'file';
   headers: any = {};
   maxCount: number = 1;
-  maxLength:number = 2048*1024;
+  maxLength: number = 2048*1024;
   progress: number = 0;
   withCredentials: boolean;
   autoUpload: boolean;

@@ -4,12 +4,13 @@ import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/cor
   selector: 'ui-timepicker',
   template: `
     <div class="ui-timepicker" *ngIf="loaded" (click)="onShow($event)" >
-      <div class="flex middle input">
+      <div class="flex middle input" [class.readonly]="readonly">
         <span *ngIf="!options.hideTime" class="full">{{time | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-        <span *ngIf="options.hideTime" class="full">{{time | date:'yyyy-MM-dd'}}</span>
-        <i class="iconfont icon-triangle-down"></i>
+        <span *ngIf="options.hideTime && !options.mobile" class="full">{{time | date:'yyyy-MM-dd'}}</span>
+        <span *ngIf="options.hideTime && options.mobile" class="full">{{getDateStr()}}</span>
+        <i *ngIf="!readonly" class="iconfont icon-triangle-down"></i>
       </div>
-      <div class="dropdown" [class.block]="showDropdown">
+      <div class="dropdown" [class.block]="!readonly && showDropdown">
         <ui-calendar [(date)]="dateTime" (dateChange)="onChange()" [options]="opts" [readonly]="readonly"  class="block"></ui-calendar>
         <ui-time *ngIf="!options.hideTime" [(date)]="timeTime" (dateChange)="onChange()" [options]="opts" [readonly]="readonly"  class="block"></ui-time>
         <div class="p15">
@@ -61,6 +62,10 @@ export class TimepickerComponent {
     let t = new Date(this.timeTime);
     this.time = new Date(d.getFullYear(), d.getMonth(), d.getDate(), t.getHours(), t.getMinutes(), t.getSeconds());
     this.timeFormat();
+  }
+
+  getDateStr() {
+    return this.time.getFullYear() + '-' + (this.time.getMonth() + 1) + '-' + this.time.getDate();
   }
 
   onShow(event: any, hide?: boolean) {

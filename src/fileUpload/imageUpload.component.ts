@@ -1,20 +1,23 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { FileUploader } from './fileUploader';
-import { NoticeService } from "../notice/notice.service";
+import { NoticeService } from '../notice/notice.service';
 import { UploadParam } from './fileUpload.model';
 
 @Component({
   selector: 'ui-image-upload',
   template: `
-    <span *ngFor="let item of urls; let i = index" class="ui-image-upload" >
-      <img [src]="item" />
-      <i class="iconfont icon-close" (click)="del(i)"></i>
-    </span>
-    <span class="ui-image-upload box dash" *ngIf="urls.length < options.maxCount">
-      <div class="content"> <i class="iconfont icon-add font-2x"></i> </div>
+    <div *ngFor="let item of urls; let i = index" class="ui-image-upload" >
+      <img [src]="options.cdn + item" />
+      <div class="bk"> <i class="iconfont icon-close" (click)="del(i)"></i> </div>
+    </div>
+    <div class="ui-image-upload box dash" *ngIf="urls.length < options.maxCount">
+      <div class="content">
+        <i class="iconfont icon-add font-2x"></i>
+        <div class="desc">点击上传图片</div>
+      </div>
       <input type="file" file-select [uploader]="uploader" [accept]="options.accept" [multiple]="options.maxCount>1" />
-    </span>
+    </div>
   `
 })
 export class ImageUploadComponent {
@@ -38,6 +41,7 @@ export class ImageUploadComponent {
       this.options.headers,
       <boolean>this.options.autoUpload
     );
+    if (this.options.maxLength) params.maxLength = this.options.maxLength;
     this.uploader = new FileUploader(params);
 
     this.uploader.emitter.subscribe( ret => {
@@ -47,26 +51,27 @@ export class ImageUploadComponent {
         this.urlsChange.emit(this.urls);
       }
       else if (ret.event === 'ready') {
-        let urls = [];
-        let files = [];
-        for (let item of this.uploader.fileList) {
-          urls.push(item.url);
-          files.push(item.file);
-        }
-        this.urls = urls;
-        this.urlsChange.emit(urls);
-        this.files = files;
-        this.filesChange.emit(files);
+        // let urls = [];
+        // let files = [];
+        // for (let item of this.uploader.fileList) {
+        //   urls.push(item.url);
+        //   files.push(item.file);
+        // }
+        // this.urls = urls;
+        // this.urlsChange.emit(urls);
+        // this.files = files;
+        // this.filesChange.emit(files);
       }
       else if (ret.event === 'completeAll') {
-        let urls = [];
         for (let item of this.uploader.fileList) {
-          urls.push(this.options.cdn + item.url);
+          if (this.options.absolute) this.urls.push(this.options.cdn + item.url);
+          else this.urls.push(item.url);
         }
-        this.urls = urls;
-        this.urlsChange.emit(urls);
+        this.uploader.fileList = [];
+        this.urlsChange.emit(this.urls);
         this.completed = true;
         this.completedChange.emit(true);
+
       }
     });
   }
