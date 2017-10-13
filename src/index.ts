@@ -14,7 +14,6 @@ import { SameValidator } from './validator/same.directive';
 import { EmailValidator } from './validator/email.directive';
 import { UrlValidator } from './validator/url.directive';
 import { MinValidator } from './validator/min.directive';
-import { FileSelectDirective } from './fileUpload/fileSelect.directive';
 import { ImageUploadComponent } from './fileUpload/imageUpload.component';
 import { EditorComponent } from './editor/editor.component';
 import { UiLoadingComponent } from './loading/ui.loading.component';
@@ -48,7 +47,6 @@ export { EmailValidator } from './validator/email.directive';
 export { UrlValidator } from './validator/url.directive';
 export { MinValidator } from './validator/min.directive';
 export { RepExpValidator } from './validator/regExp.directive';
-export { FileSelectDirective } from './fileUpload/fileSelect.directive';
 export { ImageUploadComponent } from './fileUpload/imageUpload.component';
 export { EditorComponent } from './editor/editor.component';
 export { UiLoadingComponent } from './loading/ui.loading.component';
@@ -80,7 +78,6 @@ const MODULES = [
   UrlValidator,
   MinValidator,
   RepExpValidator,
-  FileSelectDirective,
   ImageUploadComponent,
   EditorComponent,
   UiLoadingComponent,

@@ -15,7 +15,7 @@
             <i *ngIf="subItem.class" class="{{subItem.class}}"></i>
             {{subItem.caption}}
           </button>
-          <input *ngIf="options.url && subItem.command =='localImage'" type="file" file-select [uploader]="uploader" />
+          <input *ngIf="options.url && subItem.command =='localImage'" type="file" (change)="onFileChange($event)" />
         </div>
       </div>
 

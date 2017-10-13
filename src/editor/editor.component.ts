@@ -217,7 +217,7 @@ export class EditorComponent implements OnInit, OnChanges {
 
     let i: number = 0;
     for (; i < this.editor.childNodes.length; i++) {
-      if ((this.editor.childNodes[i] as HTMLElement).className == "abstract") {
+      if ((this.editor.childNodes[i] as HTMLElement).className == 'abstract') {
         (this.editor.childNodes[i] as HTMLElement).innerHTML = data;
         this.abstract = data;
         break;
@@ -225,25 +225,25 @@ export class EditorComponent implements OnInit, OnChanges {
     }
 
     if (i >= this.editor.childNodes.length) {
-      let e = document.createElement("div");
+      let e = document.createElement('div');
       e.innerHTML = data;
       e.className = 'abstract';
       if (this.editor.childNodes.length) {
         if (this.editor.childNodes[0].nodeName && this.editor.childNodes[0].nodeName.toLowerCase() == 'h1') {
           if (this.editor.childNodes.length > 1) {
-            this.editor.insertBefore(document.createElement("br"), this.editor.childNodes[1]);
+            this.editor.insertBefore(document.createElement('br'), this.editor.childNodes[1]);
             this.editor.insertBefore(e, this.editor.childNodes[1]);
           } else {
             this.editor.appendChild(e);
-            this.editor.appendChild(document.createElement("br"));
+            this.editor.appendChild(document.createElement('br'));
           }
         } else {
-          this.editor.insertBefore(document.createElement("br"), this.editor.childNodes[0]);
+          this.editor.insertBefore(document.createElement('br'), this.editor.childNodes[0]);
           this.editor.insertBefore(e, this.editor.childNodes[0]);
         }
       } else {
         this.editor.appendChild(e);
-        this.editor.appendChild(document.createElement("br"));
+        this.editor.appendChild(document.createElement('br'));
       }
       this.abstract = data;
     }
@@ -278,7 +278,13 @@ export class EditorComponent implements OnInit, OnChanges {
       this.getAbstract();
     }, 300);
   }
+
+  onFileChange(event: any) {
+    let elem: any = event.srcElement || event.target;
+    this.uploader.addFiles(elem.files);
+  }
+
 }
 
 
-require("./editor.pcss");
+require('./editor.pcss');

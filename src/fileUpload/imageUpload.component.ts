@@ -16,7 +16,7 @@ import { UploadParam } from './fileUpload.model';
         <i class="iconfont icon-add font-2x"></i>
         <div class="desc">点击上传图片</div>
       </div>
-      <input type="file" file-select [uploader]="uploader" [accept]="options.accept" [multiple]="options.maxCount>1" />
+      <input type="file" (change)="onFileChange($event)" [accept]="options.accept" [multiple]="options.maxCount>1" />
     </div>
   `
 })
@@ -74,6 +74,11 @@ export class ImageUploadComponent {
 
       }
     });
+  }
+
+  onFileChange(event: any) {
+    let elem: any = event.srcElement || event.target;
+    this.uploader.addFiles(elem.files);
   }
 
   del(index: number) {
