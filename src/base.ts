@@ -27,6 +27,7 @@ import { CalendarComponent } from './datetime/calendar.component';
 import { TimeComponent } from './datetime/time.component';
 import { TimepickerComponent } from './datetime/timepicker.component';
 import { SliderComponent } from './slider/slider.component';
+import { ValidatorService } from './validator/validator.service';
 
 
 export { NoticeService } from './notice/notice.service';
@@ -54,6 +55,7 @@ export { CalendarComponent } from './datetime/calendar.component';
 export { TimeComponent } from './datetime/time.component';
 export { TimepickerComponent } from './datetime/timepicker.component';
 export { SliderComponent } from './slider/slider.component';
+export { ValidatorService } from './validator/validator.service';
 
 const MODULES = [
   ImageLazyLoad,

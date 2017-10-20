@@ -1,7 +1,7 @@
 import { Directive } from '@angular/core';
 import { NG_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
 
-import {isPassword} from './validator.service';
+import { ValidatorService } from './validator.service';
 
 @Directive({
   selector: '[isPassword]',
@@ -9,11 +9,14 @@ import {isPassword} from './validator.service';
     provide: NG_VALIDATORS,
     useExisting: PasswordValidator,
     multi: true
-  }]
+  }, ValidatorService]
 })
 export class PasswordValidator implements Validator {
+  constructor(private _service: ValidatorService) {
+  }
+
   validate(c: AbstractControl): {[key: string]: any} {
-    if (c.value && !isPassword(c.value)) {
+    if (c.value && !this._service.isPassword(c.value)) {
       return {'password': true};
     }
   }

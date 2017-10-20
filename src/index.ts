@@ -32,6 +32,7 @@ import { MonacoEditorLoaderService } from './code/monaco-loader.service';
 import { XTermComponent } from './xterm/xterm.component';
 import { SliderComponent } from './slider/slider.component';
 import { EchartsComponent } from './echarts/echarts.component';
+import { ValidatorService } from './validator/validator.service';
 
 
 export { NoticeService } from './notice/notice.service';
@@ -64,6 +65,7 @@ export { MonacoEditorLoaderService } from './code/monaco-loader.service';
 export { XTermComponent } from './xterm/xterm.component';
 export { SliderComponent } from './slider/slider.component';
 export { EchartsComponent } from './echarts/echarts.component';
+export { ValidatorService } from './validator/validator.service';
 
 const MODULES = [
   ImageLazyLoad,
