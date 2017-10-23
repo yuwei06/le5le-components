@@ -15,6 +15,7 @@ export class FileUploader {
         let reader = new FileReader();
         reader.onload = () => {
           fileItem.url = reader.result;
+          fileItem.status = FileStatus.Ready;
           this._onMessage('ready', fileItem);
         };
         reader.readAsDataURL(file);
@@ -33,6 +34,7 @@ export class FileUploader {
   }
 
   private _isValidFile(item: FileItem): boolean {
+    item.id = item.file.size + item.file.name;
     if (item.file.size > this.params.maxLength) {
       item.status = FileStatus.Fail;
       item.error = '文件大小不能超过' + this.params.maxLength/1024/1024 + 'M';
@@ -61,6 +63,7 @@ export class FileUploader {
     };
 
     xhr.upload.onerror = (e) => {
+      fileItem.status = FileStatus.Fail;
       fileItem.error = '文件上传错误';
       this._onMessage('error', fileItem);
       this._onNext();
@@ -71,6 +74,7 @@ export class FileUploader {
         fileItem.status = FileStatus.Success;
         try {
           if (xhr.status == 404) {
+            fileItem.status = FileStatus.Fail;
             fileItem.error = '文件上传错误：404' ;
             this._onMessage('error', fileItem);
           }
@@ -78,19 +82,23 @@ export class FileUploader {
             let response = JSON.parse(xhr.responseText);
             if (xhr.status == 200) {
               if (response && response.error) {
+                fileItem.status = FileStatus.Fail;
                 fileItem.error = '文件上传错误：'  + response.error;
                 this._onMessage('error', fileItem);
               } else {
-                fileItem.url =  response.url;
+                fileItem.url = response.url;
+                fileItem.status = FileStatus.Success;
                 this._onMessage('complete', fileItem);
               }
             } else {
+              fileItem.status = FileStatus.Fail;
               if (response && response.error) fileItem.error = '文件上传错误：'  + response.error;
               this._onMessage('error', fileItem);
             }
           }
           this._onNext();
         } catch (e) {
+          fileItem.status = FileStatus.Fail;
           fileItem.error = '文件上传错误：返回结果不是一个json' ;
           this._onMessage('error', fileItem);
         }

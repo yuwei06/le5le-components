@@ -7,10 +7,12 @@ export enum FileStatus {
 }
 
 export class FileItem {
+  id: string;
   status: FileStatus = FileStatus.Ready;
   error: string = '';
   progress: number = 0;
-  url: any; // 上传服务器前为base64图片预览数据，上传后为服务器返回的文件访问url
+  // 上传服务器前为base64图片预览数据，上传后为服务器返回的文件访问url
+  url: any;
   constructor(public file: File) {}
 }
 

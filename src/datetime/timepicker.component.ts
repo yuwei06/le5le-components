@@ -28,6 +28,7 @@ export class TimepickerComponent {
   @Output() dateChange = new EventEmitter<string>();
   @Input() options: any = { init: 'now', showSecond: false, hideTime: false };
   @Input() readonly: boolean = false;
+  private _time: any;
   time: any;
   dateTime: string;
   timeTime: string;
@@ -40,8 +41,8 @@ export class TimepickerComponent {
   ngOnInit() {
     this.opts = Object.assign({}, this.options);
     delete this.opts.init;
-    this.time = new Date(this.date);
-    if (!this.date || this.time == 'Invalid Date') this.time = new Date();
+    this._time = new Date(this.date);
+    if (!this.date || this._time == 'Invalid Date') this._time = new Date();
 
     if (!this.date && this.options.init !== 'now') return this.loaded = true;
 
@@ -51,7 +52,8 @@ export class TimepickerComponent {
   }
 
   timeFormat() {
-    this.date = this.time.toISOString();
+    this.time = this._time;
+    this.date = this._time.toISOString();
     this.dateChange.emit(this.date);
   }
 
@@ -60,8 +62,8 @@ export class TimepickerComponent {
 
     let d = new Date(this.dateTime);
     let t = new Date(this.timeTime);
-    this.time = new Date(d.getFullYear(), d.getMonth(), d.getDate(), t.getHours(), t.getMinutes(), t.getSeconds());
-    this.timeFormat();
+    this._time = new Date(d.getFullYear(), d.getMonth(), d.getDate(), t.getHours(), t.getMinutes(), t.getSeconds());
+
   }
 
   getDateStr() {
@@ -71,7 +73,10 @@ export class TimepickerComponent {
   onShow(event: any, hide?: boolean) {
     event.stopPropagation();
 
-    if (hide) this.showDropdown = false;
+    if (hide) {
+      this.timeFormat();
+      this.showDropdown = false;
+    }
     else this.showDropdown = true;
   }
 

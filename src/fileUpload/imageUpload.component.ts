@@ -2,16 +2,16 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { FileUploader } from './fileUploader';
 import { NoticeService } from '../notice/notice.service';
-import { UploadParam } from './fileUpload.model';
+import { UploadParam, FileItem, FileStatus } from './fileUpload.model';
 
 @Component({
   selector: 'ui-image-upload',
   template: `
-    <div *ngFor="let item of urls; let i = index" class="ui-image-upload" >
-      <img [src]="options.cdn + item" />
+    <div *ngFor="let item of _fileItems; let i = index" class="ui-image-upload" >
+      <img [src]="item.url" />
       <div class="bk"> <i class="iconfont icon-close" (click)="del(i)"></i> </div>
     </div>
-    <div class="ui-image-upload box dash" *ngIf="urls.length < options.maxCount">
+    <div class="ui-image-upload box dash" *ngIf="_fileItems.length < options.maxCount">
       <div class="content">
         <i class="iconfont icon-add font-2x"></i>
         <div class="desc">点击上传图片</div>
@@ -25,9 +25,8 @@ export class ImageUploadComponent {
   @Output() urlsChange = new EventEmitter<any>();
   @Input() files: any[] = [];
   @Output() filesChange = new EventEmitter<any>();
-  @Input() completed: boolean = false;
-  @Output() completedChange = new EventEmitter<boolean>();
   @Input() options: any = {};
+  _fileItems: FileItem[] = [];
   uploader: FileUploader;
   constructor(private _noticeService: NoticeService) {
   }
@@ -44,36 +43,56 @@ export class ImageUploadComponent {
     if (this.options.maxLength) params.maxLength = this.options.maxLength;
     this.uploader = new FileUploader(params);
 
+    for (let item of this.urls) {
+      let fileItem: FileItem = new FileItem(null);
+      fileItem.status = FileStatus.Success;
+      fileItem.id = item;
+      fileItem.url = item;
+      this._fileItems.push(fileItem);
+    }
+
     this.uploader.emitter.subscribe( ret => {
       if (ret.event === 'error') {
-        this._noticeService.notice({theme: 'error', body: ret.fileItem.error});
-
-        this.urlsChange.emit(this.urls);
+        this._noticeService.notice({ theme: 'error', body: ret.fileItem.error });
+        this.getFiles();
       }
       else if (ret.event === 'ready') {
-        // let urls = [];
-        // let files = [];
-        // for (let item of this.uploader.fileList) {
-        //   urls.push(item.url);
-        //   files.push(item.file);
-        // }
-        // this.urls = urls;
-        // this.urlsChange.emit(urls);
-        // this.files = files;
-        // this.filesChange.emit(files);
+        this._fileItems.push(ret.fileItem);
+        this.getFiles();
+      }
+      else if (ret.event === 'complete') {
+        if (ret.fileItem.status !== FileStatus.Success) return;
+
+        for (let item of this._fileItems) {
+          if (item.id === ret.fileItem.id) {
+            item.status = FileStatus.Success;
+            if (this.options.absolute) item.url = this.options.cdn + ret.fileItem.url;
+            else item.url = ret.fileItem.url;
+          }
+        }
       }
       else if (ret.event === 'completeAll') {
-        for (let item of this.uploader.fileList) {
-          if (this.options.absolute) this.urls.push(this.options.cdn + item.url);
-          else this.urls.push(item.url);
-        }
         this.uploader.fileList = [];
-        this.urlsChange.emit(this.urls);
-        this.completed = true;
-        this.completedChange.emit(true);
-
+        this.getUrls();
       }
     });
+  }
+
+  getFiles() {
+    this.files = [];
+    for (let item of this._fileItems) {
+      if (item.file) this.files.push(item.file);
+    }
+    this.filesChange.emit(this.files);
+  }
+
+  getUrls() {
+    this.urls = [];
+    for (let item of this._fileItems) {
+      if (item.status !== FileStatus.Success) continue;
+      this.urls.push(item.url);
+    }
+    this.filesChange.emit(this.files);
   }
 
   onFileChange(event: any) {
@@ -82,9 +101,9 @@ export class ImageUploadComponent {
   }
 
   del(index: number) {
-    this.uploader.fileList.splice(index, 1);
-    this.urls.splice(index, 1);
-    this.urlsChange.emit(this.urls);
+    this._fileItems.splice(index, 1);
+    this.getFiles();
+    this.getUrls();
   }
 }
 
