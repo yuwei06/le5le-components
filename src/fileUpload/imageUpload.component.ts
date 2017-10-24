@@ -8,8 +8,10 @@ import { UploadParam, FileItem, FileStatus } from './fileUpload.model';
   selector: 'ui-image-upload',
   template: `
     <div *ngFor="let item of _fileItems; let i = index" class="ui-image-upload" >
-      <img [src]="item.url" />
+      <img [src]="options.cdn + item.url" />
       <div class="bk"> <i class="iconfont icon-close" (click)="del(i)"></i> </div>
+      <div *ngIf="item.status == 1" class="tip line one" >{{item.progress}}</div>
+      <div *ngIf="item.error" class="tip error line one" [title]="item.error">错误：{{item.error}}</div>
     </div>
     <div class="ui-image-upload box dash" *ngIf="_fileItems.length < options.maxCount">
       <div class="content">
@@ -60,6 +62,14 @@ export class ImageUploadComponent {
         this._fileItems.push(ret.fileItem);
         this.getFiles();
       }
+      else if (ret.event === 'progress') {
+        for (let item of this._fileItems) {
+          if (item.id === ret.fileItem.id) {
+            item.status = FileStatus.Uploading;
+            item.progress = ret.fileItem.progress;
+          }
+        }
+      }
       else if (ret.event === 'complete') {
         if (ret.fileItem.status !== FileStatus.Success) return;
 
@@ -92,7 +102,7 @@ export class ImageUploadComponent {
       if (item.status !== FileStatus.Success) continue;
       this.urls.push(item.url);
     }
-    this.filesChange.emit(this.files);
+    this.urlsChange.emit(this.urls);
   }
 
   onFileChange(event: any) {
