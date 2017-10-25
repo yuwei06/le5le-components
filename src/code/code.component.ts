@@ -72,6 +72,7 @@ export class CodeComponent implements OnInit, ControlValueAccessor, Validator {
 
     this.editor.onDidBlurEditor(() => {
       this.change.emit(this._value);
+      this.touch();
     });
   }
 
