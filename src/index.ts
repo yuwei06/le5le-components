@@ -33,6 +33,7 @@ import { XTermComponent } from './xterm/xterm.component';
 import { SliderComponent } from './slider/slider.component';
 import { EchartsComponent } from './echarts/echarts.component';
 import { ValidatorService } from './validator/validator.service';
+import { ProgressComponent } from './progress/progress.component';
 
 
 export { NoticeService } from './notice/notice.service';
@@ -66,6 +67,7 @@ export { XTermComponent } from './xterm/xterm.component';
 export { SliderComponent } from './slider/slider.component';
 export { EchartsComponent } from './echarts/echarts.component';
 export { ValidatorService } from './validator/validator.service';
+export { ProgressComponent } from './progress/progress.component';
 
 const MODULES = [
   ImageLazyLoad,
@@ -96,6 +98,7 @@ const MODULES = [
   XTermComponent,
   SliderComponent,
   EchartsComponent,
+  ProgressComponent,
 ];
 
 export function monacoFactory(ngZone: NgZone) {

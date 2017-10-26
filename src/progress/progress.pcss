@@ -1,0 +1,26 @@
+$color-progress: #00a854;
+
+.ui-progress>.desc {
+  text-align: center;
+}
+
+.ui-progress>.desc .remainder {
+  color: #aaa;
+}
+
+.ui-progress>.bk {
+  background-color: #eee;
+  height: .1rem;
+  position: relative;
+  border-radius: .5rem;
+  overflow: hidden;
+}
+
+.ui-progress>.bk>div {
+  background-color: $color-progress;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: .5rem;
+}

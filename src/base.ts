@@ -28,6 +28,7 @@ import { TimeComponent } from './datetime/time.component';
 import { TimepickerComponent } from './datetime/timepicker.component';
 import { SliderComponent } from './slider/slider.component';
 import { ValidatorService } from './validator/validator.service';
+import { ProgressComponent } from './progress/progress.component';
 
 
 export { NoticeService } from './notice/notice.service';
@@ -56,6 +57,7 @@ export { TimeComponent } from './datetime/time.component';
 export { TimepickerComponent } from './datetime/timepicker.component';
 export { SliderComponent } from './slider/slider.component';
 export { ValidatorService } from './validator/validator.service';
+export { ProgressComponent } from './progress/progress.component';
 
 const MODULES = [
   ImageLazyLoad,
@@ -82,6 +84,7 @@ const MODULES = [
   TimeComponent,
   TimepickerComponent,
   SliderComponent,
+  ProgressComponent,
 ];
 
 @NgModule({
