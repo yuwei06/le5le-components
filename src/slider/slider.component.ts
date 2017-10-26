@@ -42,16 +42,22 @@ export class SliderComponent implements OnInit {
     if (!this.options.max) this.options.max = 100;
     let pos: number = this.min;
     if (isMax) pos = this.max;
+
+    if (this.options.max == this.options.min) return;
+    let w = (pos - this.options.min) / (this.options.max - this.options.min) * 100;
     return {
-      left: ((pos - this.options.min) / (this.options.max - this.options.min) * 100) + '%'
-    }
+      left: `calc(${w}% - .11rem)`
+    };
   }
 
   getLeftBkStyle() {
     if (!this.options.max) this.options.max = 100;
+    if (this.options.max == this.options.min) return;
+
+    let w = this.min / (this.options.max - this.options.min) * 100;
     return {
-      width: (this.min / (this.options.max - this.options.min) * 100) + '%'
-    }
+      width: `${w}%`
+    };
   }
 
   onClick(event: MouseEvent) {
