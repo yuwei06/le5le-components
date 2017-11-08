@@ -9,6 +9,7 @@ import { SwitchComponent } from './switch/switch.component';
 import { QRCodeComponent } from './qrcode/qrcode.component';
 import { PhoneValidator } from './validator/phone.directive';
 import { PasswordValidator } from './validator/password.directive';
+import { PositiveValidator } from './validator/positive.directive';
 import { PositiveIntegerValidator } from './validator/positiveInteger.directive';
 import { SameValidator } from './validator/same.directive';
 import { EmailValidator } from './validator/email.directive';
@@ -43,6 +44,7 @@ export { SwitchComponent } from './switch/switch.component';
 export { QRCodeComponent } from './qrcode/qrcode.component';
 export { PhoneValidator } from './validator/phone.directive';
 export { PasswordValidator } from './validator/password.directive';
+export { PositiveValidator } from './validator/positive.directive';
 export { PositiveIntegerValidator } from './validator/positiveInteger.directive';
 export { SameValidator } from './validator/same.directive';
 export { EmailValidator } from './validator/email.directive';
@@ -76,6 +78,7 @@ const MODULES = [
   QRCodeComponent,
   PhoneValidator,
   PasswordValidator,
+  PositiveValidator,
   PositiveIntegerValidator,
   SameValidator,
   EmailValidator,
