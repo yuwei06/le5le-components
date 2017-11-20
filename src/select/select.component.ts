@@ -21,7 +21,7 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
       <div class="flex middle" *ngIf="!multi">
         <input class="full pl10" [placeholder]="placeholder" [(ngModel)]="inputValue" (change)="onInputChange()"
           [readOnly]="readonly || inputReadonly"  (click)="onClickInput($event)">
-        <i class="iconfont icon-triangle-down right" (click)="showDropdown=true"></i>
+        <i class="iconfont icon-triangle-down right" (click)="clickShowDropdown=-1;showDropdown=true"></i>
       </div>
       <div class="dropdown" [class.block]="showDropdown" *ngIf="!readonly">
         <div class="item" *ngIf="!multi && !options.autocomplete && !options.noDefaultOption"
@@ -76,7 +76,18 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
   private _value: any;
 
   // 下拉选项显示控制
-  showDropdown: boolean;
+  clickShowDropdown: number = -1;
+  showDropdown: boolean = false;
+  @Input() set dropdown(show: boolean) {
+    if (this.clickShowDropdown < 0) {
+      this.showDropdown = false;
+      this.clickShowDropdown = 0;
+      return;
+    }
+
+    this.clickShowDropdown = 1;
+    this.showDropdown = !this.showDropdown;
+  }
 
   // 单选显示数据
   inputValue: string;
@@ -185,12 +196,14 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
   }
 
   onClickInput(event: any) {
+    this.clickShowDropdown = -1;
     if ((this.options.autocomplete && this.options.list.length) || this.inputReadonly) this.showDropdown = true;
   }
 
   onClickDocument(event) {
     if (!this._elemRef.nativeElement.contains(event.target)) {
-      this.showDropdown = false;
+      if (this.clickShowDropdown !== 1) this.showDropdown = false;
+      this.clickShowDropdown = 0;
     }
   }
 
