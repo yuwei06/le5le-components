@@ -21,7 +21,7 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
       <div class="flex middle" *ngIf="!multi">
         <input class="full pl10" [placeholder]="placeholder" [(ngModel)]="inputValue" (change)="onInputChange()"
           [readOnly]="readonly || inputReadonly"  (click)="onClickInput($event)">
-        <i *ngIf="!options.autocomplete" class="iconfont icon-triangle-down right" (click)="showDropdown=true"></i>
+        <i class="iconfont icon-triangle-down right" (click)="showDropdown=true"></i>
       </div>
       <div class="dropdown" [class.block]="showDropdown" *ngIf="!readonly">
         <div class="item" *ngIf="!multi && !options.autocomplete && !options.noDefaultOption"
@@ -33,7 +33,7 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
         <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
           <div class="item flex middle" *ngIf="!multi || !isChecked(item)" (click)="onSelect($event, item)">
             <label class="full">{{options.name? item[options.name]: item}}</label>
-            <span class="iconfont icon-close pointer" *ngIf="item.del" (click)="onDelOption($event, item, i)"></span>
+            <span class="iconfont icon-delete pointer" *ngIf="item.del" (click)="onDelOption($event, item, i)"></span>
           </div>
         </ng-template>
       </div>
@@ -111,7 +111,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
     if (!this.required) return;
 
     if (!this._value || (this.multi && this._value.length === 0)) {
-      return {'required': true};
+      return { 'required': true };
     }
   }
 
