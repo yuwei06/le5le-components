@@ -1,4 +1,4 @@
-import {Injectable, EventEmitter} from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { FileItem, FileStatus, UploadParam } from './fileUpload.model';
 
 @Injectable()
@@ -37,7 +37,7 @@ export class FileUploader {
     item.id = item.file.size + item.file.name;
     if (item.file.size > this.params.maxLength) {
       item.status = FileStatus.Fail;
-      item.error = '文件大小不能超过' + this.params.maxLength/1024/1024 + 'M';
+      item.error = '文件大小不能超过' + this.params.maxLength / 1024 / 1024 + 'M';
       return false;
     }
 
@@ -52,7 +52,7 @@ export class FileUploader {
     form.append(this.params.field, fileItem.file, fileItem.file.name);
 
     xhr.upload.onprogress = (event) => {
-      fileItem.progress = Math.round(event.lengthComputable? event.loaded * 100 / event.total : 0);
+      fileItem.progress = Math.round(event.lengthComputable ? event.loaded * 100 / event.total : 0);
       this._onMessage('progress', fileItem);
     };
 
@@ -75,7 +75,7 @@ export class FileUploader {
         try {
           if (xhr.status == 404) {
             fileItem.status = FileStatus.Fail;
-            fileItem.error = '文件上传错误：404' ;
+            fileItem.error = '文件上传错误：404';
             this._onMessage('error', fileItem);
           }
           else {
@@ -83,7 +83,7 @@ export class FileUploader {
             if (xhr.status == 200) {
               if (response && response.error) {
                 fileItem.status = FileStatus.Fail;
-                fileItem.error = '文件上传错误：'  + response.error;
+                fileItem.error = '文件上传错误：' + response.error;
                 this._onMessage('error', fileItem);
               } else {
                 fileItem.url = response.url;
@@ -92,14 +92,14 @@ export class FileUploader {
               }
             } else {
               fileItem.status = FileStatus.Fail;
-              if (response && response.error) fileItem.error = '文件上传错误：'  + response.error;
+              if (response && response.error) fileItem.error = '文件上传错误：' + response.error;
               this._onMessage('error', fileItem);
             }
           }
           this._onNext();
         } catch (e) {
           fileItem.status = FileStatus.Fail;
-          fileItem.error = '文件上传错误：返回结果不是一个json' ;
+          fileItem.error = '文件上传错误：返回结果不是一个json';
           this._onMessage('error', fileItem);
         }
       }

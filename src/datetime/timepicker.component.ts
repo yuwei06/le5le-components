@@ -10,10 +10,10 @@ import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/cor
         <span *ngIf="options.hideTime && options.mobile" class="full">{{getDateStr()}}</span>
         <i *ngIf="!readonly" class="iconfont icon-triangle-down"></i>
       </div>
-      <div class="dropdown" [class.block]="!readonly && showDropdown">
+      <div class="dropdown" [class.block]="!readonly && showDropdown" (click)="$event.stopPropagation()">
         <ui-calendar [(date)]="dateTime" (dateChange)="onChange()" [options]="opts" [readonly]="readonly"  class="block"></ui-calendar>
         <ui-time *ngIf="!options.hideTime" [(date)]="timeTime" (dateChange)="onChange()" [options]="opts" [readonly]="readonly"  class="block"></ui-time>
-        <div class="p15">
+        <div class="p15" *ngIf="!options.hideOk">
           <button type="button" class="button success full" (click)="onShow($event, true)">确定</button>
         </div>
       </div>
@@ -26,7 +26,7 @@ import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/cor
 export class TimepickerComponent {
   @Input() date: string; // 必须是一个有效的Date字符串
   @Output() dateChange = new EventEmitter<string>();
-  @Input() options: any = { init: 'now', showSecond: false, hideTime: false };
+  @Input() options: any = { init: 'now', showSecond: false, hideTime: false, hideOk: false };
   @Input() readonly: boolean = false;
   private _time: any;
   time: any;
@@ -64,6 +64,10 @@ export class TimepickerComponent {
     let t = new Date(this.timeTime);
     this._time = new Date(d.getFullYear(), d.getMonth(), d.getDate(), t.getHours(), t.getMinutes(), t.getSeconds());
 
+    if (this.options.hideOk) {
+      this.timeFormat();
+      this.showDropdown = false;
+    }
   }
 
   getDateStr() {

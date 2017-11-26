@@ -3,6 +3,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FileUploader } from './fileUploader';
 import { NoticeService } from '../notice/notice.service';
 import { UploadParam, FileItem, FileStatus } from './fileUpload.model';
+import { setTimeout } from 'timers';
 
 @Component({
   selector: 'ui-image-upload',
@@ -53,7 +54,7 @@ export class ImageUploadComponent {
       this._fileItems.push(fileItem);
     }
 
-    this.uploader.emitter.subscribe( ret => {
+    this.uploader.emitter.subscribe(ret => {
       if (ret.event === 'error') {
         this._noticeService.notice({ theme: 'error', body: ret.fileItem.error });
         this.getFiles();
@@ -99,7 +100,7 @@ export class ImageUploadComponent {
   getUrls() {
     this.urls = [];
     for (let item of this._fileItems) {
-      if (item.status !== FileStatus.Success) continue;
+      if (!item.url) continue;
       this.urls.push(item.url);
     }
     this.urlsChange.emit(this.urls);
