@@ -25,7 +25,7 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
       </div>
       <div class="dropdown" [class.block]="showDropdown" *ngIf="!readonly">
         <div class="item" *ngIf="!multi && !options.autocomplete && !options.noDefaultOption"
-          (click)="onSelect($event, null)">请选择</div>
+          (click)="onSelect($event, null)">{{placeholder || '请选择'}}</div>
         <div class="item" *ngIf="loading">
           <span class="iconfont icon-loading icon-spin"></span>
           Loading...
@@ -104,6 +104,8 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
   }
 
   checkInputReadonly(item: any) {
+    if (!item) return;
+
     // 默认单选输入是只读的；自动完成模式或者input标识则可输入
     this.inputReadonly = (!this.options.autocomplete && !item.input) ? true : false;
   }
@@ -113,7 +115,17 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
   set value(v: any) {
     if (v !== this._value) {
       this._value = v;
-      if (!this.multi) this.inputValue = this._value;
+      if (!this.multi) {
+        this.inputValue = this._value;
+
+        if (this._value && this.options.id) {
+          let item: any;
+          for (let i of this.options.list) {
+            if (i[this.options.id] == v) item = i;
+          }
+          if (item) this.inputValue = this.options.name ? item[this.options.name] : item;
+        }
+      }
     }
   }
 
@@ -151,7 +163,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
   }
 
   onSelect(event: any, item: any) {
-    event.stopPropagation();
+    if (event) event.stopPropagation();
 
     this.showDropdown = false;
 
