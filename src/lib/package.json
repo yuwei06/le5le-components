@@ -1,0 +1,30 @@
+{
+  "name": "le5le-components",
+  "version": "0.1.0",
+  "description": "Angular components for le5le.",
+  "keywords": [
+    "angular",
+    "components",
+    "le5le"
+  ],
+  "author": "alsmile123@qq.com",
+  "peerDependencies": {
+    "@angular/animations": "^5.0.0",
+    "@angular/common": "^5.0.0",
+    "@angular/compiler": "^5.0.0",
+    "@angular/core": "^5.0.0",
+    "@angular/forms": "^5.0.0",
+    "@angular/http": "^5.0.0",
+    "@angular/platform-browser": "^5.0.0",
+    "@angular/platform-browser-dynamic": "^5.0.0",
+    "@angular/router": "^5.0.0",
+    "core-js": "^2.4.1",
+    "rxjs": "^5.5.2",
+    "zone.js": "^0.8.14",
+    "le5le-ui": "~0.1.0",
+    "monaco-editor": "^0.9.0",
+    "xterm": "^2.9.2",
+    "echarts": "^3.7.1",
+    "@types/xterm": "^2.0.3"
+  }
+}
