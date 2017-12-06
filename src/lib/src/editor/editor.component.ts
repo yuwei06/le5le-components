@@ -8,7 +8,7 @@ import { UploadParam } from '../fileUpload/fileUpload.model';
 @Component({
   selector: 'ui-editor',
   templateUrl: 'editor.component.html',
-  styleUrls: ['./editor.pcss']
+  styleUrls: ['./editor.scss']
 })
 export class EditorComponent implements OnInit, OnChanges {
   @Input() content: string = '';

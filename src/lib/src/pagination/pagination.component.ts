@@ -15,7 +15,8 @@ import { Component, Input, Output, EventEmitter, SimpleChange } from '@angular/c
         <a (click)="goPage(pageIndex+1)"><i class="iconfont icon-angle-right"></i></a>
       </div>
     </div>
-  `
+  `,
+  styleUrls: ['./pagination.css']
 })
 export class PaginationComponent {
   @Input() pageIndex: number = 1;

@@ -1,5 +1,3 @@
-$color-progress: #26bbf0;
-
 .ui-progress > .desc {
   text-align: center;
 }
@@ -17,7 +15,7 @@ $color-progress: #26bbf0;
 }
 
 .ui-progress > .bk > div {
-  background-color: $color-progress;
+  background-color: #26bbf0;
   position: absolute;
   left: 0;
   top: 0;

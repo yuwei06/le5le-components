@@ -1,12 +1,13 @@
 $editor-min-height: 4rem;
+$color: #6f787e;
 $color-border: #d0d0d0;
 
 ui-editor {
   display: block;
-  padding: 0!important;
-  background-color: #fff!important;
+  padding: 0 !important;
+  background-color: #fff !important;
   outline: none;
-  border: 1px solid  rgba(0,0,0,.2);
+  border: 1px solid rgba(0, 0, 0, .2);
   line-height: 1.8;
   box-sizing: border-box;
 }
@@ -23,7 +24,8 @@ ui-editor {
   outline: none;
 }
 
-.ui-editor .toolbar *, .ui-editor .modal * {
+.ui-editor .toolbar *,
+.ui-editor .modal * {
   user-select: none;
 }
 
@@ -50,10 +52,10 @@ ui-editor {
 
 .ui-editor .toolbar .dropdown .button {
   display: flex;
-  appearance: none;
 }
 
-.ui-editor .toolbar .item:hover, .ui-editor .toolbar .item.active {
+.ui-editor .toolbar .item:hover,
+.ui-editor .toolbar .item.active {
   background-color: #ddd;
   cursor: pointer;
 }
@@ -67,10 +69,10 @@ ui-editor {
   border-left: 1px solid #a9a9a9;
 }
 
-.toolbar .color-button{
+.toolbar .color-button {
   width: .15rem;
   height: .15rem;
-  padding:0!important;
+  padding: 0 !important;
   border-radius: .02rem;
   margin: .05rem;
 }
@@ -79,7 +81,8 @@ ui-editor {
   color: #00b0f0;
 }
 
-.ui-editor .editor>textarea, .ui-editor .editor>.article {
+.ui-editor .editor > textarea,
+.ui-editor .editor > .article {
   width: 100%;
   outline: none;
   border: none;
@@ -121,18 +124,18 @@ ui-editor {
 }
 
 .ui-editor .toolbar .dropdown .item .image-text .text:hover {
-  color: $color-main;
+  color: #26bbf0;
 }
 
 .ui-editor .toolbar .dropdown .item .image-text .btn {
-  color: $color-base;
+  color: $color;
   border: none;
   outline: none;
   background-color: transparent;
 }
 
 .ui-editor .toolbar .dropdown .item .image-text .btn:hover {
-  color: $color-main;
+  color: #26bbf0;
 }
 
 .ui-editor .toolbar .dropdown.flex {

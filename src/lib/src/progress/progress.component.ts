@@ -22,7 +22,7 @@ import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angul
     useExisting: forwardRef(() => ProgressComponent),
     multi: true
   }],
-  styleUrls: ['./progress.pcss']
+  styleUrls: ['./progress.css']
 })
 export class ProgressComponent implements ControlValueAccessor {
   @Input() total: number = 0;

@@ -22,7 +22,7 @@ import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/cor
   host: {
     '(document:click)': 'onClickDocument($event)',
   },
-  styleUrls: ['./datetime.pcss']
+  styleUrls: ['datetime.css']
 })
 export class TimepickerComponent {
   @Input() date: string; // 必须是一个有效的Date字符串

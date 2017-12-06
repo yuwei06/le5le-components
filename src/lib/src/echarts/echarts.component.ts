@@ -5,7 +5,7 @@ import * as echarts from 'echarts';
 @Component({
   selector: 'ui-echarts',
   template: `<div class="ui-echarts" #echarts></div>`,
-  styleUrls: ['./echarts.pcss']
+  styleUrls: ['echarts.css']
 })
 export class EchartsComponent {
 

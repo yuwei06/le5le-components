@@ -1,6 +1,6 @@
 {
   "name": "le5le-components",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "description": "Angular components for le5le.",
   "keywords": [
     "angular",
@@ -26,5 +26,10 @@
     "xterm": "^2.9.2",
     "echarts": "^3.7.1",
     "@types/xterm": "^2.0.3"
-  }
+  },
+  "main": "bundles/le5le-components.umd.js",
+  "module": "esm5/le5le-components.js",
+  "es2015": "esm2015/le5le-components.js",
+  "typings": "le5le-components.d.ts",
+  "metadata": "le5le-components.metadata.json"
 }

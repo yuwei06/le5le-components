@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'ui-wizard-horizontal',
@@ -17,7 +17,8 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
         </div>
       </ng-template>
     </div>
-  `
+  `,
+  styleUrls: ['wizard.css']
 })
 export class WizardHorizontalComponent {
   @Input() step: number = 1;
@@ -29,7 +30,7 @@ export class WizardHorizontalComponent {
   getStepStyle(): any {
     let len: number = this.steps.length - 1;
     for (let item of this.steps) {
-      if (item.hidden) --len;
+      if (item.hidden)--len;
     }
 
     return {
@@ -38,7 +39,7 @@ export class WizardHorizontalComponent {
     }
   }
 
-  onStep (stepObj: any, stepIndex: number) {
+  onStep(stepObj: any, stepIndex: number) {
     if (this.step <= stepIndex && !stepObj.enable) return;
 
     this.stepChange.emit(stepIndex);

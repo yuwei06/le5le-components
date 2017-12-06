@@ -21,7 +21,7 @@ import { UploadParam, FileItem, FileStatus } from './fileUpload.model';
       <input type="file" (change)="onFileChange($event)" [accept]="options.accept" [multiple]="options.maxCount>1" />
     </div>
   `,
-  styleUrls: ['./fileUpload.pcss']
+  styleUrls: ['./fileUpload.css']
 })
 export class ImageUploadComponent {
   @Input() urls: string[] = [];

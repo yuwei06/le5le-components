@@ -10,7 +10,7 @@ import { Component, Input, Output, OnInit, EventEmitter, ElementRef, HostListene
     <div class="max" [ngStyle]="getPosStyle(true)" (mousedown)="onMouseDown($event, true)" (click)="$event.stopPropagation()"
       [class.hidden]="!options.range">{{max}}</div>
   </div>`,
-  styleUrls: ['./slider.pcss']
+  styleUrls: ['./slider.css']
 })
 export class SliderComponent implements OnInit {
   @Input() min: number = 20;

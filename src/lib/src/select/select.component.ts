@@ -51,7 +51,7 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
     useExisting: forwardRef(() => SelectComponent),
     multi: true
   }],
-  styleUrls: ['./select.pcss']
+  styleUrls: ['./select.css']
 })
 export class SelectComponent implements OnInit, ControlValueAccessor, Validator {
 
