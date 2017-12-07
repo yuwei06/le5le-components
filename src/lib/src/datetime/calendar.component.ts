@@ -35,7 +35,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
       </div>
     </div>
   `,
-  styleUrls: ['datetime.css']
+  styleUrls: ['./datetime.css']
 })
 export class CalendarComponent {
   @Input() date: string; // 必须是一个有效的Date字符串

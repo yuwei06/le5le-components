@@ -16,7 +16,7 @@ declare const monaco: any;
     useExisting: forwardRef(() => CodeComponent),
     multi: true
   }],
-  styleUrls: ['code.css']
+  styleUrls: ['./code.css']
 })
 export class CodeComponent implements OnInit, ControlValueAccessor, Validator {
 

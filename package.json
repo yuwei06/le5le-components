@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "build": "angular-package-builder"
+    "build": "angular-package-builder",
+    "ng-packagr": "ng-packagr"
   },
   "private": true,
   "dependencies": {
@@ -41,16 +42,12 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "le5le-ui": "~0.1.0",
     "monaco-editor": "^0.9.0",
+    "ng-packagr": "^2.0.0-rc.5",
     "protractor": "~5.2.0",
     "rimraf": "^2.6.1",
     "ts-node": "~3.3.0",
     "tslint": "~5.8.0",
     "typescript": "~2.4.2",
     "xterm": "^2.9.2"
-  },
-  "main": "bundles/le5le-components.umd.js",
-  "module": "esm5/le5le-components.js",
-  "es2015": "esm2015/le5le-components.js",
-  "typings": "le5le-components.d.ts",
-  "metadata": "le5le-components.metadata.json"
+  }
 }

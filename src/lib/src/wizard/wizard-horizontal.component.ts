@@ -18,7 +18,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
       </ng-template>
     </div>
   `,
-  styleUrls: ['wizard.css']
+  styleUrls: ['./wizard.css']
 })
 export class WizardHorizontalComponent {
   @Input() step: number = 1;
