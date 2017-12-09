@@ -1,4 +1,4 @@
-.ui-image-upload{
+.ui-image-upload {
   position: relative;
   display: inline-flex;
   margin-right: .05rem;
@@ -38,12 +38,12 @@
 }
 
 .ui-image-upload img {
-  height: $image-preview-height;
+  height: 1rem;
 }
 
 .ui-image-upload.box {
-  width: $image-preview-height;
-  height: $image-preview-height;
+  width: 1rem;
+  height: 1rem;
 }
 
 .ui-image-upload .icon-close {
@@ -53,6 +53,7 @@
   cursor: pointer;
   display: none;
 }
+
 .ui-image-upload:hover .icon-close {
   display: block;
 }

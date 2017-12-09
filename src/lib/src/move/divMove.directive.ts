@@ -1,6 +1,8 @@
 import { Directive, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/takeUntil';
 
 @Directive({
   selector: '[divMove]',
@@ -37,7 +39,7 @@ export class DivMoveDirective {
         y: moveEvent.clientY - clientY + initialPos.y,
       })).takeUntil(this.mouseUp$);
     }).subscribe((pos) => {
-      this.setPos(this.nativeElement, pos)
+      this.setPos(this.nativeElement, pos);
     });
   }
 
@@ -49,12 +51,12 @@ export class DivMoveDirective {
       return {
         x: parseInt(result[2], 10),
         y: parseInt(result[3], 10)
-      }
+      };
     } else {
       return {
         x: 0,
         y: 0
-      }
+      };
     }
   }
 

@@ -34,8 +34,6 @@ export class PaginationComponent implements OnInit {
       const size = Math.ceil(this.pageTotal / this.pageCount);
       for (let i = 1; i < size; ++i) { this.pages.push(i + 1); }
     }
-    (<any>window).pages = this.pages;
-    console.log('pages 111111111111', this.pages);
   }
 
   ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {

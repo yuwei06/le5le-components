@@ -1,5 +1,9 @@
 import { Directive, Input, Renderer, ElementRef } from '@angular/core';
-import {Observable, Subscription} from "rxjs/Rx";
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import { fromEvent } from 'rxjs/observable/fromEvent';
+import 'rxjs/add/operator/debounceTime';
+
 
 @Directive({
   selector: '[imageLazyLoad]'
@@ -16,13 +20,14 @@ export class ImageLazyLoad {
     });
   }
 
-  ngOnInit () {
+  ngOnInit() {
     this.loadInView();
   }
 
-  loadInView():void {
+  loadInView(): void {
     let ePos = this.getPosition();
-    if (ePos.bottom > 0 && (ePos.bottom >= (window.pageYOffset - this.threshold)) && (ePos.top <= ((window.pageYOffset + window.innerHeight) + this.threshold))) {
+    if (ePos.bottom > 0 && (ePos.bottom >= (window.pageYOffset - this.threshold))
+      && (ePos.top <= ((window.pageYOffset + window.innerHeight) + this.threshold))) {
       this.setImage();
     }
   }

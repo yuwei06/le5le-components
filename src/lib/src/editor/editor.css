@@ -1,0 +1,140 @@
+ui-editor {
+  display: block;
+  padding: 0 !important;
+  background-color: #fff !important;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, .2);
+  line-height: 1.8;
+  box-sizing: border-box;
+}
+
+.ui-editor {
+  position: relative;
+}
+
+.ui-editor .toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #d0d0d0;
+  user-select: none;
+  outline: none;
+}
+
+.ui-editor .toolbar *,
+.ui-editor .modal * {
+  user-select: none;
+}
+
+.ui-editor .toolbar .item {
+  position: relative;
+}
+
+.ui-editor div {
+  user-select: none;
+}
+
+.ui-editor .toolbar .button {
+  padding: .08rem .1rem .06rem .1rem;
+  font-style: normal;
+  outline: none;
+  border: 1px solid transparent;
+  background-color: transparent;
+  line-height: 1;
+}
+
+.toolbar .item:hover .dropdown {
+  display: block;
+}
+
+.ui-editor .toolbar .dropdown .button {
+  display: flex;
+}
+
+.ui-editor .toolbar .item:hover,
+.ui-editor .toolbar .item.active {
+  background-color: #ddd;
+  cursor: pointer;
+}
+
+.ui-editor .toolbar .button.separator {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.ui-editor .toolbar i.separator {
+  border-left: 1px solid #a9a9a9;
+}
+
+.toolbar .color-button {
+  width: .15rem;
+  height: .15rem;
+  padding: 0 !important;
+  border-radius: .02rem;
+  margin: .05rem;
+}
+
+.toolbar .fa-square {
+  color: #00b0f0;
+}
+
+.ui-editor .editor > textarea,
+.ui-editor .editor > .article {
+  width: 100%;
+  outline: none;
+  border: none;
+  min-height: 4rem;
+  box-sizing: border-box;
+  padding: .05rem .1rem;
+  overflow-y: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.ui-editor .toolbar .item input[type="file"] {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.ui-editor .toolbar .dropdown .item .image-text {
+  display: flex;
+  min-width: 3rem;
+}
+
+.ui-editor .toolbar .dropdown .item .image-text img {
+  width: .9rem;
+  height: .6rem;
+}
+
+.ui-editor .toolbar .dropdown .item .image-text .text {
+  flex-grow: 1;
+  flex-shrink: 1;
+  margin: 0 .05rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ui-editor .toolbar .dropdown .item .image-text .text:hover {
+  color: #26bbf0;
+}
+
+.ui-editor .toolbar .dropdown .item .image-text .btn {
+  color: #6f787e;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+
+.ui-editor .toolbar .dropdown .item .image-text .btn:hover {
+  color: #26bbf0;
+}
+
+.ui-editor .toolbar .dropdown.flex {
+  width: 1.08rem;
+  padding: .1rem .1rem .05rem .1rem;
+}

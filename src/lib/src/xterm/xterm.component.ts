@@ -7,7 +7,7 @@ import 'xterm/dist/addons/attach/attach.js';
 @Component({
   selector: 'ui-xterm',
   template: `<div class="ui-xterm" #terminal></div>`,
-  styleUrls: ['./xterm.css', './xterm.scss']
+  styleUrls: ['./xterm.css']
 })
 export class XTermComponent {
   @Input() socketUrl: string;

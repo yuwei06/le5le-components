@@ -1,3 +1,4 @@
+.ui-wizard-horizontal,
 ui-wizard-horizontal {
   display: block;
   padding: .4rem;
@@ -9,14 +10,15 @@ ui-wizard-horizontal {
   color: #ccc;
 }
 
-.wizard.horizontal, .wizard.horizontal>.item {
+.wizard.horizontal,
+.wizard.horizontal > .item {
   display: flex;
   align-items: center;
   height: .04rem;
   position: relative;
 }
 
-.wizard.horizontal>.item .desc {
+.wizard.horizontal > .item .desc {
   width: .3rem;
   height: .3rem;
   position: relative;
@@ -26,66 +28,71 @@ ui-wizard-horizontal {
   left: -.15rem;
 }
 
-.wizard.horizontal>.item .desc .icon {
+.wizard.horizontal > .item .desc .icon {
   width: .1rem;
   height: .1rem;
   border-radius: 50%;
   background-color: #ccc;
 }
 
-.wizard.horizontal>.item.error .desc .icon {
-  background-color: $color-error!important;
-}
-.wizard.horizontal>.item.error, .wizard.horizontal>.item.error .desc .name {
-  color: $color-error!important;
+.wizard.horizontal > .item.error .desc .icon {
+  background-color: #cc6164 !important;
 }
 
-.wizard.horizontal>.item.item.active .desc .icon {
-  background-color: $color-primary!important;
-}
-.wizard.horizontal>.item.active, .wizard.horizontal>.item.active .desc .name {
-  color: $color-primary!important;
+.wizard.horizontal > .item.error,
+.wizard.horizontal > .item.error .desc .name {
+  color: #cc6164 !important;
 }
 
-.wizard.horizontal>.item .desc .name {
+.wizard.horizontal > .item.item.active .desc .icon {
+  background-color: #26bbf0 !important;
+}
+
+.wizard.horizontal > .item.active,
+.wizard.horizontal > .item.active .desc .name {
+  color: #26bbf0 !important;
+}
+
+.wizard.horizontal > .item .desc .name {
   position: absolute;
   top: 100%;
   white-space: nowrap;
 }
 
-.wizard.horizontal>.item .desc i {
+.wizard.horizontal > .item .desc i {
   position: absolute;
   bottom: 70%;
 }
 
-.wizard.horizontal>.item .desc.click {
+.wizard.horizontal > .item .desc.click {
   cursor: pointer;
 }
 
-.wizard.horizontal>.item .desc.click:hover .name {
-  color: $color-primary;
+.wizard.horizontal > .item .desc.click:hover .name {
+  color: #26bbf0;
 }
 
-.wizard.horizontal>.item .desc.click:hover .icon {
-  background-color: $color-primary;
+.wizard.horizontal > .item .desc.click:hover .icon {
+  background-color: #26bbf0 !important;
 }
 
-.wizard.horizontal>.item .line {
+.wizard.horizontal > .item .line {
   height: 100%;
   width: 100%;
   margin-left: -.3rem;
 }
 
-.wizard.horizontal>.item.success .icon, .wizard.horizontal>.item.success .line {
-  background-color: $color-success;
+.wizard.horizontal > .item.success .icon,
+.wizard.horizontal > .item.success .line {
+  background-color: #8da662 !important;
 }
 
-.wizard.horizontal>.item.active .icon {
-  background-color: $color-primary;
-  width: .2rem;
-  height: .2rem;
+.wizard.horizontal > .item.active .icon {
+  background-color: #26bbf0;
+  width: .2rem !important;
+  height: .2rem !important;
 }
 
-.wizard.horizontal>.item.active {
-  color: $color-primary;
+.wizard.horizontal > .item.active {
+  color: #26bbf0 !important;
 }
