@@ -111,6 +111,6 @@ export class CodeComponent implements OnInit, ControlValueAccessor, Validator {
   }
 
   ngOnDestroy() {
-    this.editor.dispose();
+    if (this.editor) this.editor.dispose();
   }
 }
