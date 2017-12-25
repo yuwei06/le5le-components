@@ -1,11 +1,12 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, NgZone, SimpleChange } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, NgZone, SimpleChange, ViewEncapsulation } from '@angular/core';
 
 import * as echarts from 'echarts';
 
 @Component({
   selector: 'ui-echarts',
   template: `<div class="ui-echarts" #echarts></div>`,
-  styleUrls: ['./echarts.css']
+  styleUrls: ['./echarts.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class EchartsComponent {
 

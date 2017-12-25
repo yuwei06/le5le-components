@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, SimpleChange, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, SimpleChange, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'ui-pagination',
@@ -16,7 +16,8 @@ import { Component, Input, Output, EventEmitter, SimpleChange, OnInit } from '@a
       </div>
     </div>
   `,
-  styleUrls: ['./pagination.css']
+  styleUrls: ['./pagination.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class PaginationComponent implements OnInit {
   @Input() pageIndex: number = 1;

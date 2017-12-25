@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef, ElementRef, Output, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, forwardRef, ElementRef, Output, EventEmitter, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
 
 @Component({
@@ -51,7 +51,8 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
     useExisting: forwardRef(() => SelectComponent),
     multi: true
   }],
-  styleUrls: ['./select.css']
+  styleUrls: ['./select.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class SelectComponent implements OnInit, ControlValueAccessor, Validator {
 

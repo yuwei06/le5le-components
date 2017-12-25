@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 
 import { FileUploader } from './fileUploader';
 import { NoticeService } from '../notice/notice.service';
@@ -21,7 +21,8 @@ import { UploadParam, FileItem, FileStatus } from './fileUpload.model';
       <input type="file" (change)="onFileChange($event)" [accept]="options.accept" [multiple]="options.maxCount>1" />
     </div>
   `,
-  styleUrls: ['./fileUpload.css']
+  styleUrls: ['./fileUpload.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ImageUploadComponent {
   @Input() urls: string[] = [];

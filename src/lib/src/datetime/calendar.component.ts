@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'ui-calendar',
@@ -35,7 +35,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
       </div>
     </div>
   `,
-  styleUrls: ['./datetime.css']
+  styleUrls: ['./datetime.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class CalendarComponent {
   @Input() date: string; // 必须是一个有效的Date字符串

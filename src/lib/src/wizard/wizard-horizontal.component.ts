@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'ui-wizard-horizontal',
@@ -18,7 +18,8 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
       </ng-template>
     </div>
   `,
-  styleUrls: ['./wizard.css']
+  styleUrls: ['./wizard.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class WizardHorizontalComponent {
   @Input() step: number = 1;

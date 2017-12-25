@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef, ElementRef, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, forwardRef, ElementRef, Output, EventEmitter, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -22,7 +22,8 @@ import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angul
     useExisting: forwardRef(() => ProgressComponent),
     multi: true
   }],
-  styleUrls: ['./progress.css']
+  styleUrls: ['./progress.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ProgressComponent implements ControlValueAccessor {
   @Input() total: number = 0;

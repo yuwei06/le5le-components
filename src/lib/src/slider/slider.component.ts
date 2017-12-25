@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter, ElementRef, HostListener } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, ElementRef, HostListener, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'ui-slider',
@@ -10,7 +10,8 @@ import { Component, Input, Output, OnInit, EventEmitter, ElementRef, HostListene
     <div class="max" [ngStyle]="getPosStyle(true)" (mousedown)="onMouseDown($event, true)" (click)="$event.stopPropagation()"
       [class.hidden]="!options.range">{{max}}</div>
   </div>`,
-  styleUrls: ['./slider.css']
+  styleUrls: ['./slider.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class SliderComponent implements OnInit {
   @Input() min: number = 20;

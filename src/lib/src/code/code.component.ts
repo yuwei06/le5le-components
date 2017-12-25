@@ -1,4 +1,7 @@
-import { Component, Input, forwardRef, ElementRef, OnInit, ViewChild, Output, EventEmitter, NgZone } from '@angular/core';
+import {
+  Component, Input, forwardRef, ElementRef, OnInit,
+  ViewChild, Output, EventEmitter, NgZone, ViewEncapsulation
+} from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
 import { MonacoEditorLoaderService } from './monaco-loader.service';
 
@@ -16,7 +19,8 @@ declare const monaco: any;
     useExisting: forwardRef(() => CodeComponent),
     multi: true
   }],
-  styleUrls: ['./code.css']
+  styleUrls: ['./code.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class CodeComponent implements OnInit, ControlValueAccessor, Validator {
 

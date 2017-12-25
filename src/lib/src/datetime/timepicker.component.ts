@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'ui-timepicker',
@@ -22,7 +22,8 @@ import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/cor
   host: {
     '(document:click)': 'onClickDocument($event)',
   },
-  styleUrls: ['./datetime.css']
+  styleUrls: ['./datetime.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class TimepickerComponent {
   @Input() date: string; // 必须是一个有效的Date字符串

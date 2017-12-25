@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 
 import * as Terminal from 'xterm/dist/xterm';
 import 'xterm/dist/addons/fit/fit.js';
@@ -7,7 +7,8 @@ import 'xterm/dist/addons/attach/attach.js';
 @Component({
   selector: 'ui-xterm',
   template: `<div class="ui-xterm" #terminal></div>`,
-  styleUrls: ['./xterm.css']
+  styleUrls: ['./xterm.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class XTermComponent {
   @Input() socketUrl: string;

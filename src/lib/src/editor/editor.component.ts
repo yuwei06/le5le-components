@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { toolbarItems } from "./config";
 import { FileUploader } from "../fileUpload/fileUploader";
@@ -8,7 +8,8 @@ import { UploadParam } from '../fileUpload/fileUpload.model';
 @Component({
   selector: 'ui-editor',
   templateUrl: 'editor.component.html',
-  styleUrls: ['./editor.css']
+  styleUrls: ['./editor.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class EditorComponent implements OnInit, OnChanges {
   @Input() content: string = '';
