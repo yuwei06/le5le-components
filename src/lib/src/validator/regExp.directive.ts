@@ -12,10 +12,10 @@ import { NG_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
 export class RepExpValidator implements Validator {
   @Input('repExp') val: string;
 
-  validate(c: AbstractControl): {[key: string]: any} {
+  validate(c: AbstractControl): { [key: string]: any } {
     let pat = new RegExp(this.val);
-    if (!pat.test(c.value)) {
-      return {'repExp': true};
+    if (c.value && !pat.test(c.value)) {
+      return { 'repExp': true };
     }
   }
 }
