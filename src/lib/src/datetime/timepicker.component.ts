@@ -12,7 +12,7 @@ import { Component, Input, Output, EventEmitter, ElementRef, ViewEncapsulation }
       </div>
       <div class="dropdown" [class.block]="!readonly && showDropdown" (click)="$event.stopPropagation()">
         <ui-calendar [(date)]="dateTime" (dateChange)="onChange()" [options]="opts" [readonly]="readonly"  class="block"></ui-calendar>
-        <ui-time *ngIf="!options.hideTime" [(date)]="timeTime" (dateChange)="onChange()" [options]="opts" [readonly]="readonly"  class="block"></ui-time>
+        <ui-time *ngIf="!options.hideTime" [(date)]="timeTime" (dateChange)="onChange()" [options]="opts" [readonly]="readonly"  class="block text-center"></ui-time>
         <div class="p15" *ngIf="!options.hideOk">
           <button type="button" class="button success full" (click)="onShow($event, true)">确定</button>
         </div>

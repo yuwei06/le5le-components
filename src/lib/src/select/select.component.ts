@@ -31,7 +31,8 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
           Loading...
         </div>
         <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
-          <div class="item flex middle" *ngIf="!multi || !isChecked(item)" (click)="onSelect($event, item)">
+          <div class="item flex middle" *ngIf="!multi || !isChecked(item)" (click)="onSelect($event, item)"
+            [title]="item.tooltip">
             <label class="full">{{options.name? item[options.name]: item}}</label>
             <span class="iconfont icon-delete pointer" *ngIf="item.del" (click)="onDelOption($event, item, i)"></span>
           </div>
