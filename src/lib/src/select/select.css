@@ -7,7 +7,7 @@ ui-select {
   position: relative;
   min-width: 1rem;
   display: inline-block;
-  padding: 0!important;
+  padding: .01rem 0 !important;
   cursor: text;
 }
 
@@ -30,7 +30,7 @@ ui-select.ng-touched.ng-invalid .input {
   overflow: auto;
 }
 
-.ui-select .dropdown .item{
+.ui-select .dropdown .item {
   padding: .02rem .1rem;
   white-space: nowrap;
   cursor: default;
@@ -58,11 +58,14 @@ ui-select.ng-touched.ng-invalid .input {
   min-height: .26rem;
 }
 
-.ui-select input[readonly], .ui-select input[disabled]{
+.ui-select input[readonly],
+.ui-select input[disabled] {
   background-color: #fff;
 }
 
-.ui-select.readonly input[readonly], .ui-select.readonly input[disabled], .ui-select.readonly {
+.ui-select.readonly input[readonly],
+.ui-select.readonly input[disabled],
+.ui-select.readonly {
   background-color: #f3f4f5;
   user-select: none;
   cursor: default;

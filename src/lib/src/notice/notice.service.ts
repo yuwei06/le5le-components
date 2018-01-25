@@ -90,12 +90,6 @@ export class NoticeService {
 
     if (!options) options = {};
 
-    let ok = document.createElement('button');
-    ok.className = 'button primary';
-    ok.innerHTML = options.okText || '确定';
-    ok.onclick = okCallback;
-    footerElem.appendChild(ok);
-
     if (cancelCallback && !options.noCancel) {
       let cancel = document.createElement('button');
       cancel.className = 'button default ml10';
@@ -104,8 +98,14 @@ export class NoticeService {
       footerElem.appendChild(cancel);
     }
 
+    let ok = document.createElement('button');
+    ok.className = 'button primary ml10';
+    ok.innerHTML = options.okText || '确定';
+    ok.onclick = okCallback;
+    footerElem.appendChild(ok);
+
     return footerElem;
-  };
+  }
 
   // noticeService.dialog({body: '是否继续？', callback:(ret:boolean)=>{}});
   // callback 单击确定 ret = true。其他： ret = false。
@@ -171,8 +171,14 @@ export class NoticeService {
     modalContentElem.appendChild(contentElem);
 
     let bodyElem = document.createElement('div');
-    bodyElem.className = 'flex';
     contentElem.appendChild(bodyElem);
+
+    if (options.label) {
+      let labelElem = document.createElement('div');
+      labelElem.className = 'mb10';
+      labelElem.innerHTML = options.label;
+      bodyElem.appendChild(labelElem);
+    }
 
     inputElem = document.createElement('input');
     inputElem.className = 'input full';

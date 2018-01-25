@@ -14,7 +14,7 @@ ui-wizard-horizontal {
 .wizard.horizontal > .item {
   display: flex;
   align-items: center;
-  height: .04rem;
+  height: 1px;
   position: relative;
 }
 
@@ -32,7 +32,8 @@ ui-wizard-horizontal {
   width: .1rem;
   height: .1rem;
   border-radius: 50%;
-  background-color: #ccc;
+  background-color: #fff;
+  border: 1px solid;
 }
 
 .wizard.horizontal > .item.error .desc .icon {
@@ -44,9 +45,10 @@ ui-wizard-horizontal {
   color: #cc6164 !important;
 }
 
-.wizard.horizontal > .item.item.active .desc .icon {
-  background-color: #26bbf0 !important;
-}
+/* .wizard.horizontal > .item.item.active .desc .icon {
+  background-color: #fff !important;
+  border: 1px solid #26bbf0;
+} */
 
 .wizard.horizontal > .item.active,
 .wizard.horizontal > .item.active .desc .name {
@@ -84,13 +86,7 @@ ui-wizard-horizontal {
 
 .wizard.horizontal > .item.success .icon,
 .wizard.horizontal > .item.success .line {
-  background-color: #8da662 !important;
-}
-
-.wizard.horizontal > .item.active .icon {
-  background-color: #26bbf0;
-  width: .2rem !important;
-  height: .2rem !important;
+  background-color: #c2d5a0 !important;
 }
 
 .wizard.horizontal > .item.active {
