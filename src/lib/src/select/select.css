@@ -7,8 +7,9 @@ ui-select {
   position: relative;
   min-width: 1rem;
   display: inline-block;
-  padding: .01rem 0 !important;
+  padding: 0 !important;
   cursor: text;
+  overflow: hidden;
 }
 
 ui-select.ng-touched.ng-invalid .input {
