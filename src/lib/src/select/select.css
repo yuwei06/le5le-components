@@ -9,7 +9,6 @@ ui-select {
   display: inline-block;
   padding: 0 !important;
   cursor: text;
-  overflow: hidden;
 }
 
 ui-select.ng-touched.ng-invalid .input {
@@ -57,6 +56,9 @@ ui-select.ng-touched.ng-invalid .input {
   outline: none;
   border: none;
   min-height: .26rem;
+  position: relative;
+  left: .02rem;
+  padding-left: .08rem !important;
 }
 
 .ui-select input[readonly],

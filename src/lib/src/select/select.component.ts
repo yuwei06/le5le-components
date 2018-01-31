@@ -236,6 +236,8 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
 
   isChecked(item: any) {
     if (!this.multi) {
+      if (this.options.list && this.options.list.length < 2) return false;
+
       if (this.options.id) return this._value === item[this.options.id];
       else return this._value === item;
     }
