@@ -15,8 +15,8 @@ ui-select.ng-touched.ng-invalid .input {
   border-color: #cc6164;
 }
 
-.full .ui-select {
-  width: 100%;
+ui-select.full .ui-select {
+  width: 100% !important;
 }
 
 .ui-select .dropdown {

@@ -38,14 +38,14 @@ export class NoticeService {
     bodyElem.innerHTML = options.body;
 
     let closeElem = document.createElement('i');
-    closeElem.className = 'iconfont icon-close pointer fr';
+    closeElem.className = 'iconfont icon-close pointer';
     closeElem.onclick = close;
     bodyElem.appendChild(closeElem);
 
     rootElem.appendChild(bodyElem);
 
     let timer = function () {
-      if (!options.timeout) options.timeout = 2 * 1000;
+      if (!options.timeout) options.timeout = 5000;
       timeout = setTimeout(function () {
         close();
       }, options.timeout);
