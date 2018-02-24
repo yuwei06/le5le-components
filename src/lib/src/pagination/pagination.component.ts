@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, SimpleChange, OnInit, ViewEncap
 @Component({
   selector: 'ui-pagination',
   template: `
-    <div class="pagination">
+    <div class="pagination" *ngIf="pages.length>1">
       <div class="full">当前为第{{ pageIndex }}页，共{{ pages.length }}页 {{ pageTotal }}条记录</div>
       <div class="buttons">
         <a (click)="goPage(pageIndex-1)"><i class="iconfont icon-angle-left"></i></a>
