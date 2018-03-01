@@ -4,7 +4,7 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
 @Component({
   selector: 'ui-select',
   template: `
-    <div class="ui-select input" [class.readonly]="readonly" (click)="onClick()">
+    <div class="ui-select input" [class.readonly]="readonly" [class.show-dropdown]="!readonly && showDropdown" (click)="onClick()">
       <div class="flex ph5" *ngIf="multi">
         <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
           <div [class.selected]="multi" *ngIf="isChecked(item)">

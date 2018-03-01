@@ -5,7 +5,7 @@ ui-select {
 
 .ui-select {
   position: relative;
-  min-width: 1rem;
+  min-width: 1.5rem;
   display: inline-block;
   padding: 0 !important;
   cursor: text;
@@ -13,6 +13,12 @@ ui-select {
 
 ui-select.ng-touched.ng-invalid .input {
   border-color: #cc6164;
+}
+
+ui-select .show-dropdown.input {
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 ui-select.full .ui-select {
@@ -23,9 +29,11 @@ ui-select.full .ui-select {
   min-width: 100%;
   top: 100%;
   left: -1px;
-  margin-top: 1px;
   box-shadow: none;
-  border: 1px solid #26bbf0;
+  border: 1px solid #c4c9cd;
+  border-top: none;
+  border-bottom-left-radius: .04rem;
+  border-bottom-right-radius: .04rem;
   max-height: 2.8rem;
   overflow: auto;
 }
