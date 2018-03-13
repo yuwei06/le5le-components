@@ -23,7 +23,7 @@ import { PaginationComponent } from './pagination/pagination.component';
 import { WizardHorizontalComponent } from './wizard/wizard-horizontal.component';
 import { SelectComponent } from './select/select.component';
 import { DivMoveDirective } from './move/divMove.directive';
-import { RepExpValidator } from './validator/regExp.directive';
+import { RegExpValidator } from './validator/regExp.directive';
 import { CalendarComponent } from './datetime/calendar.component';
 import { TimeComponent } from './datetime/time.component';
 import { TimepickerComponent } from './datetime/timepicker.component';
@@ -44,7 +44,7 @@ const MODULES = [
   EmailValidator,
   UrlValidator,
   MinValidator,
-  RepExpValidator,
+  RegExpValidator,
   ImageUploadComponent,
   UiLoadingComponent,
   PaginationComponent,

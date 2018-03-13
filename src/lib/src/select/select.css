@@ -40,6 +40,7 @@ ui-select.full .ui-select {
 
 .ui-select .dropdown .item {
   padding: .02rem .1rem;
+  margin: 0 !important;
   white-space: nowrap;
   cursor: default;
 }

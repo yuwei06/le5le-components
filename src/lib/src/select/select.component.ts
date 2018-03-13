@@ -1,5 +1,8 @@
 import { Component, Input, forwardRef, ElementRef, Output, EventEmitter, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 @Component({
   selector: 'ui-select',
@@ -13,13 +16,13 @@ import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR
           </div>
         </ng-template>
 
-        <input *ngIf="!value || !value.length" class="full" [placeholder]="placeholder">
+        <input *ngIf="!value || !value.length" [(ngModel)]="inputValue" class="full" [placeholder]="placeholder" (keyup)="search$.next($event.target.value)">
 
-        <input #input *ngIf="value && value.length" style="width:.01rem" (keyup.backspace)="onMultiDel()">
+        <input #input *ngIf="value && value.length" [(ngModel)]="inputValue" style="width:.01rem" (keyup.backspace)="onMultiDel()" (keyup)="search$.next($event.target.value)">
         <i class="iconfont icon-triangle-down right" (click)="onClickMulti()"></i>
       </div>
       <div class="flex middle" *ngIf="!multi">
-        <input class="full pl10" [placeholder]="placeholder" [(ngModel)]="inputValue" (change)="onInputChange()"
+        <input class="full pl10" [placeholder]="placeholder" [(ngModel)]="inputValue" (keyup)="search$.next($event.target.value)" (change)="onInputChange()"
           [readOnly]="readonly || inputReadonly"  (click)="onClickInput($event)">
         <i class="iconfont icon-triangle-down right" (click)="clickShowDropdown=-1;showDropdown=true"></i>
       </div>
@@ -69,8 +72,11 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
   @Input() required: boolean = false;
   @Input() placeholder: string = '';
   @Output() change = new EventEmitter<any>();
+  @Output() autoChange = new EventEmitter<any>();
 
   @ViewChild('input') input: ElementRef;
+
+  private search$ = new Subject<string>();
 
   private valueChange = (value: any) => { };
   private touch = () => { };
@@ -103,14 +109,21 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
   ngOnInit() {
     if (this.multi) this._value = [];
     else if (this.options.autocomplete) this.inputReadonly = false;
+
     if (!this.placeholder) this.placeholder = this.multi ? '请选择 [可多选]' : '请选择';
+
+    this.search$
+      .debounceTime(500)
+      .distinctUntilChanged()
+      .subscribe((text) => {
+        this.autoChange.emit(text);
+      });
   }
 
   checkInputReadonly(item: any) {
-    if (!item) return;
-
     // 默认单选输入是只读的；自动完成模式或者input标识则可输入
-    this.inputReadonly = (!this.options.autocomplete && !item.input) ? true : false;
+    this.inputReadonly = !this.options.autocomplete;
+    if (item && item.input) this.inputReadonly = false;
   }
 
   get value(): any { return this._value; }
@@ -189,6 +202,8 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
   }
 
   onInputChange() {
+    if (this.options.onlySelect) return;
+
     this.value = this.inputValue;
     this.valueChange(this.inputValue);
     this.change.emit(this.inputValue);
@@ -254,5 +269,9 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
   onDelOption(event: any, item: any, i: number) {
     event.stopPropagation();
     if (this.options.delOption) this.options.delOption(item, i);
+  }
+
+  ngOnDestroy() {
+    if (this.search$) this.search$.unsubscribe();
   }
 }

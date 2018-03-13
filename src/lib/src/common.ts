@@ -11,7 +11,7 @@ export { SameValidator } from './validator/same.directive';
 export { EmailValidator } from './validator/email.directive';
 export { UrlValidator } from './validator/url.directive';
 export { MinValidator } from './validator/min.directive';
-export { RepExpValidator } from './validator/regExp.directive';
+export { RegExpValidator } from './validator/regExp.directive';
 export { ImageUploadComponent } from './fileUpload/imageUpload.component';
 export { UiLoadingComponent } from './loading/ui.loading.component';
 export { BtnSavingDirective } from './form/btnSaving.directive';
