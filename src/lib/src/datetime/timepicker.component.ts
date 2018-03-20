@@ -20,10 +20,10 @@ import { Component, Input, Output, EventEmitter, ElementRef, ViewEncapsulation }
     </div>
   `,
   host: {
-    '(document:click)': 'onClickDocument($event)',
+    '(document:click)': 'onClickDocument($event)'
   },
   styleUrls: ['./datetime.css'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
 export class TimepickerComponent {
   @Input() date: string; // 必须是一个有效的Date字符串
@@ -37,8 +37,7 @@ export class TimepickerComponent {
   loaded: boolean;
   opts: any;
   showDropdown: boolean;
-  constructor(private _elemRef: ElementRef) {
-  }
+  constructor(private _elemRef: ElementRef) {}
 
   ngOnInit() {
     this.opts = Object.assign({}, this.options);
@@ -46,10 +45,13 @@ export class TimepickerComponent {
     this._time = new Date(this.date);
     if (!this.date || this._time == 'Invalid Date') this._time = new Date();
 
-    if (!this.date && this.options.init !== 'now') return this.loaded = true;
+    if (!this.date && this.options.init !== 'now') {
+      this.date = this._time.toISOString();
+      this.dateTime = this.timeTime = this.date;
+      return (this.loaded = true);
+    }
 
     this.timeFormat();
-    this.dateTime = this.timeTime = this.date;
     this.loaded = true;
   }
 
@@ -82,8 +84,7 @@ export class TimepickerComponent {
     if (hide) {
       this.timeFormat();
       this.showDropdown = false;
-    }
-    else this.showDropdown = true;
+    } else this.showDropdown = true;
   }
 
   onClickDocument(event) {
@@ -92,4 +93,3 @@ export class TimepickerComponent {
     }
   }
 }
-

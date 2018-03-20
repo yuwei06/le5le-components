@@ -1,0 +1,20 @@
+import { Component } from '@angular/core';
+import { FileUploader } from '../../../../../lib/src/fileUpload/fileUploader';
+
+@Component({
+  selector: 'component-file-upload',
+  templateUrl: 'fileUpload.component.html'
+})
+export class ComponentFileUploadComponent {
+  uploader: FileUploader;
+  fileUploadStatus: any = {};
+  fileUrls: string[] = ['/assets/img/user.jpg'];
+  fileUploadOptions: any = {};
+  constructor() {}
+
+  ngOnInit() {
+    this.uploader.emitter.subscribe(ret => {
+      this.fileUploadStatus = ret.fileItem;
+    });
+  }
+}
