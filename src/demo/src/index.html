@@ -3,7 +3,7 @@
 
 <head>
   <base href="/">
-  <title i18n>le5le - angular</title>
+  <title i18n>乐吾乐 - angular组件库</title>
   <meta charset="UTF-8">
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
@@ -105,27 +105,6 @@
       </div>
     </div>
   </app-root>
-  <script src="https://res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js"></script>
-  <script>
-    var count = 0;
-    var timer = setInterval(function () {
-      if (count > 100) {
-        clearInterval(timer);
-        return;
-      }
-      if (!document.getElementById("login_container")) return ++count;
-      new WxLogin({
-        id: "login_container",
-        appid: "wx8027736e79496db8",
-        scope: "snsapi_login",
-        redirect_uri: encodeURI("http://sso.cloudtogo.cn/login.html"),
-        state: Math.ceil(Math.random() * 1000),
-        style: "black",
-        href: "https://sso.cloudtogo.cn/css/wechat.css"
-      });
-      clearInterval(timer);
-    }, 500);
-  </script>
 </body>
 
 </html>

@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
-import { routing } from './shared.routing';
-import { NoticeService } from '../../../../lib/src/notice/notice.service';
+import { Le5leComponentsModule } from 'le5le-components';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, routing],
+  imports: [CommonModule, FormsModule, RouterModule, ReactiveFormsModule, Le5leComponentsModule],
   declarations: [],
-  exports: [CommonModule, FormsModule],
-  providers: [NoticeService]
+  exports: [CommonModule, FormsModule, RouterModule, ReactiveFormsModule, Le5leComponentsModule],
+  providers: []
 })
 export class SharedModule {}

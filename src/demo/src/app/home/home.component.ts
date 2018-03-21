@@ -1,19 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
+import { Component, ViewChild } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
-import {HomeService} from "./home.service";
+import { StoreService, CookieService } from 'le5le-store';
 
 @Component({
   selector: 'home',
-  templateUrl: "home.component.html",
-  providers: [ HomeService]
+  templateUrl: 'home.component.html',
+  providers: [],
+  styleUrls: ['./home.component.pcss']
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent {
+  constructor(private _router: Router, private _storeService: StoreService, private _activateRoute: ActivatedRoute) {}
 
-  constructor(private _homeService: HomeService, private _router: Router) {
-  }
-
-  ngOnInit() {
-  }
-
+  async ngOnInit() {}
 }

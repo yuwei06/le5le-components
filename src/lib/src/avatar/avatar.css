@@ -1,0 +1,13 @@
+ui-avatar {
+  display: inline-block;
+}
+
+.ui-avatar {
+  width: 0.3rem;
+  line-height: 0.3rem;
+  border-radius: 50%;
+  background: #673ab7;
+  color: #fff;
+  text-align: center;
+  font-size: 0.18rem;
+}

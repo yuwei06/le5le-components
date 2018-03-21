@@ -15,7 +15,9 @@ export class SwitchComponent {
   constructor() {}
 
   onCheck() {
-    if (this.disabled) return;
+    if (this.disabled) {
+      return;
+    }
 
     this.checked = !this.checked;
     this.checkedChange.emit(this.checked);

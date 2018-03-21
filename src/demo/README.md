@@ -1,10 +1,9 @@
-# le5le-components
-
-le5le-components 是 angular 的前端组件库。
+# demo
 
 # 框架依赖
 
 css UI 库：<a href="https://github.com/le5le-com/le5le-ui" target="_blank">le5le-ui</a>
+angular 组件库：<a href="https://github.com/le5le-com/le5le-components" target="_blank">le5le-components</a>
 angular 数据中心服务：<a href="https://github.com/le5le-com/le5le-store" target="_blank">le5le-store</a>
 
 # 开发环境

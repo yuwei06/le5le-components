@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  templateUrl: 'app.component.html'
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.pcss']
 })
-export class AppComponent implements OnInit {
-  constructor(private _router: Router) {}
-
-  ngOnInit() {}
+export class AppComponent {
+  constructor(private _router: Router, private _activateRoute: ActivatedRoute) {}
 
   isActive(strUrl: string) {
-    if (!strUrl || strUrl === '/') return !this._router.url || this._router.url === '/';
-    else return this._router.url.indexOf(strUrl) === 0;
+    if (!strUrl || strUrl === '/') {
+      return !this._router.url || this._router.url === '/';
+    } else {
+      return this._router.url.indexOf(strUrl) === 0;
+    }
   }
 }

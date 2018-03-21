@@ -35,6 +35,7 @@ import { SliderComponent } from './slider/slider.component';
 import { EchartsComponent } from './echarts/echarts.component';
 import { ValidatorService } from './validator/validator.service';
 import { ProgressComponent } from './progress/progress.component';
+import { AvatarComponent } from './avatar/avatar.component';
 
 const MODULES = [
   ImageLazyLoad,
@@ -67,6 +68,7 @@ const MODULES = [
   SliderComponent,
   EchartsComponent,
   ProgressComponent,
+  AvatarComponent
 ];
 
 export function monacoFactory(ngZone: NgZone) {
@@ -86,5 +88,4 @@ export function monacoFactory(ngZone: NgZone) {
     }
   ]
 })
-export class Le5leComponentsModule {
-}
+export class Le5leComponentsModule {}

@@ -31,3 +31,4 @@ export { SliderComponent } from './slider/slider.component';
 export { EchartsComponent } from './echarts/echarts.component';
 export { ValidatorService } from './validator/validator.service';
 export { ProgressComponent } from './progress/progress.component';
+export { AvatarComponent } from './avatar/avatar.component';
