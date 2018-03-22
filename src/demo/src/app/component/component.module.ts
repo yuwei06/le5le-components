@@ -5,10 +5,11 @@ import { SharedModule } from '../shared/shared.module';
 import { ComponentComponent } from './component.component';
 import { ComponentRoutingModule } from './component-routing.module';
 import { ComponentAvatarComponent } from './avatar/avatar.component';
+import { ComponentNoticeComponent } from './notice/notice.component';
 
 @NgModule({
   imports: [SharedModule, ComponentRoutingModule],
-  declarations: [ComponentComponent, ComponentAvatarComponent],
+  declarations: [ComponentComponent, ComponentAvatarComponent, ComponentNoticeComponent],
   providers: []
 })
 export class ComponentModule {}
