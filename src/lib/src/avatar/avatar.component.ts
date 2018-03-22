@@ -1,11 +1,11 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation, SimpleChange } from '@angular/core';
 
 @Component({
   selector: 'ui-avatar',
   template: `
     <div class="ui-avatar" [ngStyle]="getStyle()">
       <img *ngIf="img" [src]="img">
-      <span *ngIf="!img">{{ letters[0] }}</span>
+      <span *ngIf="!img">{{ char }}</span>
     </div>
   `,
   providers: [],
@@ -23,8 +23,8 @@ export class AvatarComponent implements OnInit {
 
   ngOnInit() {
     if (this.img) return;
-
-    this.char = this.letters[0].toUpperCase();
+    if (!this.letters) this.letters = '';
+    else this.char = this.letters[0].toUpperCase();
 
     let num: number = 0;
     for (const item of this.letters) {
@@ -37,5 +37,11 @@ export class AvatarComponent implements OnInit {
     return {
       background: this.color
     };
+  }
+
+  ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
+    if (changes['letters'] || changes['img']) {
+      this.ngOnInit();
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "le5le-components",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "license": "MIT",
   "scripts": {
     "build": "angular-package-builder",
