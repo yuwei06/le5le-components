@@ -1,21 +1,21 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 
-import * as Terminal from 'xterm/dist/xterm';
-import * as attach from 'xterm/dist/addons/attach/attach';
-import * as fit from 'xterm/dist/addons/fit/fit';
-import * as winptyCompat from 'xterm/dist/addons/winptyCompat/winptyCompat';
+import { Terminal } from 'xterm';
+import * as attach from 'xterm/lib/addons/attach/attach';
+import * as fit from 'xterm/lib/addons/fit/fit';
+import * as winptyCompat from 'xterm/lib/addons/winptyCompat/winptyCompat';
 
 Terminal.applyAddon(attach);
 Terminal.applyAddon(fit);
 Terminal.applyAddon(winptyCompat);
 
 @Component({
-  selector: 'ui-xterm',
+  selector: 'my-xterm',
   template: `<div class="ui-xterm" #terminal></div>`,
   styleUrls: ['./xterm.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class XTermComponent {
+export class MyTermComponent {
   @Input() socketUrl: string;
   @Input() options: any = {};
 

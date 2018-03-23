@@ -1,6 +1,6 @@
 {
   "name": "le5le-components",
-  "version": "0.5.6",
+  "version": "0.5.8",
   "license": "MIT",
   "scripts": {
     "build": "angular-package-builder",
@@ -22,9 +22,8 @@
     "zone.js": "^0.8.14",
     "le5le-ui": "~0.1.0",
     "monaco-editor": "^0.9.0",
-    "xterm": "^2.9.2",
-    "echarts": "^3.7.1",
-    "@types/xterm": "^2.0.3"
+    "xterm": "^3.2.0",
+    "echarts": "^3.7.1"
   },
   "dependencies": {
     "@angular/common": "^5.0.0",
@@ -46,7 +45,7 @@
     "@angular/language-service": "^5.0.0",
     "@types/jasmine": "~2.8.0",
     "@types/node": "~8.0.0",
-    "@types/xterm": "^2.0.3",
+    "@types/xterm": "^3.0.0",
     "angular-package-builder": "^1.0.0",
     "codelyzer": "~4.0.0",
     "copyfiles": "^1.2.0",
@@ -68,6 +67,6 @@
     "ts-node": "~3.3.0",
     "tslint": "~5.8.0",
     "typescript": "~2.4.2",
-    "xterm": "^2.9.2"
+    "xterm": "^3.2.0"
   }
 }

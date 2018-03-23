@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ComponentComponent } from './component.component';
 import { ComponentAvatarComponent } from './avatar/avatar.component';
 import { ComponentNoticeComponent } from './notice/notice.component';
+import { ComponentXtermComponent } from './xterm/xterm.component';
 
 const OperatingRoutes: Routes = [
   {
@@ -17,6 +18,10 @@ const OperatingRoutes: Routes = [
       {
         path: 'notice',
         component: ComponentNoticeComponent
+      },
+      {
+        path: 'xterm',
+        component: ComponentXtermComponent
       }
     ]
   }

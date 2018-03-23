@@ -1,0 +1,10 @@
+<div class="m20">
+  <input class="input" [(ngModel)]="url">
+  <button class="ml10 button primary" (click)="socketUrl=url">连接</button>
+
+  <button class="ml50 button primary" (click)="max=true">变大</button>
+  <button class="ml50 button primary" (click)="max=false">还原</button>
+  <div class="mt10" [class.max]="max">
+    <my-xterm *ngIf="socketUrl" [socketUrl]="socketUrl" [winStatus]="max"></my-xterm>
+  </div>
+</div>
