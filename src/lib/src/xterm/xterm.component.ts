@@ -33,15 +33,20 @@ export class XTermComponent {
   onResize() {
     if (!this.xterm) return;
 
-    this.xterm.fit();
+    setTimeout(() => {
+      this.xterm.fit();
+    }, 100);
+    setTimeout(() => {
+      this.xterm.fit();
+    }, 500);
   }
 
   ngOnInit() {
-    this.xterm = new Terminal(this.options.termOptions);
+    this.xterm = new Terminal();
     this.xterm.open(this.terminalHost.nativeElement, true);
     this.xterm.winptyCompatInit();
-    this.xterm.fit();
     this.xterm.focus();
+    this.onResize();
 
     this.options.xterm = this.xterm;
 
