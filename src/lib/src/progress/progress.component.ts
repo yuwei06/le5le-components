@@ -6,7 +6,8 @@ import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angul
   template: `
     <div class="ui-progress">
       <div class="desc">
-        <label class="progress">{{value}} {{options.unit}}</label>
+        <label class="progress" *ngIf="options.unit!=='%'">{{value}} {{options.unit}}</label>
+        <label class="progress" *ngIf="options.unit==='%'">{{_progress| number:'.0-2'}} {{options.unit}}</label>
         <label *ngIf="options.showRemainder && value < total">
           <span class="gray mh10">/</span>
           <span class="remainder">{{total - value}} {{options.remainderUnit}}</span>
@@ -17,30 +18,33 @@ import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angul
       </div>
     </div>
   `,
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => ProgressComponent),
-    multi: true
-  }],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ProgressComponent),
+      multi: true
+    }
+  ],
   styleUrls: ['./progress.css'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
 export class ProgressComponent implements ControlValueAccessor {
   @Input() total: number = 0;
   @Input() options: any = { unit: '%' };
 
-  private valueChange = (value: any) => { };
-  private touch = () => { };
+  private valueChange = (value: any) => {};
+  private touch = () => {};
 
   // ngModeld的实际值
   private _value: any;
 
   private _progress: number;
 
-  constructor() {
-  }
+  constructor() {}
 
-  get value(): any { return this._value; }
+  get value(): any {
+    return this._value;
+  }
 
   set value(v: any) {
     if (!v) v = 0;
