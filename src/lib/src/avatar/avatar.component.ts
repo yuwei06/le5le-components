@@ -16,7 +16,7 @@ export class AvatarComponent implements OnInit {
   @Input() letters: string = '';
   @Input() img: string = '';
 
-  colors = ['#673AB7', '#9C27B0', '#2196F3', '#03a9f4', '#8bc34a', '#00bcd4', '#009688', '#4caf50', '#ffc107', '#ff9800'];
+  colors = ['#673AB7', '#9C27B0', '#2196f3', '#178479', '#579015', '#038292', '#009688', '#4caf50', '#4169E1', '#228B22'];
   color: string = '#673AB7';
   char: string;
   constructor() {}
