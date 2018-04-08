@@ -1,20 +1,19 @@
-import { Component, Input, Output, EventEmitter, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, ViewEncapsulation, forwardRef, OnInit, ViewChild } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
   selector: 'ui-timepicker',
   template: `
-    <div class="ui-timepicker" *ngIf="loaded" (click)="onShow($event)" >
+    <div class="ui-timepicker" (click)="onShow(true)">
       <div class="flex middle input" [class.readonly]="readonly">
-        <span *ngIf="!options.hideTime" class="full">{{time | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-        <span *ngIf="options.hideTime && !options.mobile" class="full">{{time | date:'yyyy-MM-dd'}}</span>
-        <span *ngIf="options.hideTime && options.mobile" class="full">{{getDateStr()}}</span>
+        <span class="full">{{getDateStr()}}</span>
         <i *ngIf="!readonly" class="iconfont icon-triangle-down"></i>
       </div>
-      <div class="dropdown" [class.block]="!readonly && showDropdown" (click)="$event.stopPropagation()">
-        <ui-calendar [(date)]="dateTime" (dateChange)="onChange()" [options]="opts" [readonly]="readonly"  class="block"></ui-calendar>
-        <ui-time *ngIf="!options.hideTime" [(date)]="timeTime" (dateChange)="onChange()" [options]="opts" [readonly]="readonly"  class="block text-center"></ui-time>
+      <div class="dropdown" [class.block]="!readonly && showDropdown">
+        <ui-calendar [(ngModel)]="_value" (change)="onChange()" [options]="opts" [readonly]="readonly"  class="block"></ui-calendar>
+        <ui-time *ngIf="!options.hideTime" [(ngModel)]="_value" (change)="onChange()" [options]="opts" [readonly]="readonly"  class="block text-center"></ui-time>
         <div class="p15" *ngIf="!options.hideOk">
-          <button type="button" class="button success full" (click)="onShow($event, true)">确定</button>
+          <button type="button" class="button success full" (click)="onShow(false, $event)">确定</button>
         </div>
       </div>
     </div>
@@ -22,74 +21,125 @@ import { Component, Input, Output, EventEmitter, ElementRef, ViewEncapsulation }
   host: {
     '(document:click)': 'onClickDocument($event)'
   },
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => TimepickerComponent),
+      multi: true
+    }
+  ],
   styleUrls: ['./datetime.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class TimepickerComponent {
-  @Input() date: string; // 必须是一个有效的Date字符串
-  @Output() dateChange = new EventEmitter<string>();
+export class TimepickerComponent implements OnInit, ControlValueAccessor {
   @Input() options: any = { init: 'now', showSecond: false, hideTime: false, hideOk: false };
   @Input() readonly: boolean = false;
-  private _time: any;
-  time: any;
-  dateTime: string;
-  timeTime: string;
-  loaded: boolean;
+
+  @Output() change = new EventEmitter<any>();
+
   opts: any;
   showDropdown: boolean;
+
+  // ngModeld的实际值
+  _value: any;
+
+  private valueChange = (value: any) => {};
+  private touch = () => {};
+
   constructor(private _elemRef: ElementRef) {}
 
   ngOnInit() {
     this.opts = Object.assign({}, this.options);
-    delete this.opts.init;
-    this._time = new Date(this.date);
-    if (!this.date || this._time == 'Invalid Date') this._time = new Date();
 
-    if (!this.date && this.options.init !== 'now') {
-      this.date = this._time.toISOString();
-      this.dateTime = this.timeTime = this.date;
-      return (this.loaded = true);
+    if (this.options.init === 'now') {
+      this._value = new Date();
+      this.valueChange(this._value);
+      this.change.emit(this._value);
     }
 
-    this.timeFormat();
-    this.loaded = true;
+    delete this.opts.init;
   }
 
-  timeFormat() {
-    this.time = this._time;
-    this.date = this._time.toISOString();
-    this.dateChange.emit(this.date);
+  get value(): any {
+    return this._value;
+  }
+
+  set value(v: any) {
+    if (v !== this._value) {
+      let now = new Date(v);
+      if (now + '' === 'Invalid Date') {
+        now = new Date();
+      }
+
+      this._value = now;
+    }
+  }
+
+  // model -> view
+  writeValue(value: any) {
+    this.value = value;
+  }
+
+  // view -> model，当控件change后，调用的函数通知改变model
+  registerOnChange(fn: any) {
+    this.valueChange = fn;
+  }
+
+  // 通知touched调用的函数
+  registerOnTouched(fn: any) {
+    this.touch = fn;
   }
 
   onChange() {
     if (this.readonly) return;
 
-    let d = new Date(this.dateTime);
-    let t = new Date(this.timeTime);
-    this._time = new Date(d.getFullYear(), d.getMonth(), d.getDate(), t.getHours(), t.getMinutes(), t.getSeconds());
+    this.valueChange(this._value);
 
     if (this.options.hideOk) {
-      this.timeFormat();
+      this.change.emit(this._value);
       this.showDropdown = false;
     }
   }
 
   getDateStr() {
-    return this.time.getFullYear() + '-' + (this.time.getMonth() + 1) + '-' + this.time.getDate();
+    if (!this._value) return '';
+
+    const year = this._value.getFullYear();
+    const month = this._value.getMonth() + 1;
+    const day = this._value.getDate();
+    const hour = this._value.getHours();
+    const minute = this._value.getMinutes();
+    const second = this._value.getSeconds();
+
+    if (this.options.hideTime || this.options.mobile) {
+      return [year, month, day].map(this.formatDateNumber).join('-');
+    } else {
+      return [year, month, day].map(this.formatDateNumber).join('-') + ' ' + [hour, minute, second].map(this.formatDateNumber).join(':');
+    }
   }
 
-  onShow(event: any, hide?: boolean) {
-    event.stopPropagation();
-
-    if (hide) {
-      this.timeFormat();
+  onShow(show: boolean, event?) {
+    if (!show) {
+      this.valueChange(this._value);
+      this.change.emit(this._value);
       this.showDropdown = false;
-    } else this.showDropdown = true;
+    } else {
+      this.showDropdown = true;
+    }
+
+    if (event) {
+      event.stopPropagation();
+    }
   }
 
   onClickDocument(event) {
     if (!this._elemRef.nativeElement.contains(event.target)) {
       this.showDropdown = false;
     }
+  }
+
+  formatDateNumber(n) {
+    n = n.toString();
+    return n[1] ? n : '0' + n;
   }
 }

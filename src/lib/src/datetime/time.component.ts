@@ -1,77 +1,130 @@
-import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation, forwardRef } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
   selector: 'ui-time',
   template: `
-    <div class="ui-time" >
-      <span>
-        <select class="input" name="time-hour" [(ngModel)]="hour" (change)="onChange()" [disabled]="readonly">
-          <option *ngFor="let item of seconds" [value]="item">{{item}}</option>
-        </select>
-      </span>
-      <span>
+    <div class="ui-time text-center" >
+      <ui-select class="inline" [(ngModel)]="hour" [options]="{id: 'id', name: 'name', list: hours, noDefaultOption: true}"
+        (change)="onChange()" [multi]="false" [readonly]="readonly"></ui-select>
         :
-        <select class="input" name="time-minute" [(ngModel)]="minute" (change)="onChange()" [disabled]="readonly">
-          <option *ngFor="let item of minutes" [value]="item">{{item}}</option>
-        </select>
-      </span>
+      <ui-select class="inline" [(ngModel)]="minute" [options]="{id: 'id', name: 'name', list: minutes, noDefaultOption: true}"
+        (change)="onChange()" [multi]="false" [readonly]="readonly"></ui-select>
+
+
       <span *ngIf="options.showSecond">
-        <select class="input" name="time-second" [(ngModel)]="second" (change)="onChange()" [disabled]="readonly">
-          <option *ngFor="let item of seconds" [value]="item">{{item}}</option>
-        </select>
+        :
+        <ui-select class="inline" [(ngModel)]="second" [options]="{id: 'id', name: 'name', list: seconds, noDefaultOption: true}"
+          (change)="onChange()" [multi]="false" [readonly]="readonly"></ui-select>
       </span>
     </div>
   `,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => TimeComponent),
+      multi: true
+    }
+  ],
   styleUrls: ['./datetime.css'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
-export class TimeComponent {
-  @Input() date: string; // 必须是一个有效的Date字符串
-  @Output() dateChange = new EventEmitter<string>();
+export class TimeComponent implements ControlValueAccessor {
   @Input() options: any = { init: 'now', showSecond: false };
   @Input() readonly: boolean = false;
-  hour: number;
-  minute: number; // 从0开始
-  second: number;
-  time: any;
-  hours: number[] = [];
-  minutes: number[] = [];
-  seconds: number[] = [];
+
+  @Output() change = new EventEmitter<any>();
+
+  hour: number = 0;
+  minute: number = 0; // 从0开始
+  second: number = 0;
+  hours: any[] = [];
+  minutes: any[] = [];
+  seconds: any[] = [];
+
+  // ngModeld的实际值
+  _value: Date;
+
+  private valueChange = (value: any) => {};
+  private touch = () => {};
+
   constructor() {
     for (let i = 0; i < 24; ++i) {
-      this.hours.push(i);
+      this.hours.push({
+        id: i,
+        name: i
+      });
     }
     for (let i = 0; i < 60; ++i) {
-      this.minutes.push(i);
-      this.seconds.push(i);
+      this.minutes.push({
+        id: i,
+        name: i
+      });
+      this.seconds.push({
+        id: i,
+        name: i
+      });
     }
   }
 
   ngOnInit() {
-    this.time = new Date(this.date);
-    if (!this.date || this.time == 'Invalid Date') this.time = new Date();
+    if (this.options.init === 'now') {
+      this._value = new Date();
+      this.valueChange(this._value);
+      this.change.emit(this._value);
 
-    this.hour = this.time.getHours();
-    this.minute = this.time.getMinutes();
-    this.second = this.time.getSeconds();
-    if (!this.options.showSecond) {
-      this.second = 0;
-      this.time.setSeconds(0);
+      this.hour = this._value.getHours();
+      this.minute = this._value.getMinutes();
+      this.second = this._value.getSeconds();
+      if (!this.options.showSecond) {
+        this.second = 0;
+        this._value.setSeconds(0);
+      }
     }
-
-    if (!this.date && this.options.init !== 'now') return;
-    this.timeFormat();
   }
 
-  timeFormat() {
-    this.date = this.time.toISOString();
-    this.dateChange.emit(this.date);
+  get value(): any {
+    return this._value;
   }
 
-  onChange(item?: any) {
-    if (this.readonly) return;
+  set value(v: any) {
+    if (v && v !== this._value) {
+      let now = new Date(v);
+      if (now + '' === 'Invalid Date') {
+        now = new Date();
+      }
 
-    this.time.setHours(this.hour, this.minute, this.second);
-    this.timeFormat();
+      this._value = now;
+      this.hour = now.getHours();
+      this.minute = now.getMinutes();
+      this.second = now.getSeconds();
+      if (!this.options.showSecond) {
+        this.second = 0;
+        this._value.setSeconds(0);
+      }
+    }
+  }
+
+  // model -> view
+  writeValue(value: any) {
+    this.value = value;
+  }
+
+  // view -> model，当控件change后，调用的函数通知改变model
+  registerOnChange(fn: any) {
+    this.valueChange = fn;
+  }
+
+  // 通知touched调用的函数
+  registerOnTouched(fn: any) {
+    this.touch = fn;
+  }
+
+  onChange() {
+    if (this.readonly || !this._value) return;
+
+    this._value = new Date(this._value.getFullYear(), this._value.getMonth(), this._value.getDate(), this.hour, this.minute, this.second);
+    this.valueChange(this._value);
+    this.change.emit(this._value);
   }
 }

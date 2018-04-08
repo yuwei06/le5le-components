@@ -1,97 +1,132 @@
-import { Component, Input, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewEncapsulation, forwardRef } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
   selector: 'ui-calendar',
   template: `
     <div class="ui-calendar" [class.readonly]="readonly">
       <div class="caption" *ngIf="!options.hideCaption">
-        <span>
-          <select [(ngModel)]="year" (change)="onChange()" [disabled]="readonly">
-            <option *ngFor="let item of years" [value]="item">{{item}}年</option>
-          </select>
-        </span>
-        <span>
-          <select [(ngModel)]="month" (change)="onChange()" [disabled]="readonly">
-            <option value="0">1月</option>
-            <option value="1">2月</option>
-            <option value="2">3月</option>
-            <option value="3">4月</option>
-            <option value="4">5月</option>
-            <option value="5">6月</option>
-            <option value="6">7月</option>
-            <option value="7">8月</option>
-            <option value="8">9月</option>
-            <option value="9">10月</option>
-            <option value="10">11月</option>
-            <option value="11">12月</option>
-          </select>
-        </span>
+        <ui-select class="inline" [(ngModel)]="year" [options]="{id: 'id', name: 'name', list: years, noDefaultOption: true}"
+          (change)="onChange()" [multi]="false" [readonly]="readonly"></ui-select>
+
+        <ui-select class="inline" [(ngModel)]="month" [options]="{id: 'id', name: 'name', list: months, noDefaultOption: true}"
+          (change)="onChange()" [multi]="false" [readonly]="readonly"></ui-select>
       </div>
       <div class="week" *ngFor="let week of calendar">
-        <div class="day"  *ngFor="let item of week" (click)="onChange(item)"
+        <div class="day"  *ngFor="let item of week" (click)="$event.stopPropagation();onChange(item)"
              [class.gray]="item.month !== month " [class.active]="item.year === year && item.month === month && item.day === day">
           <span>{{item.day}}</span>
         </div>
       </div>
     </div>
   `,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => CalendarComponent),
+      multi: true
+    }
+  ],
   styleUrls: ['./datetime.css'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
-export class CalendarComponent {
-  @Input() date: string; // 必须是一个有效的Date字符串
-  @Output() dateChange = new EventEmitter<string>();
+export class CalendarComponent implements ControlValueAccessor {
   @Input() options: any = { init: 'now' };
   @Input() readonly: boolean = false;
-  year: number;
-  month: number; // 从0开始
-  day: number;
+
+  @Output() change = new EventEmitter<any>();
+
+  year: number = 2018;
+  month: number = 0; // 从0开始
+  day: number = 1;
   calendar: any[] = [];
-  years: number[] = [];
-  time: any;
+  years: any[] = [];
+  months: any[] = [];
+
+  // ngModeld的实际值
+  _value: Date;
+
+  private valueChange = (value: any) => {};
+  private touch = () => {};
+
   constructor() {
+    for (let i = 0; i < 12; ++i) {
+      this.months.push({
+        id: i,
+        name: i + 1
+      });
+    }
+    for (let i = 1900; i < 2100; ++i) {
+      this.years.push({
+        id: i,
+        name: i
+      });
+    }
   }
 
   ngOnInit() {
-    this.time = new Date(this.date);
-    if (!this.date || this.time == 'Invalid Date') this.time = new Date();
-    this.year = this.time.getFullYear();
-    this.getYearOptions(this.year);
-    this.month = this.time.getMonth();
-    this.getCalendar(this.year, this.month);
+    if (this.options.init === 'now') {
+      this._value = new Date();
+      this.valueChange(this._value);
+      this.change.emit(this._value);
 
-    if (!this.date && this.options.init !== 'now') return;
-    this.day = this.time.getDate();
-    this.timeFormat();
+      this.year = this._value.getFullYear();
+      this.month = this._value.getMonth();
+      this.getCalendar(this.year, this.month);
+      this.day = this._value.getDate();
+    }
   }
 
-  getYearOptions(year: number) {
-    this.years = [];
-    for (let i = 100; i > 0; --i) {
-      this.years.push(year - i);
-    }
+  get value(): any {
+    return this._value;
+  }
 
-    for (let i = 0; i < 100; ++i) {
-      this.years.push(year + i);
+  set value(v: any) {
+    if (v && v !== this._value) {
+      let now = new Date(v);
+      if (now + '' === 'Invalid Date') {
+        now = new Date();
+      }
+
+      this._value = now;
+      this.year = now.getFullYear();
+      this.month = now.getMonth();
+      this.getCalendar(this.year, this.month);
+      this.day = now.getDate();
     }
+  }
+
+  // model -> view
+  writeValue(value: any) {
+    this.value = value;
+  }
+
+  // view -> model，当控件change后，调用的函数通知改变model
+  registerOnChange(fn: any) {
+    this.valueChange = fn;
+  }
+
+  // 通知touched调用的函数
+  registerOnTouched(fn: any) {
+    this.touch = fn;
   }
 
   isLeap(year: number): number {
-    return year % 4 === 0 ? (year % 100 !== 0 ? 1 : (year % 400 === 0 ? 1 : 0)) : 0;
+    return year % 4 === 0 ? (year % 100 !== 0 ? 1 : year % 400 === 0 ? 1 : 0) : 0;
   }
 
   getCalendar(year: number, month: number) {
     this.calendar = [];
-    let firstDay = new Date(this.year, this.month, 1);
-    let dayOfWeek = firstDay.getDay();
-    let daysOfMonth = new Array(31, 28 + this.isLeap(this.year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-    let rows = Math.ceil((dayOfWeek + daysOfMonth[month]) / 7);
+    const firstDay = new Date(this.year, this.month, 1);
+    const dayOfWeek = firstDay.getDay();
+    const daysOfMonth = new Array(31, 28 + this.isLeap(this.year), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
+    const rows = Math.ceil((dayOfWeek + daysOfMonth[month]) / 7);
     for (let i = 0; i < rows; ++i) {
-      let row: any[] = [];
+      const row: any[] = [];
       for (let j = 0; j < 7; ++j) {
         // 单元格自然序列号
-        let index = i * 7 + j;
-        let day = index - dayOfWeek + 1;
+        const index = i * 7 + j;
+        const day = index - dayOfWeek + 1;
         if (day <= 0) {
           if (month > 1) {
             row.push({
@@ -99,32 +134,28 @@ export class CalendarComponent {
               month: month - 1,
               day: daysOfMonth[month - 1] + day
             });
-          }
-          else {
+          } else {
             row.push({
               year: year - 1,
               month: 12,
               day: 31 + day
             });
           }
-        }
-        else if (day > daysOfMonth[month]) {
+        } else if (day > daysOfMonth[month]) {
           if (month < 12) {
             row.push({
               year: year,
               month: month + 1,
               day: day - daysOfMonth[month]
             });
-          }
-          else {
+          } else {
             row.push({
               year: year + 1,
               month: 1,
               day: day - daysOfMonth[month]
             });
           }
-        }
-        else {
+        } else {
           row.push({
             year: year,
             month: month,
@@ -137,7 +168,7 @@ export class CalendarComponent {
   }
 
   onChange(item?: any) {
-    if (this.readonly) return;
+    if (this.readonly || !this._value) return;
 
     if (item) {
       this.year = item.year;
@@ -145,12 +176,8 @@ export class CalendarComponent {
       this.day = item.day;
     }
     this.getCalendar(this.year, this.month);
-    this.time = new Date(this.year, this.month, this.day);
-    this.timeFormat();
-  }
-
-  timeFormat() {
-    this.date = this.time.toISOString();
-    this.dateChange.emit(this.date);
+    this._value = new Date(this.year, this.month, this.day, this._value.getHours(), this._value.getMinutes(), this._value.getSeconds());
+    this.valueChange(this._value);
+    this.change.emit(this._value);
   }
 }

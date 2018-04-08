@@ -44,22 +44,24 @@ import 'rxjs/add/operator/distinctUntilChanged';
     </div>
   `,
   host: {
-    '(document:click)': 'onClickDocument($event)',
+    '(document:click)': 'onClickDocument($event)'
   },
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => SelectComponent),
-    multi: true
-  }, {
-    provide: NG_VALIDATORS,
-    useExisting: forwardRef(() => SelectComponent),
-    multi: true
-  }],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => SelectComponent),
+      multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => SelectComponent),
+      multi: true
+    }
+  ],
   styleUrls: ['./select.css'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
 export class SelectComponent implements OnInit, ControlValueAccessor, Validator {
-
   // 下拉列表选项，list表示下拉列表数组，其中：id表示value的来源，name表示显示来源；当id或name为空时，表示list为字符串数组
   // autocomplete 表示自动完成；noDefaultOption 表示不要“请选择”
   @Input() options: any = { id: 'id', name: 'name', list: [] };
@@ -76,10 +78,10 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
 
   @ViewChild('input') input: ElementRef;
 
-  private search$ = new Subject<string>();
+  search$ = new Subject<string>();
 
-  private valueChange = (value: any) => { };
-  private touch = () => { };
+  private valueChange = (value: any) => {};
+  private touch = () => {};
 
   // ngModeld的实际值
   private _value: any;
@@ -87,7 +89,8 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
   // 下拉选项显示控制
   clickShowDropdown: number = -1;
   showDropdown: boolean = false;
-  @Input() set dropdown(show: boolean) {
+  @Input()
+  set dropdown(show: boolean) {
     if (this.clickShowDropdown < 0) {
       this.showDropdown = false;
       this.clickShowDropdown = 0;
@@ -103,8 +106,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
   // 单选输入框只读属性
   inputReadonly: boolean = true;
 
-  constructor(private _elemRef: ElementRef) {
-  }
+  constructor(private _elemRef: ElementRef) {}
 
   ngOnInit() {
     if (this.multi) this._value = [];
@@ -115,7 +117,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
     this.search$
       .debounceTime(500)
       .distinctUntilChanged()
-      .subscribe((text) => {
+      .subscribe(text => {
         this.autoChange.emit(text);
       });
   }
@@ -126,7 +128,9 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
     if (item && item.input) this.inputReadonly = false;
   }
 
-  get value(): any { return this._value; }
+  get value(): any {
+    return this._value;
+  }
 
   set value(v: any) {
     if (v !== this._value) {
@@ -150,7 +154,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
     if (!this.required) return;
 
     if (!this._value || (this.multi && this._value.length === 0)) {
-      return { 'required': true };
+      return { required: true };
     }
   }
 
@@ -162,8 +166,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
       for (let item of this.options.list) {
         if (this.options.id) {
           if (value === item[this.options.id]) this.checkInputReadonly(item);
-        }
-        else if (value === item) this.checkInputReadonly(item);
+        } else if (value === item) this.checkInputReadonly(item);
       }
     }
   }
@@ -191,8 +194,11 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
       if (item) this._value = this.options.id ? item[this.options.id] : item;
       else this._value = '';
 
-      if (this._value) this.inputValue = this.options.name ? item[this.options.name] : item;
-      else this.inputValue = '';
+      if (this._value !== undefined || this._value !== null || this._value !== '') {
+        this.inputValue = this.options.name ? item[this.options.name] : item;
+      } else {
+        this.inputValue = '';
+      }
 
       this.checkInputReadonly(item);
     }
@@ -213,8 +219,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
     for (let i = 0; i < this._value.length; ++i) {
       if (this.options.id) {
         if (this._value[i] === item[this.options.id]) this._value.splice(i, 1);
-      }
-      else if (this._value[i] === item) this._value.splice(i, 1);
+      } else if (this._value[i] === item) this._value.splice(i, 1);
     }
 
     this.valueChange(this._value);
@@ -261,8 +266,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
     for (let v of this._value) {
       if (this.options.id) {
         if (v === item[this.options.id]) return true;
-      }
-      else if (v === item) return true;
+      } else if (v === item) return true;
     }
   }
 

@@ -2,19 +2,19 @@ import { Directive, Input, HostListener, Renderer, ElementRef } from '@angular/c
 import { NgForm } from '@angular/forms';
 
 @Directive({
-  selector: '[touchForm]',
+  selector: '[touchForm]'
 })
 export class TouchFormDirective {
   @Input() touchForm: NgForm;
-  constructor(private elementRef: ElementRef, private renderer: Renderer) {
-  }
+  constructor(private elementRef: ElementRef, private renderer: Renderer) {}
 
-  @HostListener('submit') onSubmit() {
+  @HostListener('submit')
+  onSubmit() {
     for (let i in this.touchForm.controls) {
       this.touchForm.controls[i].markAsTouched();
     }
 
-    this.renderer.setElementClass(this.elementRef.nativeElement, 'form-untouched', false);
+    this.renderer.setElementClass(this.elementRef.nativeElement, 'ng-untouched', false);
+    this.renderer.setElementClass(this.elementRef.nativeElement, 'ng-touched', true);
   }
-
 }
