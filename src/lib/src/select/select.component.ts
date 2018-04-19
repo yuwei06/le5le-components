@@ -194,7 +194,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
       if (item) this._value = this.options.id ? item[this.options.id] : item;
       else this._value = '';
 
-      if (this._value !== undefined || this._value !== null || this._value !== '') {
+      if (item && (this._value !== undefined || this._value !== null || this._value !== '')) {
         this.inputValue = this.options.name ? item[this.options.name] : item;
       } else {
         this.inputValue = '';

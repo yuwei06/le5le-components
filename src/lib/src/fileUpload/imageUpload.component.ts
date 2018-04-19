@@ -7,13 +7,15 @@ import { UploadParam, FileItem, FileStatus } from './fileUpload.model';
 @Component({
   selector: 'ui-image-upload',
   template: `
-    <div *ngFor="let item of _fileItems; let i = index" class="ui-image-upload" >
-      <img [src]="options.cdn + item.url" />
-      <div class="bk"> <i class="iconfont icon-close" (click)="del(i)"></i> </div>
-      <div *ngIf="item.status == 1" class="tip line one" >{{item.progress}}</div>
-      <div *ngIf="item.error" class="tip error line one" [title]="item.error">错误：{{item.error}}</div>
+    <div *ngIf="!options.onlyUpload">
+      <div *ngFor="let item of _fileItems; let i = index" class="ui-image-upload" >
+        <img [src]="options.cdn + item.url" />
+        <div class="bk"> <i class="iconfont icon-close" (click)="del(i)"></i> </div>
+        <div *ngIf="item.status == 1 && item.progress < 100" class="tip line one" >{{item.progress}}</div>
+        <div *ngIf="item.error" class="tip error line one" [title]="item.error">错误：{{item.error}}</div>
+      </div>
     </div>
-    <div class="ui-image-upload box dash" *ngIf="_fileItems.length < options.maxCount">
+    <div class="ui-image-upload box dash" *ngIf="_fileItems.length < options.maxCount || options.onlyUpload">
       <div class="content">
         <i class="iconfont icon-add font-2x"></i>
         <div class="desc">点击上传图片</div>
@@ -22,7 +24,7 @@ import { UploadParam, FileItem, FileStatus } from './fileUpload.model';
     </div>
   `,
   styleUrls: ['./fileUpload.css'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
 export class ImageUploadComponent {
   @Input() urls: string[] = [];
@@ -32,8 +34,7 @@ export class ImageUploadComponent {
   @Input() options: any = {};
   _fileItems: FileItem[] = [];
   uploader: FileUploader;
-  constructor(private _noticeService: NoticeService) {
-  }
+  constructor(private _noticeService: NoticeService) {}
 
   ngOnInit() {
     if (!this.options.maxCount) this.options.maxCount = 1;
@@ -59,20 +60,17 @@ export class ImageUploadComponent {
       if (ret.event === 'error') {
         this._noticeService.notice({ theme: 'error', body: ret.fileItem.error });
         this.getFiles();
-      }
-      else if (ret.event === 'ready') {
+      } else if (ret.event === 'ready') {
         this._fileItems.push(ret.fileItem);
         this.getFiles();
-      }
-      else if (ret.event === 'progress') {
+      } else if (ret.event === 'progress') {
         for (let item of this._fileItems) {
           if (item.id === ret.fileItem.id) {
             item.status = FileStatus.Uploading;
             item.progress = ret.fileItem.progress;
           }
         }
-      }
-      else if (ret.event === 'complete') {
+      } else if (ret.event === 'complete') {
         if (ret.fileItem.status !== FileStatus.Success) return;
 
         for (let item of this._fileItems) {
@@ -82,8 +80,7 @@ export class ImageUploadComponent {
             else item.url = ret.fileItem.url;
           }
         }
-      }
-      else if (ret.event === 'completeAll') {
+      } else if (ret.event === 'completeAll') {
         this.uploader.fileList = [];
         this.getUrls();
       }
@@ -100,7 +97,7 @@ export class ImageUploadComponent {
 
   getUrls() {
     this.urls = [];
-    for (let item of this._fileItems) {
+    for (const item of this._fileItems) {
       if (!item.url) continue;
       this.urls.push(item.url);
     }
@@ -108,7 +105,7 @@ export class ImageUploadComponent {
   }
 
   onFileChange(event: any) {
-    let elem: any = event.srcElement || event.target;
+    const elem: any = event.srcElement || event.target;
     this.uploader.addFiles(elem.files);
   }
 

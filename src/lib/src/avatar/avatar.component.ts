@@ -34,6 +34,7 @@ export class AvatarComponent implements OnInit {
   }
 
   getStyle() {
+    if (this.img) this.color = 'transparent';
     return {
       background: this.color
     };
