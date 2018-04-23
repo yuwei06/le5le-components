@@ -11,6 +11,10 @@ ui-select {
   cursor: text;
 }
 
+ui-select.small .ui-select {
+  min-width: inherit;
+}
+
 ui-select.ng-touched.ng-invalid .input {
   border-color: #cc6164;
 }
@@ -32,14 +36,14 @@ ui-select.full .ui-select {
   box-shadow: none;
   border: 1px solid #c4c9cd;
   border-top: none;
-  border-bottom-left-radius: .04rem;
-  border-bottom-right-radius: .04rem;
+  border-bottom-left-radius: 0.04rem;
+  border-bottom-right-radius: 0.04rem;
   max-height: 2.8rem;
   overflow: auto;
 }
 
 .ui-select .dropdown .item {
-  padding: .02rem .1rem;
+  padding: 0.02rem 0.1rem;
   margin: 0 !important;
   white-space: nowrap;
   cursor: default;
@@ -47,27 +51,27 @@ ui-select.full .ui-select {
 
 .ui-select .selected {
   background-color: #f3f4f5;
-  padding: 0 .05rem;
-  margin: .02rem;
+  padding: 0 0.05rem;
+  margin: 0.02rem;
 }
 
 .ui-select .selected i {
-  font-size: .14rem;
+  font-size: 0.14rem;
   cursor: pointer;
 }
 
 .ui-select .right {
-  padding: 0 .05rem;
+  padding: 0 0.05rem;
   cursor: pointer;
 }
 
 .ui-select .flex input {
   outline: none;
   border: none;
-  min-height: .26rem;
+  min-height: 0.26rem;
   position: relative;
-  left: .02rem;
-  padding-left: .08rem !important;
+  left: 0.02rem;
+  padding-left: 0.08rem !important;
 }
 
 .ui-select input[readonly],

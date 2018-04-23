@@ -1,5 +1,21 @@
-import { Component, Input, forwardRef, ElementRef, Output, EventEmitter, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, NG_VALIDATORS, NG_VALUE_ACCESSOR, Validator } from '@angular/forms';
+import {
+  Component,
+  Input,
+  forwardRef,
+  ElementRef,
+  Output,
+  EventEmitter,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  NG_VALIDATORS,
+  NG_VALUE_ACCESSOR,
+  Validator
+} from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -11,24 +27,27 @@ import 'rxjs/add/operator/distinctUntilChanged';
       <div class="flex ph5" *ngIf="multi">
         <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
           <div [class.selected]="multi" *ngIf="isChecked(item)">
-            {{options.name? item[options.name]: item}}
+            {{ options.name? item[options.name]: item }}
             <i *ngIf="!readonly" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
           </div>
         </ng-template>
 
-        <input *ngIf="!value || !value.length" [(ngModel)]="inputValue" class="full" [placeholder]="placeholder" (keyup)="search$.next($event.target.value)">
+        <input *ngIf="!value || !value.length" [(ngModel)]="inputValue" class="full" [placeholder]="placeholder"
+          (keyup)="search$.next($event.target.value)">
 
-        <input #input *ngIf="value && value.length" [(ngModel)]="inputValue" style="width:.01rem" (keyup.backspace)="onMultiDel()" (keyup)="search$.next($event.target.value)">
+        <input #input *ngIf="value && value.length" [(ngModel)]="inputValue" style="width:.01rem" (keyup.backspace)="onMultiDel()"
+          (keyup)="search$.next($event.target.value)">
         <i class="iconfont icon-triangle-down right" (click)="onClickMulti()"></i>
       </div>
       <div class="flex middle" *ngIf="!multi">
-        <input class="full pl10" [placeholder]="placeholder" [(ngModel)]="inputValue" (keyup)="search$.next($event.target.value)" (change)="onInputChange()"
+        <input class="full pl10" [placeholder]="placeholder" [(ngModel)]="inputValue"
+          (keyup)="search$.next($event.target.value)" (change)="onInputChange()"
           [readOnly]="readonly || inputReadonly"  (click)="onClickInput($event)">
         <i class="iconfont icon-triangle-down right" (click)="clickShowDropdown=-1;showDropdown=true"></i>
       </div>
       <div class="dropdown" [class.block]="showDropdown" *ngIf="!readonly">
         <div class="item" *ngIf="!multi && !options.autocomplete && !options.noDefaultOption"
-          (click)="onSelect($event, null)">{{placeholder || '请选择'}}</div>
+          (click)="onSelect($event, null)">{{ placeholder || '请选择' }}</div>
         <div class="item" *ngIf="loading">
           <span class="iconfont icon-loading icon-spin"></span>
           Loading...
@@ -36,13 +55,15 @@ import 'rxjs/add/operator/distinctUntilChanged';
         <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
           <div class="item flex middle" *ngIf="!multi || !isChecked(item)" (click)="onSelect($event, item)"
             [title]="item.tooltip || ''">
-            <label class="full">{{options.name? item[options.name]: item}}</label>
+            <label class="full">{{ options.name? item[options.name]: item }}</label>
             <span class="iconfont icon-delete pointer" *ngIf="item.del" (click)="onDelOption($event, item, i)"></span>
           </div>
         </ng-template>
+        <div class="item gray" *ngIf="!options.list || !options.list.length">暂无下拉选项</div>
       </div>
     </div>
   `,
+  // tslint:disable-next-line:use-host-property-decorator
   host: {
     '(document:click)': 'onClickDocument($event)'
   },
@@ -232,7 +253,8 @@ export class SelectComponent implements OnInit, ControlValueAccessor, Validator 
 
   onClickInput(event: any) {
     this.clickShowDropdown = -1;
-    if ((this.options.autocomplete && this.options.list.length) || this.inputReadonly) this.showDropdown = true;
+    if ((this.options.autocomplete && this.options.list.length) || this.inputReadonly)
+      this.showDropdown = true;
   }
 
   onClickDocument(event) {

@@ -1,12 +1,12 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { FileItem, FileStatus, UploadParam } from './fileUpload.model';
+import { NoticeService } from '../notice/notice.service';
 
 @Injectable()
 export class FileUploader {
   fileList: FileItem[] = [];
   emitter: EventEmitter<any> = new EventEmitter(true);
-  constructor(public params: UploadParam) {
-  }
+  constructor(public params: UploadParam) {}
 
   addFiles(files: any[]) {
     for (let file of files) {
@@ -27,7 +27,7 @@ export class FileUploader {
   }
 
   uploadAll() {
-    let items = this.fileList.filter(item => (item.status === FileStatus.Ready));
+    let items = this.fileList.filter(item => item.status === FileStatus.Ready);
     if (!items.length) return;
 
     this.uploadFile(items[0]);
@@ -37,7 +37,10 @@ export class FileUploader {
     item.id = item.file.size + item.file.name;
     if (item.file.size > this.params.maxLength) {
       item.status = FileStatus.Fail;
-      item.error = '文件大小不能超过' + this.params.maxLength / 1024 / 1024 + 'M';
+      item.error = `文件大小不能超过${this.params.maxLength / 1024 / 1024}M
+        <br>文件名：${item.file.name}`;
+      let _noticeService: NoticeService = new NoticeService();
+      _noticeService.notice({ theme: 'error', body: item.error });
       return false;
     }
 
@@ -51,18 +54,18 @@ export class FileUploader {
     let form = new FormData();
     form.append(this.params.field, fileItem.file, fileItem.file.name);
 
-    xhr.upload.onprogress = (event) => {
+    xhr.upload.onprogress = event => {
       fileItem.progress = Math.round(event.lengthComputable ? event.loaded * 100 / event.total : 0);
       this._onMessage('progress', fileItem);
     };
 
-    xhr.upload.onabort = (e) => {
+    xhr.upload.onabort = e => {
       fileItem.status = FileStatus.Cancel;
       this._onMessage('cancel', fileItem);
       this._onNext();
     };
 
-    xhr.upload.onerror = (e) => {
+    xhr.upload.onerror = e => {
       fileItem.status = FileStatus.Fail;
       fileItem.error = '文件上传错误';
       this._onMessage('error', fileItem);
@@ -77,8 +80,7 @@ export class FileUploader {
             fileItem.status = FileStatus.Fail;
             fileItem.error = '文件上传错误：404';
             this._onMessage('error', fileItem);
-          }
-          else {
+          } else {
             let response = JSON.parse(xhr.responseText);
             if (xhr.status == 200) {
               if (response && response.error) {
@@ -109,7 +111,7 @@ export class FileUploader {
     if (this.params.withCredentials) xhr.withCredentials = true;
 
     if (this.params.headers) {
-      Object.keys(this.params.headers).forEach((key) => {
+      Object.keys(this.params.headers).forEach(key => {
         xhr.setRequestHeader(key, this.params.headers[key]);
       });
     }
@@ -117,7 +119,7 @@ export class FileUploader {
   }
 
   private _onNext() {
-    let items = this.fileList.filter(item => (item.status === FileStatus.Ready));
+    let items = this.fileList.filter(item => item.status === FileStatus.Ready);
     if (!items.length) return this._onMessage('completeAll', null);
 
     this.uploadFile(items[0]);
