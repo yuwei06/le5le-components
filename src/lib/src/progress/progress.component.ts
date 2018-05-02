@@ -1,17 +1,29 @@
-import { Component, Input, forwardRef, ElementRef, Output, EventEmitter, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  forwardRef,
+  ElementRef,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'ui-progress',
   template: `
     <div class="ui-progress">
-      <div class="desc">
-        <label class="progress" *ngIf="options.unit!=='%'">{{value}} {{options.unit}}</label>
-        <label class="progress" *ngIf="options.unit==='%'">{{_progress| number:'.0-2'}} {{options.unit}}</label>
+      <div class="desc" *ngIf="!options.customDesc && options.customDesc !== ''">
+        <label class="progress" *ngIf="options.unit!=='%'">{{ value }} {{ options.unit }}</label>
+        <label class="progress" *ngIf="options.unit==='%'">{{ _progress| number:'.0-2' }} {{ options.unit }}</label>
         <label *ngIf="options.showRemainder && value < total">
           <span class="gray mh10">/</span>
-          <span class="remainder">{{total - value}} {{options.remainderUnit}}</span>
+          <span class="remainder">{{ total - value }} {{ options.remainderUnit }}</span>
          </label>
+      </div>
+      <div class="desc" *ngIf="options.customDesc">
+        {{ options.customDesc }}
       </div>
       <div class="bk">
         <div [ngStyle]="getProgressStyle()"></div>
@@ -32,13 +44,13 @@ export class ProgressComponent implements ControlValueAccessor {
   @Input() total: number = 0;
   @Input() options: any = { unit: '%' };
 
-  private valueChange = (value: any) => {};
-  private touch = () => {};
-
   // ngModeld的实际值
   private _value: any;
 
   private _progress: number;
+
+  private valueChange = (value: any) => {};
+  private touch = () => {};
 
   constructor() {}
 

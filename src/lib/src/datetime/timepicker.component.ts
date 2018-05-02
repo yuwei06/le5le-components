@@ -1,4 +1,14 @@
-import { Component, Input, Output, EventEmitter, ElementRef, ViewEncapsulation, forwardRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ElementRef,
+  ViewEncapsulation,
+  forwardRef,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
 @Component({
@@ -50,14 +60,18 @@ export class TimepickerComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit() {
     this.opts = Object.assign({}, this.options);
-
-    if (this.options.init === 'now') {
-      this._value = new Date();
-      this.valueChange(this._value);
-      this.change.emit(this._value);
-    }
-
     delete this.opts.init;
+
+    setTimeout(() => {
+      if (!this._value) {
+        this._value = new Date();
+      }
+
+      if (this.options.init === 'now') {
+        this.valueChange(this._value);
+        this.change.emit(this._value);
+      }
+    }, 500);
   }
 
   get value(): any {
@@ -65,13 +79,14 @@ export class TimepickerComponent implements OnInit, ControlValueAccessor {
   }
 
   set value(v: any) {
-    if (v !== this._value) {
+    if (v && v !== this._value) {
       let now = new Date(v);
       if (now + '' === 'Invalid Date') {
         now = new Date();
       }
-
       this._value = now;
+      this.valueChange(this._value);
+      this.change.emit(this._value);
     }
   }
 
@@ -114,7 +129,11 @@ export class TimepickerComponent implements OnInit, ControlValueAccessor {
     if (this.options.hideTime || this.options.mobile) {
       return [year, month, day].map(this.formatDateNumber).join('-');
     } else {
-      return [year, month, day].map(this.formatDateNumber).join('-') + ' ' + [hour, minute, second].map(this.formatDateNumber).join(':');
+      return (
+        [year, month, day].map(this.formatDateNumber).join('-') +
+        ' ' +
+        [hour, minute, second].map(this.formatDateNumber).join(':')
+      );
     }
   }
 

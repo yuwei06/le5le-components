@@ -14,7 +14,6 @@ export class TouchFormDirective {
       this.touchForm.controls[i].markAsTouched();
     }
 
-    this.renderer.setElementClass(this.elementRef.nativeElement, 'ng-untouched', false);
-    this.renderer.setElementClass(this.elementRef.nativeElement, 'ng-touched', true);
+    this.renderer.setElementClass(this.elementRef.nativeElement, 'submited', true);
   }
 }
