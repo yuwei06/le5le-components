@@ -20,7 +20,8 @@ ui-select.ng-touched.ng-invalid .input {
 }
 
 ui-select .show-dropdown.input {
-  border-bottom: none;
+  border-color: #26bbf0;
+  border-bottom: 1px solid #dbdfe1;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -31,10 +32,10 @@ ui-select.full .ui-select {
 
 .ui-select .dropdown {
   min-width: 100%;
-  top: 100%;
+  top: calc(100% + 1px);
   left: -1px;
   box-shadow: none;
-  border: 1px solid #c4c9cd;
+  border: 1px solid #26bbf0;
   border-top: none;
   border-bottom-left-radius: 0.04rem;
   border-bottom-right-radius: 0.04rem;
