@@ -11,14 +11,14 @@ import { NgForm } from '@angular/forms';
   selector: '[uiTouchForm]'
 })
 export class TouchFormDirective {
-  @Input() touchForm: NgForm;
+  @Input() uiTouchForm: NgForm;
   constructor(private elementRef: ElementRef, private renderer: Renderer) {}
 
   @HostListener('submit')
   onSubmit() {
     // tslint:disable-next-line:forin
-    for (const i in this.touchForm.controls) {
-      this.touchForm.controls[i].markAsTouched();
+    for (const i in this.uiTouchForm.controls) {
+      this.uiTouchForm.controls[i].markAsTouched();
     }
 
     this.renderer.setElementClass(

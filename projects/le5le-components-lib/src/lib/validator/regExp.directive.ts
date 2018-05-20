@@ -2,7 +2,7 @@ import { Directive, Input } from '@angular/core';
 import { NG_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
 
 @Directive({
-  selector: '[uiRregExp]',
+  selector: '[uiRegExp]',
   providers: [
     {
       provide: NG_VALIDATORS,
@@ -12,10 +12,10 @@ import { NG_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
   ]
 })
 export class RegExpValidator implements Validator {
-  @Input() regExp: string;
+  @Input() uiRegExp: string;
 
   validate(c: AbstractControl): { [key: string]: any } {
-    const pat = new RegExp(this.regExp);
+    const pat = new RegExp(this.uiRegExp);
     if (c.value && !pat.test(c.value)) {
       return { repExp: true };
     }

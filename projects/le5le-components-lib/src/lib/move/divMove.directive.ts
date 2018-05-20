@@ -14,7 +14,6 @@ import { map, switchMap, takeUntil } from 'rxjs/operators';
   selector: '[uiDivMove]'
 })
 export class DivMoveDirective implements OnInit, OnDestroy {
-  @Input() divMove = true;
   @Input() isHead = false;
   @Input() pos: any;
   @Output() move = new EventEmitter<any>();

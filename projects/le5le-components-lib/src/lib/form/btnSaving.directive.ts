@@ -9,7 +9,7 @@ export class BtnSavingDirective {
   constructor(private element: ElementRef) {}
 
   @Input()
-  set btnSaving(condition: boolean) {
+  set uiBtnSaving(condition: boolean) {
     if (!this.text) {
       this.text = this.element.nativeElement.innerHTML;
     }
