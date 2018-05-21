@@ -1,0 +1,37 @@
+<div class="flex">
+  <div class="tree">
+    <div class="item">
+      <a>
+        <i class="iconfont icon-triangledown"></i>
+        使用指南
+        <div class="item" [class.active]="isActive('/component/avatar')">
+          <a routerLink="/component/avatar">
+            <i class="iconfont icon-angle-right"></i>
+            字母头像
+          </a>
+        </div>
+        <div class="item" [class.active]="isActive('/component/notice')">
+          <a routerLink="/component/notice">
+            <i class="iconfont icon-angle-right"></i>
+            消息提示
+          </a>
+        </div>
+        <div class="item" [class.active]="isActive('/component/xterm')">
+          <a routerLink="/component/xterm">
+            <i class="iconfont icon-angle-right"></i>
+            xterm
+          </a>
+        </div>
+        <div class="item" [class.active]="isActive('/component/code')">
+          <a routerLink="/component/code">
+            <i class="iconfont icon-angle-right"></i>
+            code
+          </a>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="body-height full text-left">
+    <router-outlet></router-outlet>
+  </div>
+</div>
