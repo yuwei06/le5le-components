@@ -1,6 +1,6 @@
 {
   "name": "le5le-components",
-  "version": "0.0.0",
+  "version": "0.6.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
@@ -25,8 +25,8 @@
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26",
     "monaco-editor": "^0.13.1",
-    "xterm": "^3.2.0",
-    "le5le-ui": "^0.5.9",
+    "xterm": "^3.4.1",
+    "le5le-ui": "^0.6.1",
     "echarts": "^3.7.1"
   },
   "devDependencies": {

@@ -10,14 +10,9 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 
-import * as Terminal from 'xterm/dist/xterm';
-import * as attach from 'xterm/dist/addons/attach/attach';
-import * as fit from 'xterm/dist/addons/fit/fit';
-import * as winptyCompat from 'xterm/dist/addons/winptyCompat/winptyCompat';
-
-Terminal.applyAddon(attach);
-Terminal.applyAddon(fit);
-Terminal.applyAddon(winptyCompat);
+import { Terminal } from 'xterm';
+import { fit } from 'xterm/lib/addons/fit/fit';
+import { attach, detach } from 'xterm/lib/addons/attach/attach';
 
 @Component({
   selector: 'ui-xterm',
@@ -46,17 +41,16 @@ export class XTermComponent implements OnInit, OnDestroy {
     }
 
     setTimeout(() => {
-      this.xterm.fit();
+      fit(this.xterm);
     }, 100);
     setTimeout(() => {
-      this.xterm.fit();
+      fit(this.xterm);
     }, 500);
   }
 
   ngOnInit() {
     this.xterm = new Terminal();
-    this.xterm.open(this.terminalHost.nativeElement, true);
-    this.xterm.winptyCompatInit();
+    this.xterm.open(this.terminalHost.nativeElement);
     this.xterm.focus();
     this.onResize();
 
@@ -73,7 +67,7 @@ export class XTermComponent implements OnInit, OnDestroy {
   }
 
   attachTerminal = () => {
-    this.xterm.attach(this.socket);
+    attach(this.xterm, this.socket, true, false);
     this.onResize();
     this.focus();
 
@@ -94,7 +88,7 @@ export class XTermComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (this.socket) {
-      this.xterm.detach(this.socket);
+      detach(this.xterm, this.socket);
       this.socket.close();
     }
   }
