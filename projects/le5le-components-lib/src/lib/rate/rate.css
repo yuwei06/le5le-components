@@ -1,0 +1,13 @@
+.ui-rate {
+  display: flex;
+  align-items: center;
+}
+
+.ui-rate i {
+  margin: 0 0.02rem;
+  color: #e69b0a;
+}
+
+.ui-rate .text {
+  margin-left: 0.05rem;
+}

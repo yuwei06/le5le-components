@@ -36,3 +36,4 @@ export { EchartsComponent } from './echarts/echarts.component';
 export { ValidatorService } from './validator/validator.service';
 export { ProgressComponent } from './progress/progress.component';
 export { AvatarComponent } from './avatar/avatar.component';
+export { RateComponent } from './rate/rate.component';

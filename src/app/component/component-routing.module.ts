@@ -6,6 +6,7 @@ import { ComponentAvatarComponent } from './avatar/avatar.component';
 import { ComponentNoticeComponent } from './notice/notice.component';
 import { ComponentXtermComponent } from './xterm/xterm.component';
 import { ComponentCodeComponent } from './code/code.component';
+import { ComponentRateComponent } from './rate/rate.component';
 
 const OperatingRoutes: Routes = [
   {
@@ -19,6 +20,10 @@ const OperatingRoutes: Routes = [
       {
         path: 'notice',
         component: ComponentNoticeComponent
+      },
+      {
+        path: 'rate',
+        component: ComponentRateComponent
       },
       {
         path: 'xterm',

@@ -36,6 +36,7 @@ import { EchartsComponent } from './echarts/echarts.component';
 import { ValidatorService } from './validator/validator.service';
 import { ProgressComponent } from './progress/progress.component';
 import { AvatarComponent } from './avatar/avatar.component';
+import { RateComponent } from './rate/rate.component';
 
 const MODULES = [
   ImageLazyLoadDirective,
@@ -68,7 +69,8 @@ const MODULES = [
   SliderComponent,
   EchartsComponent,
   ProgressComponent,
-  AvatarComponent
+  AvatarComponent,
+  RateComponent
 ];
 
 export function monacoFactory(ngZone: NgZone) {

@@ -8,6 +8,7 @@ import { ComponentAvatarComponent } from './avatar/avatar.component';
 import { ComponentNoticeComponent } from './notice/notice.component';
 import { ComponentXtermComponent } from './xterm/xterm.component';
 import { ComponentCodeComponent } from './code/code.component';
+import { ComponentRateComponent } from './rate/rate.component';
 
 @NgModule({
   imports: [SharedModule, ComponentRoutingModule],
@@ -16,7 +17,8 @@ import { ComponentCodeComponent } from './code/code.component';
     ComponentAvatarComponent,
     ComponentNoticeComponent,
     ComponentXtermComponent,
-    ComponentCodeComponent
+    ComponentCodeComponent,
+    ComponentRateComponent
   ],
   providers: []
 })
