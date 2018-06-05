@@ -31,9 +31,9 @@ ui-select.full .ui-select {
 }
 
 .ui-select .dropdown {
-  min-width: 100%;
   top: calc(100% + 1px);
   left: -1px;
+  right: -1px;
   box-shadow: none;
   border: 1px solid #26bbf0;
   border-top: none;

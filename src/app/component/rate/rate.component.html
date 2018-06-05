@@ -1,4 +1,5 @@
 <div class="p20">
+  <div>默认5分制</div>
   <div class="">
     <ui-rate [(ngModel)]="rate1"></ui-rate>
   </div>
@@ -7,5 +8,17 @@
   </div>
   <div class=" mt20">
     <ui-rate [(ngModel)]="rate3" [readonly]="true"></ui-rate>
+  </div>
+</div>
+<div class="p20">
+  <div>10分制</div>
+  <div class="">
+    <ui-rate [(ngModel)]="rate4" [options]="{total: 10}"></ui-rate>
+  </div>
+  <div class=" mt20">
+    <ui-rate [(ngModel)]="rate5" [readonly]="true"  [options]="{total: 10}"></ui-rate>
+  </div>
+  <div class=" mt20">
+    <ui-rate [(ngModel)]="rate6" [readonly]="true"  [options]="{total: 10}"></ui-rate>
   </div>
 </div>

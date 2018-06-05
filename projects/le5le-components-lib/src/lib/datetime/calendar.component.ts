@@ -214,6 +214,9 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
       this._value.getSeconds()
     );
     this.valueChange(this._value);
-    this.change.emit(this._value);
+
+    if (item) {
+      this.change.emit(this._value);
+    }
   }
 }

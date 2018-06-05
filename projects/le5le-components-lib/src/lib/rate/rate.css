@@ -4,10 +4,11 @@
 }
 
 .ui-rate i {
-  margin: 0 0.02rem;
-  color: #e69b0a;
+  margin-right: 0.05rem;
+  color: #26bbf0;
 }
 
 .ui-rate .text {
   margin-left: 0.05rem;
+  margin-top: 0.01rem;
 }

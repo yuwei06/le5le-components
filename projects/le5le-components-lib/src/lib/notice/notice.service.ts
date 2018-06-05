@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class NoticeService {
   static offsetHeight = 0;
+  static offsetHeightSystem = 0;
   constructor() {}
 
   // noticeService.notice({body: '已经给您发送找回密码邮件了，请查收！', theme: 'success', timeout:3000});
@@ -88,8 +89,14 @@ export class NoticeService {
       }
     };
     document.body.appendChild(rootElem);
-    rootElem.style.top = NoticeService.offsetHeight + 'px';
-    NoticeService.offsetHeight += rootElem.offsetHeight + 5;
+
+    if (!options.theme || options.theme.indexOf('system-notice') < 0) {
+      rootElem.style.top = NoticeService.offsetHeight + 'px';
+      NoticeService.offsetHeight += rootElem.offsetHeight + 5;
+    } else {
+      rootElem.style.top = NoticeService.offsetHeightSystem + 'px';
+      NoticeService.offsetHeightSystem += rootElem.offsetHeightSystem + 5;
+    }
 
     timer();
   }

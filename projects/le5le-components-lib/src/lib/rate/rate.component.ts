@@ -22,7 +22,7 @@ import {
         <i class="iconfont" [class.icon-star-o]="item===0" [class.icon-star-half-o]="item===1"
           [class.icon-star]="item===2" (click)="onClick(i+1)" (mouseenter)="onEnter(i+1)"></i>
       </ng-template>
-      <span class="text">{{value | number:'.0-2'}}</span>
+      <span class="text">{{_value | number:'.0-2'}}</span>
     </span>
   `,
   providers: [
@@ -48,7 +48,10 @@ export class RateComponent implements ControlValueAccessor, Validator {
   @Input() options: any = { total: 5 };
 
   // ngModeld的实际值
-  private _value = 0;
+  _value = 0;
+
+  // 以5为基准的值
+  baseValue = 0;
 
   stars = [0, 0, 0, 0, 0];
 
@@ -58,13 +61,14 @@ export class RateComponent implements ControlValueAccessor, Validator {
   constructor() {}
 
   get value(): any {
-    return this._value * (this.options.total / 5);
+    return this._value;
   }
 
   set value(v: any) {
+    this._value = v || 0;
     // 向5对齐
-    this._value = v * (5 / this.options.total);
-    this.setStar(this._value);
+    this.baseValue = this._value * (5 / this.options.total);
+    this.setStar(this.baseValue);
   }
 
   // 实现Validator接口，验证有效性
@@ -98,10 +102,11 @@ export class RateComponent implements ControlValueAccessor, Validator {
       return;
     }
 
-    this._value = i;
-    this.valueChange(this.value);
-    this.change.emit(this.value);
-    this.setStar(this._value);
+    this.baseValue = i;
+    this._value = this.baseValue * (this.options.total / 5);
+    this.valueChange(this._value);
+    this.change.emit(this._value);
+    this.setStar(this.baseValue);
   }
 
   onEnter(i) {
@@ -109,6 +114,7 @@ export class RateComponent implements ControlValueAccessor, Validator {
       return;
     }
 
+    this._value = i * (this.options.total / 5);
     this.setStar(i);
   }
 
@@ -117,20 +123,18 @@ export class RateComponent implements ControlValueAccessor, Validator {
       return;
     }
 
-    this.setStar(this._value);
+    this._value = this.baseValue * (this.options.total / 5);
+    this.setStar(this.baseValue);
   }
 
   setStar(v) {
     this.stars = [0, 0, 0, 0, 0];
 
-    const floorV = Math.floor(v) - 1;
+    const floorV = Math.floor(v);
     for (let i = 0; i < floorV; ++i) {
       this.stars[i] = 2;
     }
-
-    if (v === floorV + 1) {
-      this.stars[floorV] = 2;
-    } else if (v > floorV + 1) {
+    if (v > floorV) {
       this.stars[floorV] = 1;
     }
   }
