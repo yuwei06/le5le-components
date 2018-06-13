@@ -70,9 +70,7 @@ ui-select.full .ui-select {
   outline: none;
   border: none;
   min-height: 0.26rem;
-  position: relative;
-  left: 0.02rem;
-  padding-left: 0.08rem !important;
+  max-width: calc(100% - 0.26rem);
 }
 
 .ui-select input[readonly],

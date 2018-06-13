@@ -6,7 +6,7 @@ import { debounceTime } from 'rxjs/operators';
   selector: '[uiImageLazyLoad]'
 })
 export class ImageLazyLoadDirective implements OnInit {
-  @Input() imageLazyLoad = '';
+  @Input() uiImageLazyLoad = '';
   @Input() imageLazyLoadParams = '';
   @Input() threshold = 0;
   private scrollSubscription: Subscription;
@@ -50,7 +50,7 @@ export class ImageLazyLoadDirective implements OnInit {
     this.renderer.setElementAttribute(
       this.el.nativeElement,
       'src',
-      this.imageLazyLoad + this.imageLazyLoadParams
+      this.uiImageLazyLoad + this.imageLazyLoadParams
     );
   }
 }
