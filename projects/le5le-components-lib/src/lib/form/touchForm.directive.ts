@@ -12,6 +12,8 @@ import { NgForm } from '@angular/forms';
 })
 export class TouchFormDirective {
   @Input() uiTouchForm: NgForm;
+  @Input() scrollSelector = '';
+  @Input() scrollTop = -10;
   constructor(private elementRef: ElementRef, private renderer: Renderer) {}
 
   @HostListener('submit')
@@ -21,15 +23,24 @@ export class TouchFormDirective {
       this.uiTouchForm.controls[i].markAsTouched();
     }
 
-    const elem = this.elementRef.nativeElement.querySelector(
-      '.ng-invalid.ng-touched'
-    );
+    let elem = this.elementRef.nativeElement.querySelector('.ng-invalid');
 
     if (elem) {
-      const parentElem =
+      const scrollElem =
         this.elementRef.nativeElement.querySelector('.js-scroll') ||
+        document.querySelector(this.scrollSelector) ||
         this.elementRef.nativeElement;
-      parentElem.scrollTop = elem.offsetTop;
+
+      let top = elem.offsetTop;
+      while (elem.offsetParent) {
+        elem = elem.offsetParent;
+        if (scrollElem !== elem && scrollElem.contains(elem)) {
+          top += elem.offsetTop;
+        } else {
+          break;
+        }
+      }
+      scrollElem.scrollTop = top + this.scrollTop;
     }
 
     this.renderer.setElementClass(

@@ -13,6 +13,7 @@ ui-select {
 
 ui-select.small .ui-select {
   min-width: inherit;
+  max-width: 100%;
 }
 
 ui-select.ng-touched.ng-invalid .input {
@@ -27,6 +28,7 @@ ui-select .show-dropdown.input {
 }
 
 ui-select.full .ui-select {
+  min-width: inherit;
   width: 100% !important;
 }
 

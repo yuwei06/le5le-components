@@ -4,9 +4,20 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class NoticeService {
-  static offsetHeight = 0;
-  static offsetHeightSystem = 0;
-  constructor() {}
+  noticeContainer = document.querySelector('.notice-container');
+  systemContainer = document.querySelector('.system-container');
+  constructor() {
+    if (!this.noticeContainer) {
+      this.noticeContainer = document.createElement('div');
+      this.noticeContainer.className = 'notice-container';
+      document.body.appendChild(this.noticeContainer);
+    }
+    if (!this.systemContainer) {
+      this.systemContainer = document.createElement('div');
+      this.systemContainer.className = 'system-container';
+      document.body.appendChild(this.systemContainer);
+    }
+  }
 
   // noticeService.notice({body: '已经给您发送找回密码邮件了，请查收！', theme: 'success', timeout:3000});
   // theme - 风格主题: default, success, warning, error 。
@@ -20,7 +31,7 @@ export class NoticeService {
     let rootElem: any = document.createElement('div');
     rootElem.className = 'notice in ' + options.theme;
 
-    const close = () => {
+    const close = (t?) => {
       if (!rootElem) {
         return;
       }
@@ -30,13 +41,16 @@ export class NoticeService {
       c += ' out';
       rootElem.className = c;
 
-      NoticeService.offsetHeight -= rootElem.offsetHeight + 5;
       setTimeout(() => {
         if (rootElem) {
-          document.body.removeChild(rootElem);
+          if (!options.theme || options.theme.indexOf('system-notice') < 0) {
+            this.noticeContainer.removeChild(rootElem);
+          } else {
+            this.systemContainer.removeChild(rootElem);
+          }
         }
         rootElem = null;
-      }, 500);
+      }, t);
     };
 
     const bodyElem = document.createElement('div');
@@ -46,16 +60,16 @@ export class NoticeService {
     iconElem.className = 'icon iconfont ';
     switch (options.theme) {
       case 'success':
-        iconElem.className += 'icon-roundcheckfill';
+        iconElem.className += 'icon-check';
         break;
       case 'warning':
-        iconElem.className += 'icon-warnfill';
+        iconElem.className += 'icon-noticefill';
         break;
       case 'error':
-        iconElem.className += 'icon-roundclosefill';
+        iconElem.className += 'icon-noticefill';
         break;
       default:
-        iconElem.className += 'icon-infofill';
+        iconElem.className += 'icon-star';
         break;
     }
     bodyElem.appendChild(iconElem);
@@ -78,7 +92,7 @@ export class NoticeService {
       }
 
       timeout = setTimeout(() => {
-        close();
+        close(800);
       }, options.timeout);
     };
     rootElem.onmouseout = timer;
@@ -88,14 +102,33 @@ export class NoticeService {
         timeout = null;
       }
     };
-    document.body.appendChild(rootElem);
 
     if (!options.theme || options.theme.indexOf('system-notice') < 0) {
-      rootElem.style.top = NoticeService.offsetHeight + 'px';
-      NoticeService.offsetHeight += rootElem.offsetHeight + 5;
+      this.noticeContainer.appendChild(rootElem);
     } else {
-      rootElem.style.top = NoticeService.offsetHeightSystem + 'px';
-      NoticeService.offsetHeightSystem += rootElem.offsetHeightSystem + 5;
+      this.systemContainer.appendChild(rootElem);
+    }
+
+    const okCallback = (event: any) => {
+      event.stopPropagation();
+      if (options.okCallback) {
+        options.okCallback();
+      }
+      close(0);
+    };
+
+    const cancelCallback = (event: any) => {
+      event.stopPropagation();
+      if (options.cancelCallback) {
+        options.cancelCallback();
+      }
+      close(0);
+    };
+
+    if (options.okText) {
+      rootElem.appendChild(
+        this.makeFooterElem(okCallback, cancelCallback, options)
+      );
     }
 
     timer();

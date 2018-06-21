@@ -10,9 +10,36 @@ import { NoticeService } from 'projects/le5le-components-lib/src/lib';
 export class ComponentNoticeComponent {
   constructor() {}
 
+  onMsgSystem() {
+    const _noticeService: NoticeService = new NoticeService();
+    _noticeService.notice({
+      theme: 'system-notice',
+      body: '乐吾乐 - angular UI 组件库。系统system消息。',
+      timeout: 200000000
+    });
+  }
+
   onMsgDefault() {
     const _noticeService: NoticeService = new NoticeService();
-    _noticeService.notice({ body: 'default!', timeout: 200000000 });
+    _noticeService.notice({
+      body: '乐吾乐 - angular UI 组件库。缺省样式notice消息框。',
+      okText: '确定',
+      okCallback: () => {
+        _noticeService.notice({
+          theme: 'success',
+          body: '点击了OK!',
+          timeout: 2000
+        });
+      },
+      cancelCallback: () => {
+        _noticeService.notice({
+          theme: 'warning',
+          body: '点击了calcel!',
+          timeout: 2000
+        });
+      },
+      timeout: 200000000
+    });
   }
   onMsgSuccess() {
     const _noticeService: NoticeService = new NoticeService();
