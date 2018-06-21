@@ -63,7 +63,6 @@ const MODULES = [
 @NgModule({
   imports: [CommonModule, FormsModule],
   declarations: MODULES,
-  exports: MODULES,
-  providers: [NoticeService]
+  exports: MODULES
 })
 export class Le5leCommonComponentsModule {}

@@ -3,28 +3,24 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class MonacoEditorLoaderService {
-  isMonacoLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
-  private _monacoPath = 'assets/monaco/vs';
+  loaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _path = 'assets/monaco/vs';
   set monacoPath(value) {
     if (value) {
-      this._monacoPath = value + '/vs';
+      this._path = value + '/vs';
     }
   }
 
-  private _ngZone: NgZone;
-  constructor(ngZone: NgZone) {
-    this._ngZone = ngZone;
+  constructor(private _ngZone: NgZone) {
     this.load();
   }
 
   // Load monaco
   load() {
     const onGotAmdLoader = () => {
-      (<any>window).require.config({ paths: { vs: this._monacoPath } });
+      (<any>window).require.config({ paths: { vs: this._path } });
       (<any>window).require(['vs/editor/editor.main'], () => {
-        this._ngZone.run(() => this.isMonacoLoaded.next(true));
+        this._ngZone.run(() => this.loaded.next(true));
       });
     };
 
@@ -32,7 +28,7 @@ export class MonacoEditorLoaderService {
     if (!(<any>window).require) {
       const loaderScript = document.createElement('script');
       loaderScript.type = 'text/javascript';
-      loaderScript.src = `${this._monacoPath}/loader.js`;
+      loaderScript.src = `${this._path}/loader.js`;
       loaderScript.addEventListener('load', onGotAmdLoader);
       document.body.appendChild(loaderScript);
     } else {

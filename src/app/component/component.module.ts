@@ -9,6 +9,7 @@ import { ComponentNoticeComponent } from './notice/notice.component';
 import { ComponentXtermComponent } from './xterm/xterm.component';
 import { ComponentCodeComponent } from './code/code.component';
 import { ComponentRateComponent } from './rate/rate.component';
+import { ComponentEchartsComponent } from './echarts/echarts.component';
 
 @NgModule({
   imports: [SharedModule, ComponentRoutingModule],
@@ -18,7 +19,8 @@ import { ComponentRateComponent } from './rate/rate.component';
     ComponentNoticeComponent,
     ComponentXtermComponent,
     ComponentCodeComponent,
-    ComponentRateComponent
+    ComponentRateComponent,
+    ComponentEchartsComponent
   ],
   providers: []
 })

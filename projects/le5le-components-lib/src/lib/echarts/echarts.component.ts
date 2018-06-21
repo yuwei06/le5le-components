@@ -4,8 +4,6 @@ import {
   OnDestroy,
   Component,
   Input,
-  Output,
-  EventEmitter,
   ViewChild,
   ElementRef,
   NgZone,
@@ -13,7 +11,9 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 
-import * as echarts from 'echarts';
+import { EchartsLoaderService } from './echarts-loader.service';
+
+declare var echarts: any;
 
 @Component({
   selector: 'ui-echarts',
@@ -37,24 +37,33 @@ export class EchartsComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('echarts') echartsHost: ElementRef;
 
   private chart: any;
-  private _previousOptions: any;
 
-  constructor(private ngZone: NgZone) {}
+  constructor(
+    private ngZone: NgZone,
+    private _loadService: EchartsLoaderService
+  ) {
+    this._loadService.load();
+  }
 
   ngOnInit() {
-    this._previousOptions = this.options;
-    this.ngZone.runOutsideAngular(() => {
-      this.chart = <any>echarts.init(
-        this.echartsHost.nativeElement,
-        this.theme,
-        this.initOpt
-      );
-      this.chart.setOption(this.options);
+    this._loadService.loaded.subscribe(ret => {
+      if (ret) {
+        this.ngZone.runOutsideAngular(() => {
+          this.chart = <any>(
+            echarts.init(
+              this.echartsHost.nativeElement,
+              this.theme,
+              this.initOpt
+            )
+          );
+          this.chart.setOption(this.options);
 
-      this.outObject.echarts = this.chart;
+          this.outObject.echarts = this.chart;
+        });
+
+        this.onResize();
+      }
     });
-
-    this.onResize();
   }
 
   ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {

@@ -8,7 +8,6 @@ import {
   ViewChild,
   Output,
   EventEmitter,
-  NgZone,
   ViewEncapsulation
 } from '@angular/core';
 import {
@@ -73,8 +72,8 @@ export class CodeComponent
   }
 
   ngOnInit() {
-    this._monacoLoaderService.isMonacoLoaded.subscribe(isLoaded => {
-      if (isLoaded) {
+    this._monacoLoaderService.loaded.subscribe(ret => {
+      if (ret) {
         this.initMonaco();
       }
     });

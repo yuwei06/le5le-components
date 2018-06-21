@@ -2,7 +2,6 @@ import { NgModule, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { NoticeService } from './notice/notice.service';
 import { ImageLazyLoadDirective } from './lazyLoad/imgLazyLoad.directive';
 import { EllipsisPipe } from './pipe/ellipsis.pipe';
 import { SwitchComponent } from './switch/switch.component';
@@ -33,10 +32,10 @@ import { MonacoEditorLoaderService } from './code/monaco-loader.service';
 import { XTermComponent } from './xterm/xterm.component';
 import { SliderComponent } from './slider/slider.component';
 import { EchartsComponent } from './echarts/echarts.component';
-import { ValidatorService } from './validator/validator.service';
 import { ProgressComponent } from './progress/progress.component';
 import { AvatarComponent } from './avatar/avatar.component';
 import { RateComponent } from './rate/rate.component';
+import { EchartsLoaderService } from './echarts/echarts-loader.service';
 
 const MODULES = [
   ImageLazyLoadDirective,
@@ -77,11 +76,20 @@ export function monacoFactory(ngZone: NgZone) {
   return new MonacoEditorLoaderService(ngZone);
 }
 
+export function echartsFactory(ngZone: NgZone) {
+  return new EchartsLoaderService(ngZone);
+}
+
 @NgModule({
   imports: [CommonModule, FormsModule],
   declarations: MODULES,
   exports: MODULES,
   providers: [
+    {
+      provide: EchartsLoaderService,
+      deps: [NgZone],
+      useFactory: echartsFactory
+    },
     {
       provide: MonacoEditorLoaderService,
       deps: [NgZone],
