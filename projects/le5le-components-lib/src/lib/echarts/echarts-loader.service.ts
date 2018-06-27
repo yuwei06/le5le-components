@@ -11,12 +11,25 @@ export class EchartsLoaderService {
   }
 
   load() {
+    enum LoadStatus {
+      Loading = 1,
+      Loaded
+    }
+
+    if ((<any>window).echartsLoad >= LoadStatus.Loading) {
+      if ((<any>window).echartsLoad > LoadStatus.Loading) {
+        this._ngZone.run(() => this.loaded.next(true));
+      }
+      return;
+    }
+    (<any>window).echartsLoad = LoadStatus.Loading;
     const loaderScript = document.createElement('script');
     loaderScript.type = 'text/javascript';
     loaderScript.src = this._path;
     document.body.appendChild(loaderScript);
     loaderScript.addEventListener('load', () => {
       this._ngZone.run(() => this.loaded.next(true));
+      (<any>window).echartsLoad = LoadStatus.Loaded;
     });
   }
 }
