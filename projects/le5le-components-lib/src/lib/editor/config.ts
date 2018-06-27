@@ -12,24 +12,24 @@ export interface EditorToolbarItem {
 }
 
 export let toolbarItems: EditorToolbarItem[] = [
-  {
-    class: 'iconfont icon-template',
-    tooltip: '模板',
-    command: 'templates'
-  },
-  {
-    class: 'separator'
-  },
-  {
-    class: 'iconfont icon-reply',
-    tooltip: '撤销',
-    command: 'undo'
-  },
-  {
-    class: 'iconfont icon-redo',
-    tooltip: '重做',
-    command: 'redo'
-  },
+  // {
+  //   class: 'iconfont icon-template',
+  //   tooltip: '模板',
+  //   command: 'templates'
+  // },
+  // {
+  //   class: 'separator'
+  // },
+  // {
+  //   class: 'iconfont icon-reply',
+  //   tooltip: '撤销',
+  //   command: 'undo'
+  // },
+  // {
+  //   class: 'iconfont icon-redo',
+  //   tooltip: '重做',
+  //   command: 'redo'
+  // },
   {
     class: 'separator'
   },

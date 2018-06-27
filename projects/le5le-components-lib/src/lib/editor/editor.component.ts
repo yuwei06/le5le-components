@@ -168,6 +168,7 @@ export class EditorComponent implements OnInit, OnChanges {
       clearTimeout(this.timer);
       this.timer = null;
     }
+    this.editor.focus();
     document.execCommand(cmd, false, val);
   }
 
