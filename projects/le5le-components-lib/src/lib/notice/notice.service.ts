@@ -19,7 +19,7 @@ export class NoticeService {
     }
   }
 
-  // noticeService.notice({body: '已经给您发送找回密码邮件了，请查收！', theme: 'success', timeout:3000});
+  // noticeService.notice({body: '已经给您发送找回密码邮件了，请查收！', theme: 'success', timeout:3000, buttons:[{text, cb}]});
   // theme - 风格主题: default, success, warning, error 。
   notice(options: any) {
     if (!options.theme) {
@@ -103,32 +103,35 @@ export class NoticeService {
       }
     };
 
+    let footerElem = null;
     if (!options.theme || options.theme.indexOf('system-notice') < 0) {
       this.noticeContainer.appendChild(rootElem);
     } else {
       this.systemContainer.appendChild(rootElem);
     }
 
-    const okCallback = (event: any) => {
-      event.stopPropagation();
-      if (options.okCallback) {
-        options.okCallback();
-      }
-      close(0);
-    };
+    if (options.buttons) {
+      for (const item of options.buttons) {
+        if (!item.text || !item.cb) {
+          continue;
+        }
 
-    const cancelCallback = (event: any) => {
-      event.stopPropagation();
-      if (options.cancelCallback) {
-        options.cancelCallback();
-      }
-      close(0);
-    };
+        if (!footerElem) {
+          footerElem = document.createElement('div');
+          footerElem.className = 'modal-footer';
+          rootElem.appendChild(footerElem);
+        }
 
-    if (options.okText) {
-      rootElem.appendChild(
-        this.makeFooterElem(okCallback, cancelCallback, options)
-      );
+        const btn = document.createElement('button');
+        btn.className = 'button default ml10';
+        btn.innerHTML = item.text;
+        btn.onclick = (event: any) => {
+          event.stopPropagation();
+          item.cb();
+          close(0);
+        };
+        footerElem.appendChild(btn);
+      }
     }
 
     timer();

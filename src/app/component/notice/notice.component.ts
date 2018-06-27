@@ -23,21 +23,28 @@ export class ComponentNoticeComponent {
     const _noticeService: NoticeService = new NoticeService();
     _noticeService.notice({
       body: '乐吾乐 - angular UI 组件库。缺省样式notice消息框。',
-      okText: '确定',
-      okCallback: () => {
-        _noticeService.notice({
-          theme: 'success',
-          body: '点击了OK!',
-          timeout: 2000
-        });
-      },
-      cancelCallback: () => {
-        _noticeService.notice({
-          theme: 'warning',
-          body: '点击了calcel!',
-          timeout: 2000
-        });
-      },
+      buttons: [
+        {
+          text: '取消',
+          cb: () => {
+            _noticeService.notice({
+              theme: 'warning',
+              body: '点击了calcel!',
+              timeout: 2000
+            });
+          }
+        },
+        {
+          text: '确定',
+          cb: () => {
+            _noticeService.notice({
+              theme: 'success',
+              body: '点击了OK!',
+              timeout: 2000
+            });
+          }
+        }
+      ],
       timeout: 200000000
     });
   }
