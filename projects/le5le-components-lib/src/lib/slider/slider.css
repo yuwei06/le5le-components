@@ -1,15 +1,15 @@
 .ui-slider {
   position: relative;
-  height: .21rem;
+  height: 0.21rem;
 }
 
 .ui-slider .bk {
-  height: .02rem;
+  height: 0.02rem;
   background: #26bbf0;
   position: absolute;
   left: 0;
   right: 0;
-  top: .09rem;
+  top: 0.09rem;
   cursor: pointer;
 }
 
@@ -18,31 +18,34 @@
   cursor: not-allowed;
 }
 
-.ui-slider .min, .ui-slider .max {
+.ui-slider .min,
+.ui-slider .max {
   position: absolute;
-  border: .02rem solid #26bbf0;
+  border: 0.02rem solid #26bbf0;
   border-radius: 50%;
-  width: .18rem;
-  height: .18rem;
-  font-size: .1rem;
+  width: 0.2rem;
+  height: 0.2rem;
+  font-size: 0.1rem;
   background: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   user-select: none;
+  white-space: nowrap;
 }
 
 .ui-slider .bk-gray {
-  height: .02rem;
+  height: 0.02rem;
   position: absolute;
   left: 0;
   right: 0;
-  top: .09rem;
+  top: 0.09rem;
   background: #dbdfe1;
   pointer-events: none;
 }
 
-.ui-slider.readonly .min, .ui-slider.readonly .max {
-  border: .02rem solid #6f787e;
+.ui-slider.readonly .min,
+.ui-slider.readonly .max {
+  border: 0.02rem solid #6f787e;
 }

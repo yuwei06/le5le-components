@@ -12,7 +12,7 @@ import { NgForm } from '@angular/forms';
 })
 export class TouchFormDirective {
   @Input() uiTouchForm: NgForm;
-  @Input() scrollSelector = '';
+  @Input() scrollSelector = 'form';
   @Input() scrollTop = -10;
   constructor(private elementRef: ElementRef, private renderer: Renderer) {}
 
@@ -24,14 +24,13 @@ export class TouchFormDirective {
     }
 
     let elem = this.elementRef.nativeElement.querySelector('.ng-invalid');
-
     if (elem) {
+      let top = elem.offsetTop;
       const scrollElem =
         this.elementRef.nativeElement.querySelector('.js-scroll') ||
         document.querySelector(this.scrollSelector) ||
         this.elementRef.nativeElement;
 
-      let top = elem.offsetTop;
       while (elem.offsetParent) {
         elem = elem.offsetParent;
         if (scrollElem !== elem && scrollElem.contains(elem)) {

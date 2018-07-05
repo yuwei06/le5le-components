@@ -50,6 +50,17 @@ export class FileUploader {
       return false;
     }
 
+    if (this.params.exts) {
+      const ext = /\.[^\.]+/.exec(item.file.name);
+      if (ext && this.params.exts.indexOf(ext[0].substr(1)) < 0) {
+        item.status = FileStatus.Fail;
+        item.error = '图片格式必须为：' + this.params.exts;
+        const _noticeService: NoticeService = new NoticeService();
+        _noticeService.notice({ theme: 'error', body: item.error });
+        return false;
+      }
+    }
+
     return true;
   }
 
@@ -62,7 +73,7 @@ export class FileUploader {
 
     xhr.upload.onprogress = event => {
       fileItem.progress = Math.round(
-        event.lengthComputable ? event.loaded * 100 / event.total : 0
+        event.lengthComputable ? (event.loaded * 100) / event.total : 0
       );
       this._onMessage('progress', fileItem);
     };

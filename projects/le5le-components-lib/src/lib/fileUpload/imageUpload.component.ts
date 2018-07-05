@@ -58,6 +58,9 @@ export class ImageUploadComponent implements OnInit {
       this.options.headers,
       <boolean>this.options.autoUpload
     );
+    if (this.options.accept.indexOf('image/') > -1) {
+      params.exts = 'png,bmp,jpeg,jpg,gif,svg';
+    }
     if (this.options.maxLength) {
       params.maxLength = this.options.maxLength;
     }

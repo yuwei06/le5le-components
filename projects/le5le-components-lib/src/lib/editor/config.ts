@@ -30,9 +30,9 @@ export let toolbarItems: EditorToolbarItem[] = [
   //   tooltip: '重做',
   //   command: 'redo'
   // },
-  {
-    class: 'separator'
-  },
+  // {
+  //   class: 'separator'
+  // },
   {
     class: 'iconfont icon-header',
     tooltip: '标题和文本',

@@ -24,6 +24,7 @@ export class UploadParam {
   progress = 0;
   withCredentials: boolean;
   autoUpload: boolean;
+  exts: string;
   constructor(public url: string, headers?: any, autoUpload?: boolean) {
     if (headers) {
       this.headers = headers;

@@ -71,7 +71,7 @@ export class SliderComponent implements OnInit {
       return;
     }
     const w =
-      (pos - this.options.min) / (this.options.max - this.options.min) * 100;
+      ((pos - this.options.min) / (this.options.max - this.options.min)) * 100;
     return {
       left: `calc(${w}% - .11rem)`
     };
@@ -86,7 +86,9 @@ export class SliderComponent implements OnInit {
       return;
     }
 
-    const w = this.min / (this.options.max - this.options.min) * 100;
+    const w =
+      ((this.min - this.options.min) / (this.options.max - this.options.min)) *
+      100;
     return {
       width: `${w}%`
     };
@@ -186,8 +188,7 @@ export class SliderComponent implements OnInit {
       this.min =
         this.initMin +
         Math.round(
-          pos *
-            (this.options.max - this.options.min) /
+          (pos * (this.options.max - this.options.min)) /
             this.element.nativeElement.clientWidth
         );
       this.checkMin();
@@ -196,8 +197,7 @@ export class SliderComponent implements OnInit {
       this.max =
         this.initMax +
         Math.round(
-          pos *
-            (this.options.max - this.options.min) /
+          (pos * (this.options.max - this.options.min)) /
             this.element.nativeElement.clientWidth
         );
       this.checkMax();
