@@ -3,3 +3,7 @@ ui-code,
   display: block;
   min-height: 3rem;
 }
+
+.ui-code div {
+  padding-top: 0;
+}

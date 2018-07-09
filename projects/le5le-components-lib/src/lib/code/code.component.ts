@@ -42,7 +42,7 @@ declare const monaco: any;
 export class CodeComponent
   implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   @Input() required = false;
-  @Input() options: any = {};
+  @Input() options: any = { language: 'ini' };
   @Output() change = new EventEmitter();
 
   @Input()
@@ -81,8 +81,9 @@ export class CodeComponent
 
   // Will be called once monaco library is available
   initMonaco() {
-    const options = this.options;
+    const options = Object.assign({}, this.options);
     options.value = this._value;
+    console.log(123, options);
     this.editor = monaco.editor.create(
       this.editorContent.nativeElement,
       options
