@@ -167,7 +167,7 @@ export class SelectComponent
       if (!this.multi) {
         this.inputValue = this._value;
 
-        if (this._value && this.options.id) {
+        if (this._value !== undefined && this.options.id) {
           let item: any;
           for (const i of this.options.list) {
             // tslint:disable-next-line:triple-equals
@@ -290,7 +290,7 @@ export class SelectComponent
   }
 
   onClick() {
-    if (this.multi) {
+    if (this.multi || this.inputReadonly) {
       this.showDropdown = true;
     }
   }
