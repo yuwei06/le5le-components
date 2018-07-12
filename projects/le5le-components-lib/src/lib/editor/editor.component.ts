@@ -33,8 +33,7 @@ export class EditorComponent implements OnInit, OnChanges {
     templates: [],
     canEditTemplates: false,
     url: '',
-    headers: {},
-    toolbarItems: toolbarItems
+    headers: {}
   };
   @Output() selectTemplateChange: EventEmitter<any> = new EventEmitter<any>();
   @Output() editTemplateChange: EventEmitter<any> = new EventEmitter<any>();
@@ -47,10 +46,13 @@ export class EditorComponent implements OnInit, OnChanges {
   progress: number;
   link: any = { show: false, text: '', href: '', blank: true };
   img: any = { show: false, src: '' };
+  toolbarItems: any[] = toolbarItems;
   private selectedRange: any;
-  constructor(private _noticeService: NoticeService) {
-    if (!this.options.toolbarItems || !this.options.toolbarItems.length) {
-      this.options.toolbarItems = toolbarItems;
+  constructor(private _noticeService: NoticeService) {}
+
+  ngOnInit() {
+    if (this.options.toolbarItems && this.options.toolbarItems.length) {
+      this.toolbarItems = this.options.toolbarItems;
     }
 
     const params: UploadParam = new UploadParam(
@@ -59,15 +61,18 @@ export class EditorComponent implements OnInit, OnChanges {
       true
     );
     this.uploader = new FileUploader(params);
-    this.uploader.emitter.subscribe((ret: any) => {
+    this.uploader.emitter.subscribe(ret => {
       switch (ret.event) {
         case 'progress':
           this.filename = ret.fileItem.file.name;
           this.progress = ret.fileItem.progress;
           break;
-        case 'success':
+        case 'complete':
           if (!this.images) {
             this.images = [];
+          }
+          if (this.options.cdn) {
+            ret.fileItem.url = this.options.cdn + ret.fileItem.url;
           }
           this.images.push(ret.fileItem.url);
           this.imagesChange.emit(this.images);
@@ -92,9 +97,7 @@ export class EditorComponent implements OnInit, OnChanges {
           break;
       }
     });
-  }
 
-  ngOnInit() {
     this.editor = document.querySelector(
       '.ui-editor .editor .article'
     ) as HTMLElement;
@@ -124,6 +127,8 @@ export class EditorComponent implements OnInit, OnChanges {
 
   command(event: any, cmd: string, val: string) {
     event.stopPropagation();
+
+    this.editor.focus();
 
     switch (cmd) {
       case 'formatBlock':
@@ -168,7 +173,6 @@ export class EditorComponent implements OnInit, OnChanges {
       clearTimeout(this.timer);
       this.timer = null;
     }
-    this.editor.focus();
     document.execCommand(cmd, false, val);
   }
 

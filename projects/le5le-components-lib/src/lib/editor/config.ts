@@ -432,11 +432,11 @@ export let toolbarItems: EditorToolbarItem[] = [
       {
         caption: '本地图片',
         command: 'localImage'
-      },
-      {
-        caption: '图片库',
-        command: 'remoteImage'
       }
+      // {
+      //   caption: '图片库',
+      //   command: 'remoteImage'
+      // }
     ]
   },
   {
