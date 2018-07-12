@@ -24,19 +24,21 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   selector: 'ui-select',
   template: `
     <div class="ui-select input" [class.readonly]="readonly" [class.show-dropdown]="!readonly && showDropdown" (click)="onClick()">
-      <div class="flex ph5" *ngIf="multi">
-        <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
-          <div [class.selected]="multi" *ngIf="isChecked(item)">
-            {{ options.name? item[options.name]: item }}
-            <i *ngIf="!readonly" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
-          </div>
-        </ng-template>
+      <div class="flex middle pl10" *ngIf="multi">
+        <div class="flex wrap full">
+          <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
+            <div [class.selected]="multi" *ngIf="isChecked(item)">
+              {{ options.name? item[options.name]: item }}
+              <i *ngIf="!readonly" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
+            </div>
+          </ng-template>
 
-        <input *ngIf="!value || !value.length" [(ngModel)]="inputValue" class="full" [placeholder]="placeholder"
-          (keyup)="search$.next($event.target.value)">
+          <input *ngIf="!value || !value.length" [(ngModel)]="inputValue" [placeholder]="placeholder"
+            (keyup)="search$.next($event.target.value)" style="width: 100%;padding-left:0">
 
-        <input #input *ngIf="value && value.length" [(ngModel)]="inputValue" style="width:.01rem" (keyup.backspace)="onMultiDel()"
-          (keyup)="search$.next($event.target.value)">
+          <input #input *ngIf="value && value.length" [(ngModel)]="inputValue" style="width:.01rem" (keyup.backspace)="onMultiDel()"
+            (keyup)="search$.next($event.target.value)">
+        </div>
         <i class="iconfont icon-triangle-down right" (click)="onClickMulti()"></i>
       </div>
       <div class="flex middle" *ngIf="!multi">
@@ -143,7 +145,10 @@ export class SelectComponent
     }
 
     this.search$
-      .pipe(debounceTime(500), distinctUntilChanged())
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged()
+      )
       .subscribe(text => {
         this.autoChange.emit(text);
       });
@@ -261,7 +266,7 @@ export class SelectComponent
     }
     this.valueChange(this._value);
     this.touch();
-    this.change.emit(item);
+    this.change.emit(this._value);
   }
 
   onInputChange() {

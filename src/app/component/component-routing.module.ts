@@ -8,6 +8,7 @@ import { ComponentXtermComponent } from './xterm/xterm.component';
 import { ComponentCodeComponent } from './code/code.component';
 import { ComponentRateComponent } from './rate/rate.component';
 import { ComponentEchartsComponent } from './echarts/echarts.component';
+import { ComponentSelectComponent } from './select/select.component';
 
 const OperatingRoutes: Routes = [
   {
@@ -37,6 +38,10 @@ const OperatingRoutes: Routes = [
       {
         path: 'echarts',
         component: ComponentEchartsComponent
+      },
+      {
+        path: 'select',
+        component: ComponentSelectComponent
       }
     ]
   }

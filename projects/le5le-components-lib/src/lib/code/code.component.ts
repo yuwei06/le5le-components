@@ -83,7 +83,6 @@ export class CodeComponent
   initMonaco() {
     const options = Object.assign({}, this.options);
     options.value = this._value;
-    console.log(123, options);
     this.editor = monaco.editor.create(
       this.editorContent.nativeElement,
       options
