@@ -61,7 +61,8 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
             <span class="iconfont icon-delete pointer" *ngIf="item.del" (click)="onDelOption($event, item, i)"></span>
           </div>
         </ng-template>
-        <div class="item gray" *ngIf="!options.list || !options.list.length">暂无下拉选项</div>
+        <div class="item gray" *ngIf="!options.list || !options.list.length
+          || (multi && value && options.list && value.length === options.list.length)">暂无下拉选项</div>
       </div>
     </div>
   `,
