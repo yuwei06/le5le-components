@@ -76,10 +76,6 @@ ui-select.full .ui-select {
   min-height: 0.26rem;
 }
 
-.flex .full {
-  width: auto !important;
-}
-
 .ui-select input[readonly],
 .ui-select input[disabled] {
   background-color: #fff;

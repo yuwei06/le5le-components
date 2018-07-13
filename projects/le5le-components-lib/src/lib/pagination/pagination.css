@@ -3,8 +3,10 @@
   align-items: center;
 }
 
-.pagination .full {
+.pagination > .full {
   white-space: nowrap;
+  width: auto !important;
+  flex-grow: 1;
 }
 
 .pagination .buttons {
@@ -17,9 +19,9 @@
   text-decoration: none;
   background-color: #fff;
   border: 1px solid #ddd;
-  height: .26rem;
-  line-height: .26rem;
-  width: .32rem;
+  height: 0.26rem;
+  line-height: 0.26rem;
+  width: 0.32rem;
   text-align: center;
 }
 
@@ -28,13 +30,13 @@
 }
 
 .pagination .buttons > a:first-child {
-  border-top-left-radius: .04rem;
-  border-bottom-left-radius: .04rem;
+  border-top-left-radius: 0.04rem;
+  border-bottom-left-radius: 0.04rem;
 }
 
 .pagination .buttons > a:last-child {
-  border-top-right-radius: .04rem;
-  border-bottom-right-radius: .04rem;
+  border-top-right-radius: 0.04rem;
+  border-bottom-right-radius: 0.04rem;
 }
 
 .pagination .buttons > a.active {
