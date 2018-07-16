@@ -11,6 +11,7 @@ import { ComponentCodeComponent } from './code/code.component';
 import { ComponentRateComponent } from './rate/rate.component';
 import { ComponentEchartsComponent } from './echarts/echarts.component';
 import { ComponentSelectComponent } from './select/select.component';
+import { ComponentSliderComponent } from './slider/slider.component';
 
 @NgModule({
   imports: [SharedModule, ComponentRoutingModule],
@@ -22,7 +23,8 @@ import { ComponentSelectComponent } from './select/select.component';
     ComponentCodeComponent,
     ComponentRateComponent,
     ComponentEchartsComponent,
-    ComponentSelectComponent
+    ComponentSelectComponent,
+    ComponentSliderComponent
   ],
   providers: []
 })

@@ -24,10 +24,10 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   selector: 'ui-select',
   template: `
     <div class="ui-select input" [class.readonly]="readonly" [class.show-dropdown]="!readonly && showDropdown" (click)="onClick()">
-      <div class="flex middle pl10" *ngIf="multi">
+      <div class="flex middle pl10 full" *ngIf="multi">
         <div class="flex wrap full">
-          <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
-            <div [class.selected]="multi" *ngIf="isChecked(item)">
+          <ng-template ngFor let-item let-i="index" [ngForOf]="selectedItems">
+            <div [class.selected]="multi">
               {{ options.name? item[options.name]: item }}
               <i *ngIf="!readonly" class="iconfont icon-delete ml5" (click)="onDel(item, i)"></i>
             </div>
@@ -36,12 +36,13 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
           <input *ngIf="!value || !value.length" [(ngModel)]="inputValue" [placeholder]="placeholder"
             (keyup)="search$.next($event.target.value)" style="width: 100%;padding-left:0">
 
-          <input #input *ngIf="value && value.length" [(ngModel)]="inputValue" style="width:.01rem" (keyup.backspace)="onMultiDel()"
+          <input #input *ngIf="value && value.length" [(ngModel)]="inputValue"
+            style="padding:0;flex-grow:1;width:.1rem" (keyup.backspace)="onMultiDel()"
             (keyup)="search$.next($event.target.value)">
         </div>
         <i class="iconfont icon-triangle-down right" (click)="onClickMulti()"></i>
       </div>
-      <div class="flex middle" *ngIf="!multi">
+      <div class="flex middle full" *ngIf="!multi">
         <input class="full pl10" [placeholder]="placeholder" [(ngModel)]="inputValue"
           (keyup)="search$.next($event.target.value)" (change)="onInputChange()"
           [readOnly]="readonly || inputReadonly"  (click)="onClickInput($event)">
@@ -105,6 +106,7 @@ export class SelectComponent
 
   // ngModeld的实际值
   private _value: any;
+  selectedItems: any[] = [];
 
   // 下拉选项显示控制
   clickShowDropdown = -1;
@@ -137,6 +139,7 @@ export class SelectComponent
   ngOnInit() {
     if (this.multi) {
       this._value = [];
+      this.selectedItems = [];
     } else if (this.options.autocomplete) {
       this.inputReadonly = false;
     }
@@ -173,7 +176,7 @@ export class SelectComponent
       if (!this.multi) {
         this.inputValue = this._value;
 
-        if (this._value !== undefined && this.options.id) {
+        if (this._value !== undefined && this.options.id && this.options.list) {
           let item: any;
           for (const i of this.options.list) {
             // tslint:disable-next-line:triple-equals
@@ -185,6 +188,15 @@ export class SelectComponent
             this.inputValue = this.options.name
               ? item[this.options.name]
               : item;
+          }
+        }
+      } else if (v && v.length && this.options.id && this.options.list) {
+        for (const id of v) {
+          for (const item of this.options.list) {
+            // tslint:disable-next-line:triple-equals
+            if (item[this.options.id] == id) {
+              this.selectedItems.push(item);
+            }
           }
         }
       }
@@ -245,6 +257,7 @@ export class SelectComponent
       } else {
         this._value.push(item);
       }
+      this.selectedItems.push(item);
     } else {
       if (item) {
         this._value = this.options.id ? item[this.options.id] : item;
@@ -291,6 +304,7 @@ export class SelectComponent
       }
     }
 
+    this.selectedItems.splice(index, 1);
     this.valueChange(this._value);
     this.change.emit(this._value);
   }
@@ -332,6 +346,7 @@ export class SelectComponent
     }
 
     this._value.pop();
+    this.selectedItems.pop();
     this.valueChange(this._value);
     this.change.emit(this._value);
   }

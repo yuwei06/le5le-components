@@ -9,6 +9,7 @@ import { ComponentCodeComponent } from './code/code.component';
 import { ComponentRateComponent } from './rate/rate.component';
 import { ComponentEchartsComponent } from './echarts/echarts.component';
 import { ComponentSelectComponent } from './select/select.component';
+import { ComponentSliderComponent } from './slider/slider.component';
 
 const OperatingRoutes: Routes = [
   {
@@ -42,6 +43,10 @@ const OperatingRoutes: Routes = [
       {
         path: 'select',
         component: ComponentSelectComponent
+      },
+      {
+        path: 'slider',
+        component: ComponentSliderComponent
       }
     ]
   }

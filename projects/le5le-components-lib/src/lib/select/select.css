@@ -5,14 +5,12 @@ ui-select {
 
 .ui-select {
   position: relative;
-  width: 100%;
-  min-width: 2.17rem;
   padding: 0 !important;
   cursor: text;
+  width: 100%;
 }
 
 ui-select.small .ui-select {
-  min-width: inherit;
   max-width: 100%;
 }
 
@@ -28,7 +26,6 @@ ui-select .show-dropdown.input {
 }
 
 ui-select.full .ui-select {
-  min-width: inherit;
   width: 100% !important;
 }
 
@@ -60,6 +57,10 @@ ui-select.full .ui-select {
   flex-shrink: 0;
 }
 
+.ui-select .selected:last-of-type {
+  margin-right: 0.01rem;
+}
+
 .ui-select .selected i {
   font-size: 0.14rem;
   cursor: pointer;
@@ -79,6 +80,7 @@ ui-select.full .ui-select {
 .ui-select input[readonly],
 .ui-select input[disabled] {
   background-color: #fff;
+  width: 0.5rem !important;
 }
 
 .ui-select.readonly input[readonly],

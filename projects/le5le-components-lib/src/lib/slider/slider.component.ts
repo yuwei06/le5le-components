@@ -51,9 +51,15 @@ export class SliderComponent implements OnInit {
     }
     if (!this.min) {
       this.min = this.options.min;
+      setTimeout(() => {
+        this.minChange.emit(this.min);
+      });
     }
-    if (!this.max) {
+    if (!this.max || this.max > this.options.max) {
       this.max = this.options.max;
+      setTimeout(() => {
+        this.maxChange.emit(this.max);
+      });
     }
   }
 
