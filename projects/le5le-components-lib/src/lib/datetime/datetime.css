@@ -106,3 +106,23 @@
   min-width: 0.6rem;
   width: 0.6rem;
 }
+
+.ui-calendar .ui-select input[readonly],
+.ui-calendar .ui-select input[disabled] {
+  background-color: #fff;
+  width: 0.5rem !important;
+}
+
+.ui-time .ui-select input[readonly],
+.ui-time .ui-select input[disabled] {
+  background-color: #fff;
+  width: 0.3rem !important;
+  padding-right: 0;
+  position: relative;
+  top: 1px;
+}
+
+.ui-calendar .ui-select .dropdown,
+.ui-time .ui-select .dropdown {
+  min-width: 0.5rem;
+}

@@ -280,7 +280,8 @@ export class SelectComponent
     }
     this.valueChange(this._value);
     this.touch();
-    this.change.emit(this._value);
+    // return item of options.list
+    this.change.emit(item);
   }
 
   onInputChange() {
@@ -306,7 +307,6 @@ export class SelectComponent
 
     this.selectedItems.splice(index, 1);
     this.valueChange(this._value);
-    this.change.emit(this._value);
   }
 
   onClick() {
@@ -348,7 +348,6 @@ export class SelectComponent
     this._value.pop();
     this.selectedItems.pop();
     this.valueChange(this._value);
-    this.change.emit(this._value);
   }
 
   isChecked(item: any) {
