@@ -100,6 +100,17 @@ export class FileUploader {
             fileItem.status = FileStatus.Fail;
             fileItem.error = '文件上传错误：404';
             this._onMessage('error', fileItem);
+            // tslint:disable-next-line:triple-equals
+          } else if (xhr.status == 413) {
+            fileItem.status = FileStatus.Fail;
+            fileItem.error = '上传文件太大';
+            try {
+              const response = JSON.parse(xhr.responseText);
+              if (response && response.error) {
+                fileItem.error = '上传文件太大：' + response.error;
+              }
+            } catch (e) {}
+            this._onMessage('error', fileItem);
           } else {
             const response = JSON.parse(xhr.responseText);
             // tslint:disable-next-line:triple-equals
@@ -124,7 +135,7 @@ export class FileUploader {
           this._onNext();
         } catch (e) {
           fileItem.status = FileStatus.Fail;
-          fileItem.error = '文件上传错误：返回结果不是一个json';
+          fileItem.error = '文件上传错误';
           this._onMessage('error', fileItem);
         }
       }

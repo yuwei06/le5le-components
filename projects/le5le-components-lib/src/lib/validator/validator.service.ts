@@ -36,7 +36,16 @@ export class ValidatorService {
   }
 
   isPassword(value?: any): boolean {
-    return /^[\s\S]{6,20}$/.test(value);
+    // 长度8-20
+    if (!/^([a-zA-Z0-9~`!@#$%^&*()-_=+{}\[\]|\\:;'"]){8,20}$/.test(value)) {
+      return false;
+    }
+    // 必须有字母
+    if (!/[a-zA-Z]+/.test(value)) {
+      return false;
+    }
+    // 必须有数字
+    return /[0-9]+/.test(value);
   }
 
   isPositiveInteger(value?: any): boolean {

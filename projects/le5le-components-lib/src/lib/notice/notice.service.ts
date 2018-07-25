@@ -137,7 +137,7 @@ export class NoticeService {
     timer();
   }
 
-  makeHeaderElem(parentElem: any, title: string): any {
+  makeHeaderElem(parentElem, title: string, cb?): any {
     const headerElem = document.createElement('div');
     headerElem.className = 'modal-header';
 
@@ -151,6 +151,9 @@ export class NoticeService {
     closeElem.onclick = (event: any) => {
       event.stopPropagation();
       document.body.removeChild(parentElem);
+      if (cb) {
+        cb(false);
+      }
     };
     headerElem.appendChild(closeElem);
 
@@ -190,6 +193,9 @@ export class NoticeService {
     if (options.theme) {
       elem.className += ' ' + options.theme;
     }
+    if (options.esc === false) {
+      elem.className += ' disable-cancel';
+    }
     const cancelCallback = (event: any) => {
       event.stopPropagation();
       document.body.removeChild(elem);
@@ -205,7 +211,9 @@ export class NoticeService {
     };
     elem.appendChild(modalContentElem);
 
-    modalContentElem.appendChild(this.makeHeaderElem(elem, options.title));
+    modalContentElem.appendChild(
+      this.makeHeaderElem(elem, options.title, options.callback)
+    );
 
     const contentElem = document.createElement('div');
     contentElem.className = 'modal-body';
@@ -249,7 +257,9 @@ export class NoticeService {
     };
     elem.appendChild(modalContentElem);
 
-    modalContentElem.appendChild(this.makeHeaderElem(elem, options.title));
+    modalContentElem.appendChild(
+      this.makeHeaderElem(elem, options.title, options.callback)
+    );
 
     const contentElem = document.createElement('div');
     contentElem.className = 'modal-body';
