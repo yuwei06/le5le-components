@@ -90,3 +90,8 @@ ui-select.full .ui-select {
   user-select: none;
   cursor: default;
 }
+
+.ui-select .dropdown .item:hover {
+  background-color: #fff !important;
+  color: #26bbf0 !important;
+}

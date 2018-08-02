@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class ValidatorService {
   phones: any = {
-    'zh-CN': /^(\+?0?86\-?)?((13\d|14[57]|15[^4,\D]|17[678]|18\d)\d{8}|170[059]\d{7})$/,
+    'zh-CN': /^(\+?0?86\-?)?(1\d{10})$/,
     'zh-TW': /^(\+?886\-?|0)?9\d{8}$/,
     'en-ZA': /^(\+?27|0)\d{9}$/,
     'en-AU': /^(\+?61|0)4\d{8}$/,

@@ -44,7 +44,9 @@ export class NoticeService {
       setTimeout(() => {
         if (rootElem) {
           if (!options.theme || options.theme.indexOf('system-notice') < 0) {
-            this.noticeContainer.removeChild(rootElem);
+            if (this.noticeContainer.contains(rootElem)) {
+              this.noticeContainer.removeChild(rootElem);
+            }
           } else {
             this.systemContainer.removeChild(rootElem);
           }
@@ -105,6 +107,12 @@ export class NoticeService {
 
     let footerElem = null;
     if (!options.theme || options.theme.indexOf('system-notice') < 0) {
+      if (
+        options.maxCount > 0 &&
+        this.noticeContainer.childNodes.length >= options.maxCount
+      ) {
+        this.noticeContainer.removeChild(this.noticeContainer.childNodes[0]);
+      }
       this.noticeContainer.appendChild(rootElem);
     } else {
       this.systemContainer.appendChild(rootElem);
@@ -152,7 +160,7 @@ export class NoticeService {
       event.stopPropagation();
       document.body.removeChild(parentElem);
       if (cb) {
-        cb(false);
+        cb(null);
       }
     };
     headerElem.appendChild(closeElem);

@@ -56,7 +56,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
           Loading...
         </div>
         <ng-template ngFor let-item let-i="index" [ngForOf]="options.list">
-          <div class="item flex middle" *ngIf="!multi || !isChecked(item)" (click)="onSelect($event, item)"
+          <div class="item flex middle" [class.active]="item.active" *ngIf="!multi || !isChecked(item)" (click)="onSelect($event, item)"
             [title]="item.tooltip || ''">
             <label class="full">{{ options.name? item[options.name]: item }}</label>
             <span class="iconfont icon-delete pointer" *ngIf="item.del" (click)="onDelOption($event, item, i)"></span>
@@ -311,7 +311,7 @@ export class SelectComponent
 
   onClick() {
     if (this.multi || this.inputReadonly) {
-      this.showDropdown = true;
+      this.setDropdown();
     }
   }
 
@@ -321,8 +321,29 @@ export class SelectComponent
       (this.options.autocomplete && this.options.list.length) ||
       this.inputReadonly
     ) {
-      this.showDropdown = true;
+      this.setDropdown();
     }
+  }
+
+  setDropdown() {
+    if (!this.multi) {
+      let pos = 0;
+      let i = 0;
+      for (const item of this.options.list) {
+        if (this._value && this._value === item[this.options.id]) {
+          item.active = true;
+          pos = i;
+        } else {
+          item.active = false;
+        }
+        i++;
+      }
+      const scrollElem = this._elemRef.nativeElement.querySelector('.dropdown');
+      if (scrollElem) {
+        scrollElem.scrollTop = pos * 28;
+      }
+    }
+    this.showDropdown = true;
   }
 
   onClickDocument(event) {

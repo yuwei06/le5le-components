@@ -22,7 +22,9 @@ export class QRCodeComponent implements OnInit {
     const imgTagString: string = this.qr.createImgTag(this.type, 0);
     const el: HTMLElement = this.elementRef.nativeElement;
     el.innerHTML = imgTagString;
-    const imgTagObject: HTMLImageElement = <HTMLImageElement>el.firstElementChild;
+    const imgTagObject: HTMLImageElement = <HTMLImageElement>(
+      el.firstElementChild
+    );
     imgTagObject.width = this.size;
     imgTagObject.height = this.size;
   }

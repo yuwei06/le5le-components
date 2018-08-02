@@ -23,8 +23,8 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
         <ui-calendar [(ngModel)]="_value" (change)="onChange()" [options]="opts" [readonly]="readonly"  class="block"></ui-calendar>
         <ui-time *ngIf="!options.hideTime" [(ngModel)]="_value" (change)="onChange()" [options]="opts" [readonly]="readonly"
           class="block text-center"></ui-time>
-        <div class="p15" *ngIf="!options.hideOk">
-          <button type="button" class="button success full" (click)="onShow(false, $event)">确定</button>
+        <div class="p10" *ngIf="!options.hideOk">
+          <button type="button" class="button primary full" (click)="onShow(false, $event)">确定</button>
         </div>
       </div>
     </div>
@@ -93,13 +93,11 @@ export class TimepickerComponent implements OnInit, ControlValueAccessor {
         now = new Date();
       }
       this._value = now;
-      this.valueChange(this._value);
-      this.change.emit(this._value);
     }
   }
 
   // model -> view
-  writeValue(value: any) {
+  writeValue(value) {
     this.value = value;
   }
 

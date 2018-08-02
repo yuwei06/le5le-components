@@ -1,12 +1,10 @@
 .ui-calendar {
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  width: 3rem;
+  border: 1px solid #e4e4e4;
 }
 
 .ui-calendar .caption {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid #e4e4e4;
   text-align: center;
-  padding: 0.1rem 0.2rem;
 }
 
 .ui-calendar .caption > span {
@@ -17,7 +15,6 @@
 .ui-calendar .caption select {
   border: none;
   outline: none;
-  font-size: 0.14rem;
   padding: 0.15rem;
 }
 
@@ -34,11 +31,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 0.4rem;
-  font-size: 0.14rem;
+  width: 0.32rem;
+  height: 0.32rem;
   cursor: pointer;
-  border-right: 1px solid rgba(0, 0, 0, 0.05);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .ui-calendar .day:last-child {
@@ -49,26 +44,28 @@
   border-bottom: none;
 }
 
-.ui-calendar .day:hover {
-  background-color: #eee;
+.ui-calendar .day:hover > span {
+  color: #26bbf0;
 }
 
 .ui-calendar.readonly .day {
   cursor: default;
 }
 
-.ui-calendar.readonly .day:hover {
-  background-color: inherit;
+.ui-calendar.readonly .day:hover > span {
+  color: #6f787e;
 }
 
 .ui-calendar .day > span {
-  width: 0.2rem;
+  width: 0.24rem;
+  height: 0.24rem;
   text-align: center;
 }
 
-.ui-calendar .day.active {
+.ui-calendar .day.active > span {
   background-color: #26bbf0 !important;
   color: #fff;
+  border-radius: 50%;
 }
 
 .ui-timepicker {
@@ -91,13 +88,14 @@
 
 .ui-timepicker .ui-time {
   display: block;
-  padding-top: 0.15rem;
+  padding-top: 0.1rem;
   text-align: center;
 }
 
 .ui-calendar .ui-select {
   min-width: 0.7rem;
   width: 0.7rem;
+  height: 0.3rem;
   border: none;
   margin: 0 0.1rem;
 }
@@ -111,6 +109,7 @@
 .ui-calendar .ui-select input[disabled] {
   background-color: #fff;
   width: 0.5rem !important;
+  height: 0.3rem;
 }
 
 .ui-time .ui-select input[readonly],
@@ -125,4 +124,5 @@
 .ui-calendar .ui-select .dropdown,
 .ui-time .ui-select .dropdown {
   min-width: 0.5rem;
+  border-top: 1px solid #26bbf0;
 }

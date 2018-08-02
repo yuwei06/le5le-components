@@ -10,6 +10,7 @@ import { ComponentRateComponent } from './rate/rate.component';
 import { ComponentEchartsComponent } from './echarts/echarts.component';
 import { ComponentSelectComponent } from './select/select.component';
 import { ComponentSliderComponent } from './slider/slider.component';
+import { ComponentCalendarComponent } from './calendar/calendar.component';
 
 const OperatingRoutes: Routes = [
   {
@@ -47,6 +48,10 @@ const OperatingRoutes: Routes = [
       {
         path: 'slider',
         component: ComponentSliderComponent
+      },
+      {
+        path: 'calendar',
+        component: ComponentCalendarComponent
       }
     ]
   }
