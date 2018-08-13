@@ -8,6 +8,7 @@ import {
   SimpleChange,
   ViewEncapsulation
 } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'ui-pagination',
@@ -20,7 +21,7 @@ import {
           <a *ngIf="item === 1 && !canShow(1)" (click)="goPage(pageIndex-4)">...</a>
           <a *ngIf="canShow(item)" (click)="goPage(item)" [class.active]="pageIndex===item">{{ item }}</a>
         </ng-template>
-        <a *ngIf="pages.length - pageIndex > 4" (click)="goPage(pageIndex+4)">...</a>
+        <a *ngIf="pages.length > 10 && pages.length - pageIndex > 4" (click)="goPage(pageIndex+4)">...</a>
         <a (click)="goPage(pageIndex+1)"><i class="iconfont icon-angle-right"></i></a>
       </div>
     </div>
@@ -34,8 +35,12 @@ export class PaginationComponent implements OnInit, OnChanges {
   @Input() pageCount = 1;
   @Input() pageTotal = 1;
   @Output() change = new EventEmitter<any>();
+  @Input() skipQueryChange = false;
   pages: number[] = [1];
-  constructor() {}
+  constructor(
+    private _router: Router,
+    private _activateRoute: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.pages = [1];
@@ -59,6 +64,22 @@ export class PaginationComponent implements OnInit, OnChanges {
     this.pageIndex = pageIndex;
     this.pageIndexChange.emit(pageIndex);
     this.change.emit(pageIndex);
+
+    if (!this.skipQueryChange) {
+      let paths = window.location.pathname.split('/');
+      paths[0] = '/' + paths[0];
+      if (!paths[paths.length - 1]) {
+        paths = paths.splice(paths.length - 1, 1);
+      }
+      const queryParams: any = {};
+      // tslint:disable-next-line:forin
+      for (const key in this._activateRoute.snapshot.queryParams) {
+        queryParams[key] = this._activateRoute.snapshot.queryParams[key];
+      }
+      queryParams['pageIndex'] = this.pageIndex;
+      queryParams['pageCount'] = this.pageCount;
+      this._router.navigate(paths, { queryParams });
+    }
   }
 
   canShow(index: number) {

@@ -62,8 +62,10 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
             <span class="iconfont icon-delete pointer" *ngIf="item.del" (click)="onDelOption($event, item, i)"></span>
           </div>
         </ng-template>
-        <div class="item gray" *ngIf="!options.list || !options.list.length
-          || (multi && value && options.list && value.length === options.list.length)">暂无下拉选项</div>
+        <div class="item gray" *ngIf="!loading &&
+          (!options.list || !options.list.length
+            || (multi && value && options.list && value.length === options.list.length)
+          )">暂无下拉选项</div>
       </div>
     </div>
   `,
@@ -90,19 +92,28 @@ export class SelectComponent
   implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   // 下拉列表选项，list表示下拉列表数组，其中：id表示value的来源，name表示显示来源；当id或name为空时，表示list为字符串数组
   // autocomplete 表示自动完成；noDefaultOption 表示不要“请选择”
-  @Input() options: any = { id: 'id', name: 'name', list: [] };
+  @Input()
+  options: any = { id: 'id', name: 'name', list: [] };
 
   // 是否多选
-  @Input() multi = true;
+  @Input()
+  multi = true;
 
-  @Input() loading = false;
-  @Input() readonly = false;
-  @Input() required = false;
-  @Input() placeholder = '';
-  @Output() change = new EventEmitter<any>();
-  @Output() autoChange = new EventEmitter<any>();
+  @Input()
+  loading = false;
+  @Input()
+  readonly = false;
+  @Input()
+  required = false;
+  @Input()
+  placeholder = '';
+  @Output()
+  change = new EventEmitter<any>();
+  @Output()
+  autoChange = new EventEmitter<any>();
 
-  @ViewChild('input') input: ElementRef;
+  @ViewChild('input')
+  input: ElementRef;
 
   // ngModeld的实际值
   private _value: any;
@@ -326,7 +337,7 @@ export class SelectComponent
   }
 
   setDropdown() {
-    if (!this.multi) {
+    if (!this.multi && this.options.list) {
       let pos = 0;
       let i = 0;
       for (const item of this.options.list) {

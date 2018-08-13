@@ -11,6 +11,7 @@ import { ComponentEchartsComponent } from './echarts/echarts.component';
 import { ComponentSelectComponent } from './select/select.component';
 import { ComponentSliderComponent } from './slider/slider.component';
 import { ComponentCalendarComponent } from './calendar/calendar.component';
+import { ComponentUploadComponent } from './upload/upload.component';
 
 const OperatingRoutes: Routes = [
   {
@@ -52,6 +53,10 @@ const OperatingRoutes: Routes = [
       {
         path: 'calendar',
         component: ComponentCalendarComponent
+      },
+      {
+        path: 'upload',
+        component: ComponentUploadComponent
       }
     ]
   }

@@ -51,8 +51,18 @@ export class FileUploader {
     }
 
     if (this.params.exts) {
-      const ext = /\.[^\.]+/.exec(item.file.name);
-      if (ext && this.params.exts.indexOf(ext[0].substr(1)) < 0) {
+      const exts = this.params.exts.split(',');
+      let reg = '(';
+      let i = 0;
+      for (const e of exts) {
+        if (i++ < 1) {
+          reg += '.' + e;
+        } else {
+          reg += '|.' + e;
+        }
+      }
+      reg += ')$';
+      if (!new RegExp(reg).test(item.file.name)) {
         item.status = FileStatus.Fail;
         item.error = '图片格式必须为：' + this.params.exts;
         const _noticeService: NoticeService = new NoticeService();
