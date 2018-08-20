@@ -106,6 +106,12 @@
   dependencies:
     tslib "^1.9.0"
 
+"@angular/cdk@^6.4.5":
+  version "6.4.5"
+  resolved "http://registry.npm.taobao.org/@angular/cdk/download/@angular/cdk-6.4.5.tgz#c0c62d90ca0a8561dee7ee8347d598dd46bfc03f"
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/cli@~6.0.1":
   version "6.0.8"
   resolved "http://registry.npm.taobao.org/@angular/cli/download/@angular/cli-6.0.8.tgz#65070958b944be30053232c51f8449b7ddd4d92a"
@@ -3770,9 +3776,9 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
-le5le-ui@^0.6.1:
-  version "0.6.3"
-  resolved "http://registry.npm.taobao.org/le5le-ui/download/le5le-ui-0.6.3.tgz#4503a8daa80f3184a05e93021a9c87acc2cd55ff"
+le5le-ui@^0.6.4:
+  version "0.6.5"
+  resolved "http://registry.npm.taobao.org/le5le-ui/download/le5le-ui-0.6.5.tgz#8a34168d62af5d297ca42626a4b43630c17091ed"
 
 leb@^0.3.0:
   version "0.3.0"
@@ -6985,7 +6991,7 @@ xtend@^4.0.0, xtend@~4.0.1:
   version "4.0.1"
   resolved "http://registry.npm.taobao.org/xtend/download/xtend-4.0.1.tgz#a5c6d532be656e23db820efb943a1f04998d63af"
 
-xterm@^3.4.1:
+xterm@3.4.1:
   version "3.4.1"
   resolved "http://registry.npm.taobao.org/xterm/download/xterm-3.4.1.tgz#12452979ea2db3371f8195832d7407abba988980"
 

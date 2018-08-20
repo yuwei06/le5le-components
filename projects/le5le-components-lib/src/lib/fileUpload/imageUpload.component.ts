@@ -1,10 +1,12 @@
 import {
   OnInit,
+  OnChanges,
   Component,
   Input,
   Output,
   EventEmitter,
-  ViewEncapsulation
+  ViewEncapsulation,
+  SimpleChange
 } from '@angular/core';
 
 import { FileUploader } from './fileUploader';
@@ -33,12 +35,19 @@ import { UploadParam, FileItem, FileStatus } from './fileUpload.model';
   styleUrls: ['./fileUpload.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class ImageUploadComponent implements OnInit {
-  @Input() urls: string[] = [];
-  @Output() urlsChange = new EventEmitter<any>();
-  @Input() files: any[] = [];
-  @Output() filesChange = new EventEmitter<any>();
-  @Input() options: any = {};
+export class ImageUploadComponent implements OnInit, OnChanges {
+  @Input()
+  urls: string[] = [];
+  @Output()
+  urlsChange = new EventEmitter<any>();
+  @Input()
+  files: any[] = [];
+  @Output()
+  filesChange = new EventEmitter<any>();
+  @Input()
+  options: any = {};
+  @Input()
+  reset = false;
   _fileItems: FileItem[] = [];
   uploader: FileUploader;
   constructor(private _noticeService: NoticeService) {}
@@ -143,5 +152,13 @@ export class ImageUploadComponent implements OnInit {
     this._fileItems.splice(index, 1);
     this.getFiles();
     this.getUrls();
+  }
+
+  ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
+    if (changes['reset']) {
+      this._fileItems = [];
+      this.files = [];
+      this.urls = [];
+    }
   }
 }

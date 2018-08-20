@@ -1,6 +1,5 @@
 export { NoticeService } from './notice/notice.service';
 export { ImageLazyLoadDirective } from './lazyLoad/imgLazyLoad.directive';
-export { EllipsisPipe } from './pipe/ellipsis.pipe';
 export { SwitchComponent } from './switch/switch.component';
 export { QRCodeComponent } from './qrcode/qrcode.component';
 export { PhoneValidator } from './validator/phone.directive';

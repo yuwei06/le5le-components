@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { ImageLazyLoadDirective } from './lazyLoad/imgLazyLoad.directive';
-import { EllipsisPipe } from './pipe/ellipsis.pipe';
 import { SwitchComponent } from './switch/switch.component';
 import { QRCodeComponent } from './qrcode/qrcode.component';
 import { PhoneValidator } from './validator/phone.directive';
@@ -39,7 +38,6 @@ import { EchartsLoaderService } from './echarts/echarts-loader.service';
 
 const MODULES = [
   ImageLazyLoadDirective,
-  EllipsisPipe,
   SwitchComponent,
   QRCodeComponent,
   PhoneValidator,

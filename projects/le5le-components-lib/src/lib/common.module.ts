@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { NoticeService } from './notice/notice.service';
 import { ImageLazyLoadDirective } from './lazyLoad/imgLazyLoad.directive';
-import { EllipsisPipe } from './pipe/ellipsis.pipe';
 import { SwitchComponent } from './switch/switch.component';
 import { QRCodeComponent } from './qrcode/qrcode.component';
 import { PhoneValidator } from './validator/phone.directive';
@@ -33,7 +32,6 @@ import { ProgressComponent } from './progress/progress.component';
 
 const MODULES = [
   ImageLazyLoadDirective,
-  EllipsisPipe,
   SwitchComponent,
   QRCodeComponent,
   PhoneValidator,

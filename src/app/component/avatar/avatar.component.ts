@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'component-avatar',
+  selector: 'app-component-avatar',
   templateUrl: 'avatar.component.html',
   providers: [],
   styleUrls: ['./avatar.component.scss']

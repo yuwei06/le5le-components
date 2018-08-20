@@ -14,30 +14,6 @@
 </head>
 
 <body>
-  <script type="text/javascript">
-    var found = false;
-    if (localStorage) {
-      var v = [{
-        name: 'Chrome/',
-        v: 50
-      }, {
-        name: 'Firefox/',
-        v: 54
-      }, {
-        name: 'AppleWebKit/',
-        v: 605
-      }];
-      for (var i = 0; i < v.length; ++i) {
-        var vPos = window.navigator.userAgent.indexOf(v[i].name);
-        if (vPos > 0 && window.navigator.userAgent.substr(vPos + v[i].name.length, 2) >= v[i].v) {
-          found = true;
-          break;
-        }
-      }
-    }
-    if (!found) location.href = '/browser.html';
-  </script>
-
   <app-root>
     <style>
       @-webkit-keyframes line-scale-party {

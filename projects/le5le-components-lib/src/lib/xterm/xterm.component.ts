@@ -21,10 +21,13 @@ import { attach, detach } from 'xterm/lib/addons/attach/attach';
   encapsulation: ViewEncapsulation.None
 })
 export class XTermComponent implements OnInit, OnDestroy {
-  @Input() socketUrl: string;
-  @Input() options: any = {};
+  @Input()
+  socketUrl: string;
+  @Input()
+  options: any = {};
 
-  @ViewChild('terminal') terminalHost: ElementRef;
+  @ViewChild('terminal')
+  terminalHost: ElementRef;
   private xterm: Terminal;
   private socket: WebSocket;
   wsSuccess: boolean;
