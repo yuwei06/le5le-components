@@ -3,8 +3,6 @@ import {
   OnDestroy,
   Component,
   Input,
-  Output,
-  EventEmitter,
   ViewChild,
   ElementRef,
   ViewEncapsulation

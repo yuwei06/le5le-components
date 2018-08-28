@@ -41,9 +41,12 @@ declare const monaco: any;
 })
 export class CodeComponent
   implements OnInit, OnDestroy, ControlValueAccessor, Validator {
-  @Input() required = false;
-  @Input() options: any = { language: 'ini' };
-  @Output() change = new EventEmitter();
+  @Input()
+  required = false;
+  @Input()
+  options: any = { language: 'ini' };
+  @Output()
+  change = new EventEmitter();
 
   @Input()
   set monacoPath(value) {
@@ -52,7 +55,8 @@ export class CodeComponent
   }
 
   editor: any;
-  @ViewChild('editor') editorContent: ElementRef;
+  @ViewChild('editor')
+  editorContent: ElementRef;
 
   // ngModeld的实际值
   private _value = '';
@@ -92,12 +96,9 @@ export class CodeComponent
     // Currently setting this option prevents the autocomplete selection with the "Enter" key
     // TODO make sure to propagate the event to the autocomplete
     if (this.options.customPreventCarriageReturn === true) {
-      const preventCarriageReturn = this.editor.addCommand(
-        monaco.KeyCode.Enter,
-        function() {
-          return false;
-        }
-      );
+      this.editor.addCommand(monaco.KeyCode.Enter, function() {
+        return false;
+      });
     }
 
     this.editor.getModel().onDidChangeContent(e => {

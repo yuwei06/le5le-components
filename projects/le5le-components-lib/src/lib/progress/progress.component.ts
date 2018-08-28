@@ -1,18 +1,5 @@
-import {
-  Component,
-  Input,
-  forwardRef,
-  ElementRef,
-  Output,
-  EventEmitter,
-  ViewChild,
-  ViewEncapsulation
-} from '@angular/core';
-import {
-  AbstractControl,
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR
-} from '@angular/forms';
+import { Component, Input, forwardRef, ViewEncapsulation } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'ui-progress',
@@ -45,8 +32,10 @@ import {
   encapsulation: ViewEncapsulation.None
 })
 export class ProgressComponent implements ControlValueAccessor {
-  @Input() total = 0;
-  @Input() options: any = { unit: '%' };
+  @Input()
+  total = 0;
+  @Input()
+  options: any = { unit: '%' };
 
   // ngModeld的实际值
   private _value: any;
@@ -69,7 +58,7 @@ export class ProgressComponent implements ControlValueAccessor {
     if (v !== this._value) {
       this._value = v;
       if (this.total) {
-        this.progress = Math.round(v / this.total * 10000) / 100;
+        this.progress = Math.round((v / this.total) * 10000) / 100;
       } else {
         this.progress = v;
       }
