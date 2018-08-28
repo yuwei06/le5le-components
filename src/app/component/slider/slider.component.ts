@@ -9,5 +9,7 @@ import { Component } from '@angular/core';
 export class ComponentSliderComponent {
   min = 1;
   max = 14;
+  min2 = 3;
+  max2 = 18;
   constructor() {}
 }

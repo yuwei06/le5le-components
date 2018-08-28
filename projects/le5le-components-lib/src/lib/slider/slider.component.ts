@@ -11,22 +11,30 @@ import {
 
 @Component({
   selector: 'ui-slider',
-  template: `<div class="ui-slider" [class.readonly]="options.readonly" (click)="onClick($event)">
+  template: `
+  <div class="ui-slider" [class.readonly]="options.readonly" (click)="onClick($event)">
     <div class="bk"></div>
     <div class="bk-gray" [ngStyle]="getLeftBkStyle()" [class.hidden]="!options.range"></div>
     <div class="bk-gray" [ngStyle]="getPosStyle(options.range)"></div>
-    <div class="min" [ngStyle]="getPosStyle()" (mousedown)="onMouseDown($event)" (click)="$event.stopPropagation()">{{min}}</div>
+    <div class="min" [ngStyle]="getPosStyle()" (mousedown)="onMouseDown($event)" (click)="$event.stopPropagation()"></div>
     <div class="max" [ngStyle]="getPosStyle(true)" (mousedown)="onMouseDown($event, true)" (click)="$event.stopPropagation()"
-      [class.hidden]="!options.range">{{max}}</div>
-  </div>`,
-  styleUrls: ['./slider.css'],
+      [class.hidden]="!options.range">
+    </div>
+    <div class="desc">{{min}} <span *ngIf="options.range">- {{max}}</span></div>
+  </div>
+  `,
+  styleUrls: ['./slider.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class SliderComponent implements OnInit {
-  @Input() min = 20;
-  @Output() minChange = new EventEmitter<number>();
-  @Input() max = 50;
-  @Output() maxChange = new EventEmitter<number>();
+  @Input()
+  min = 20;
+  @Output()
+  minChange = new EventEmitter<number>();
+  @Input()
+  max = 50;
+  @Output()
+  maxChange = new EventEmitter<number>();
   @Input()
   options: any = {
     range: false, // 是否是区间选择
@@ -34,7 +42,8 @@ export class SliderComponent implements OnInit {
     min: 0, // 可设置值的最小值
     max: 100 // 可设置值的最大值
   };
-  @Output() change = new EventEmitter<any>();
+  @Output()
+  change = new EventEmitter<any>();
 
   private isMouseDown = 0;
   private initEvent: MouseEvent;
@@ -79,7 +88,7 @@ export class SliderComponent implements OnInit {
     const w =
       ((pos - this.options.min) / (this.options.max - this.options.min)) * 100;
     return {
-      left: `calc(${w}% - .11rem)`
+      left: `calc(${w}% - .05rem)`
     };
   }
 
@@ -109,27 +118,36 @@ export class SliderComponent implements OnInit {
       this.options.max = 100;
     }
 
-    const pos: number =
-      (event.offsetX - 11) / this.element.nativeElement.clientWidth;
+    const pos: number = event.offsetX / this.element.nativeElement.clientWidth;
     const posMin: number = this.min / (this.options.max - this.options.min);
     const posMax: number = this.max / (this.options.max - this.options.min);
 
     if (!this.options.range) {
-      this.min = Math.round(pos * (this.options.max - this.options.min));
+      this.min = Math.round(
+        pos * (this.options.max - this.options.min) + this.options.min
+      );
       this.checkMin();
     } else {
       if (pos < posMin) {
-        this.min = Math.round(pos * (this.options.max - this.options.min));
+        this.min = Math.round(
+          pos * (this.options.max - this.options.min) + this.options.min
+        );
         this.checkMin();
       } else if (pos > posMax) {
-        this.max = Math.round(pos * (this.options.max - this.options.min));
+        this.max = Math.round(
+          pos * (this.options.max - this.options.min) + this.options.min
+        );
         this.checkMax();
       } else {
         if (pos - posMin < posMax - pos) {
-          this.min = Math.round(pos * (this.options.max - this.options.min));
+          this.min = Math.round(
+            pos * (this.options.max - this.options.min) + this.options.min
+          );
           this.checkMin();
         } else {
-          this.max = Math.round(pos * (this.options.max - this.options.min));
+          this.max = Math.round(
+            pos * (this.options.max - this.options.min) + this.options.min
+          );
           this.checkMax();
         }
       }
