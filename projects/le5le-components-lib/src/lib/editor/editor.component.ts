@@ -20,14 +20,22 @@ import { UploadParam } from '../fileUpload/fileUpload.model';
   encapsulation: ViewEncapsulation.None
 })
 export class EditorComponent implements OnInit, OnChanges {
-  @Input() content = '';
-  @Output() contentChange = new EventEmitter<any>();
-  @Input() title = '';
-  @Output() titleChange = new EventEmitter<any>();
-  @Input() abstract = '';
-  @Output() abstractChange = new EventEmitter<any>();
-  @Input() images: string[] = [];
-  @Output() imagesChange = new EventEmitter<any>();
+  @Input()
+  content = '';
+  @Output()
+  contentChange = new EventEmitter<any>();
+  @Input()
+  title = '';
+  @Output()
+  titleChange = new EventEmitter<any>();
+  @Input()
+  abstract = '';
+  @Output()
+  abstractChange = new EventEmitter<any>();
+  @Input()
+  images: string[] = [];
+  @Output()
+  imagesChange = new EventEmitter<any>();
   @Input()
   options: any = {
     templates: [],
@@ -35,9 +43,12 @@ export class EditorComponent implements OnInit, OnChanges {
     url: '',
     headers: {}
   };
-  @Output() selectTemplateChange: EventEmitter<any> = new EventEmitter<any>();
-  @Output() editTemplateChange: EventEmitter<any> = new EventEmitter<any>();
-  @Output() deleteTemplateChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  selectTemplateChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  editTemplateChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  deleteTemplateChange: EventEmitter<any> = new EventEmitter<any>();
   editor: HTMLElement;
   editable = true;
   private timer: any;
@@ -212,7 +223,16 @@ export class EditorComponent implements OnInit, OnChanges {
   }
 
   getContent(): string {
-    this.content = this.editor.innerHTML;
+    // 移除html标签
+    const tmp = this.editor.innerHTML
+      .replace(/<[^>]*>|/g, '')
+      .replace(/ /g, '');
+    if (tmp) {
+      this.content = this.editor.innerHTML;
+    } else {
+      this.content = '';
+    }
+
     this.contentChange.emit(this.content);
     return this.content;
   }

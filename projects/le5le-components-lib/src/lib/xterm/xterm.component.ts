@@ -51,6 +51,7 @@ export class XTermComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.xterm = new Terminal(this.options.config);
+    this.xterm.setOption('fontSize', '14');
     this.xterm.open(this.terminalHost.nativeElement);
     this.xterm.focus();
     this.onResize();

@@ -53,17 +53,17 @@
   position: absolute;
   top: 0;
   /**
-     * The z-index of the helpers must be higher than the canvases in order for
-     * IMEs to appear on top.
-     */
+   * The z-index of the helpers must be higher than the canvases in order for
+   * IMEs to appear on top.
+   */
   z-index: 10;
 }
 
 .xterm .xterm-helper-textarea {
   /*
-     * HACK: to fix IE's blinking cursor
-     * Move textarea out of the screen to the far left, so that the cursor is not visible.
-     */
+   * HACK: to fix IE's blinking cursor
+   * Move textarea out of the screen to the far left, so that the cursor is not visible.
+   */
   position: absolute;
   opacity: 0;
   left: -9999em;
@@ -117,11 +117,17 @@
   visibility: hidden;
 }
 
-.xterm .xterm-char-measure-element {
+.xterm-char-measure-element {
   display: inline-block;
   visibility: hidden;
   position: absolute;
+  top: 0;
   left: -9999em;
+  line-height: normal;
+}
+
+.xterm {
+  cursor: text;
 }
 
 .xterm.enable-mouse-events {
@@ -129,8 +135,13 @@
   cursor: default;
 }
 
-.xterm:not(.enable-mouse-events) {
-  cursor: text;
+.xterm.xterm-cursor-pointer {
+  cursor: pointer;
+}
+
+.xterm.xterm-cursor-crosshair {
+  /* Column selection mode */
+  cursor: crosshair;
 }
 
 .xterm .xterm-accessibility,
@@ -142,10 +153,6 @@
   right: 0;
   z-index: 100;
   color: transparent;
-}
-
-.xterm .xterm-accessibility-tree:focus [id^='xterm-active-item-'] {
-  outline: 1px solid #f80;
 }
 
 .xterm .live-region {

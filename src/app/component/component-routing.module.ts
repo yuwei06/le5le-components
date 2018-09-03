@@ -12,6 +12,7 @@ import { ComponentSelectComponent } from './select/select.component';
 import { ComponentSliderComponent } from './slider/slider.component';
 import { ComponentCalendarComponent } from './calendar/calendar.component';
 import { ComponentUploadComponent } from './upload/upload.component';
+import { ComponentEditorComponent } from './editor/editor.component';
 
 const OperatingRoutes: Routes = [
   {
@@ -57,6 +58,10 @@ const OperatingRoutes: Routes = [
       {
         path: 'upload',
         component: ComponentUploadComponent
+      },
+      {
+        path: 'editor',
+        component: ComponentEditorComponent
       }
     ]
   }
