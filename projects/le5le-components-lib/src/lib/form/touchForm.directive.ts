@@ -28,8 +28,15 @@ export class TouchFormDirective {
 
     let elem = this.elementRef.nativeElement.querySelector('.ng-invalid');
     if (elem) {
-      while (elem.className.indexOf('ng-invalid-parent') > -1) {
-        elem = elem.querySelector('.ng-invalid');
+      let parentElem = elem;
+      while (
+        parentElem &&
+        parentElem.className.indexOf('ng-invalid-parent') > -1
+      ) {
+        parentElem = elem.querySelector('.ng-invalid');
+        if (parentElem) {
+          elem = parentElem;
+        }
       }
       let top = elem.offsetTop;
       const scrollElem =

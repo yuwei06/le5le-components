@@ -73,6 +73,7 @@ export class EditorComponent implements OnInit, OnChanges {
     );
     this.uploader = new FileUploader(params);
     this.uploader.emitter.subscribe(ret => {
+      this.editor.focus();
       switch (ret.event) {
         case 'progress':
           this.filename = ret.fileItem.file.name;
