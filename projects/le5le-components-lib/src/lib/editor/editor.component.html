@@ -9,8 +9,8 @@
 
       <div class="dropdown" [class.flex]="item.childrenInline" *ngIf="item.children && item.children.length">
         <div class="item" [class.inline]="item.childrenInline" *ngFor="let subItem of item.children" [class.separator]="subItem.class==='separator'">
-          <button type="button" class="button" [class.color-button]="subItem.class==='color-button'" [ngStyle]="subItem.style" title="{{subItem.tooltip}}"
-            (click)="command($event, subItem.command, subItem.val)">
+          <button type="button" class="button" [class.color-button]="subItem.class==='color-button'" [ngStyle]="subItem.style"
+            title="{{subItem.tooltip}}" (click)="command($event, subItem.command, subItem.val)">
             <i *ngIf="subItem.class" class="{{subItem.class}}"></i>
             {{subItem.caption}}
           </button>
@@ -35,7 +35,7 @@
   </div>
   <div class="editor">
     <textarea [class.hidden]="editable" [(ngModel)]="content" (blur)="onContentEdit()"></textarea>
-    <div [class.hidden]="!editable" class="article" contenteditable="true" (blur)="onBlur()"></div>
+    <div [class.hidden]="!editable" class="article" contenteditable="true" (blur)="onBlur()" (keydown)="keySubject.next()"></div>
   </div>
 
   <div class="modal" *ngIf="progress">

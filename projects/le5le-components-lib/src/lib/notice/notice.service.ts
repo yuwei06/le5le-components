@@ -247,7 +247,8 @@ export class NoticeService {
   // noticeService.input({text: '初始值', placeholder: '请输入', required: true, type: 'text', callback:(ret: any)=>{}});
   // required: true - 不允许为空。 type:可选，默认文本
   input(options: any) {
-    let inputElem: any;
+    let inputElem;
+    let errorElem;
     const elem = document.createElement('div');
     elem.className = 'modal';
     if (options.theme) {
@@ -300,7 +301,12 @@ export class NoticeService {
     const okCallback = (event: any) => {
       event.stopPropagation();
       if (options.required && !inputElem.value) {
+        inputElem.className = 'input full input-error ng-invalid';
+        errorElem.className = 'block mt5 error';
         return;
+      } else {
+        inputElem.className = 'input full';
+        errorElem.className = 'hidden';
       }
 
       document.body.removeChild(elem);
@@ -309,6 +315,14 @@ export class NoticeService {
       }
     };
     inputElem.onkeyup = (event: any) => {
+      if (options.required && !inputElem.value) {
+        inputElem.className = 'input full input-error ng-invalid';
+        errorElem.className = 'block mt5 error';
+      } else {
+        inputElem.className = 'input full';
+        errorElem.className = 'hidden';
+      }
+
       const keyCode: any = event.which || event.keyCode;
       // tslint:disable-next-line:triple-equals
       if (keyCode == 13) {
@@ -322,5 +336,10 @@ export class NoticeService {
 
     document.body.appendChild(elem);
     inputElem.focus();
+
+    errorElem = document.createElement('div');
+    errorElem.className = 'hidden';
+    errorElem.innerHTML = options.errorTip || '请输入' + options.label;
+    bodyElem.appendChild(errorElem);
   }
 }

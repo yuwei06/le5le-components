@@ -42,14 +42,14 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
         </div>
         <i class="iconfont icon-triangle-down right" (click)="onClickMulti()"></i>
       </div>
-      <div class="flex middle full" *ngIf="!multi">
+      <div class="flex middle full" *ngIf="!multi" (click)="clickShowDropdown=-1;showDropdown=true">
         <input class="full pl10" [placeholder]="placeholder" [(ngModel)]="inputValue"
           (keyup)="search$.next($event.target.value)" (change)="onInputChange()"
           [readOnly]="readonly || inputReadonly"  (click)="onClickInput($event)">
-        <i class="iconfont icon-triangle-down right" (click)="clickShowDropdown=-1;showDropdown=true"></i>
+        <i class="iconfont icon-triangle-down right"></i>
       </div>
-      <div class="dropdown" [class.block]="showDropdown" *ngIf="!readonly">
-        <div class="item" *ngIf="!multi && !options.autocomplete && !options.noDefaultOption"
+      <div class="dropdown-list" [class.block]="showDropdown" *ngIf="!readonly">
+        <div class="item" [class.active]="!_value" *ngIf="!multi && !options.autocomplete && !options.noDefaultOption"
           (click)="onSelect($event, null)">{{ placeholder || '请选择' }}</div>
         <div class="item" *ngIf="loading">
           <span class="iconfont icon-loading icon-spin"></span>
@@ -62,7 +62,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
             <span class="iconfont icon-delete pointer" *ngIf="item.del" (click)="onDelOption($event, item, i)"></span>
           </div>
         </ng-template>
-        <div class="item gray" *ngIf="!loading &&
+        <div class="item gray" *ngIf="options.noDefaultOption && !loading &&
           (!options.list || !options.list.length
             || (multi && value && options.list && value.length === options.list.length)
           )">暂无下拉选项</div>
@@ -116,7 +116,7 @@ export class SelectComponent
   input: ElementRef;
 
   // ngModeld的实际值
-  private _value: any;
+  _value: any;
   selectedItems: any[] = [];
 
   // 下拉选项显示控制
@@ -341,7 +341,10 @@ export class SelectComponent
       let pos = 0;
       let i = 0;
       for (const item of this.options.list) {
-        if (this._value && this._value === item[this.options.id]) {
+        if (
+          this._value !== undefined &&
+          this._value === item[this.options.id]
+        ) {
           item.active = true;
           pos = i;
         } else {
@@ -349,7 +352,9 @@ export class SelectComponent
         }
         i++;
       }
-      const scrollElem = this._elemRef.nativeElement.querySelector('.dropdown');
+      const scrollElem =
+        this._elemRef.nativeElement.querySelector('.dropdown') ||
+        this._elemRef.nativeElement.querySelector('.dropdown-list');
       if (scrollElem) {
         scrollElem.scrollTop = pos * 28;
       }

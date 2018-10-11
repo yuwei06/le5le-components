@@ -39,10 +39,13 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
   encapsulation: ViewEncapsulation.None
 })
 export class CalendarComponent implements OnInit, ControlValueAccessor {
-  @Input() options: any = { init: 'now' };
-  @Input() readonly = false;
+  @Input()
+  options: any = { init: 'now' };
+  @Input()
+  readonly = false;
 
-  @Output() change = new EventEmitter<any>();
+  @Output()
+  change = new EventEmitter<any>();
 
   year = 2018;
   month = 0; // 从0开始
@@ -64,7 +67,13 @@ export class CalendarComponent implements OnInit, ControlValueAccessor {
         name: i + 1
       });
     }
-    for (let i = 1900; i < 2100; ++i) {
+
+    const now = new Date();
+    for (
+      let i = this.options.maxYear || now.getFullYear();
+      i >= (this.options.minYear || now.getFullYear() - 10);
+      --i
+    ) {
       this.years.push({
         id: i,
         name: i

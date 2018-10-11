@@ -33,6 +33,7 @@
   align-items: center;
   width: 0.32rem;
   height: 0.32rem;
+  line-height: 0.24rem;
   cursor: pointer;
 }
 
@@ -125,4 +126,33 @@
 .ui-time .ui-select .dropdown {
   min-width: 0.5rem;
   border-top: 1px solid #26bbf0;
+}
+
+.dropdown .ui-select .dropdown-list {
+  top: 100%;
+  border: 1px solid #26bbf0;
+  z-index: 99999;
+}
+
+.dropdown .ui-select .dropdown-list .item:hover {
+  background-color: #fff !important;
+  color: #26bbf0 !important;
+}
+
+.dropdown .ui-select .dropdown-list .item.active:hover {
+  background-color: #26bbf0 !important;
+  color: #fff !important;
+}
+
+.dropdown .ui-select .dropdown-list .item:hover label {
+  color: #26bbf0 !important;
+}
+
+.dropdown .item label {
+  padding: 0;
+}
+
+.dropdown .item.active label,
+.dropdown .ui-select .dropdown-list .item.active:hover label {
+  color: #fff !important;
 }

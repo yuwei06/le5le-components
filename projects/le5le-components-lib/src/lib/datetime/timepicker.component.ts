@@ -6,8 +6,7 @@ import {
   ElementRef,
   ViewEncapsulation,
   forwardRef,
-  OnInit,
-  ViewChild
+  OnInit
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 
@@ -51,9 +50,11 @@ export class TimepickerComponent implements OnInit, ControlValueAccessor {
     hideTime: false,
     hideOk: false
   };
-  @Input() readonly = false;
+  @Input()
+  readonly = false;
 
-  @Output() change = new EventEmitter<any>();
+  @Output()
+  change = new EventEmitter<any>();
 
   opts: any;
   showDropdown: boolean;

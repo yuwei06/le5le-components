@@ -29,7 +29,10 @@ ui-select.full .ui-select {
   width: 100% !important;
 }
 
-.ui-select .dropdown {
+.ui-select .dropdown-list {
+  position: absolute;
+  background: #fff;
+  display: none;
   top: calc(100% + 1px);
   left: -1px;
   right: -1px;
@@ -40,13 +43,18 @@ ui-select.full .ui-select {
   border-bottom-right-radius: 0.04rem;
   max-height: 2.8rem;
   overflow: auto;
+  z-index: 9999;
 }
 
-.ui-select .dropdown .item {
+.ui-select .dropdown-list .item {
   padding: 0.02rem 0.1rem;
   margin: 0 !important;
   white-space: nowrap;
   cursor: default;
+}
+
+.ui-select .dropdown-list .item.active {
+  color: #26bbf0;
 }
 
 .ui-select .selected {
@@ -91,7 +99,7 @@ ui-select.full .ui-select {
   cursor: default;
 }
 
-.ui-select .dropdown .item:hover {
+.ui-select .dropdown-list .item:hover {
   background-color: #fff !important;
   color: #26bbf0 !important;
 }

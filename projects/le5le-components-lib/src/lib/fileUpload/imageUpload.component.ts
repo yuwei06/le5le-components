@@ -91,6 +91,9 @@ export class ImageUploadComponent implements OnInit, OnChanges {
         });
         this.getFiles();
       } else if (ret.event === 'ready') {
+        if (this.options.maxCount === 1) {
+          this._fileItems = [];
+        }
         this._fileItems.push(ret.fileItem);
         this.getFiles();
       } else if (ret.event === 'progress') {
@@ -159,6 +162,18 @@ export class ImageUploadComponent implements OnInit, OnChanges {
       this._fileItems = [];
       this.files = [];
       this.urls = [];
+    }
+    if (changes['urls']) {
+      for (const item of this.urls) {
+        const fileItem: FileItem = new FileItem(null);
+        fileItem.status = FileStatus.Success;
+        fileItem.id = item;
+        fileItem.url = item;
+        if (this.options.maxCount === 1) {
+          this._fileItems = [];
+        }
+        this._fileItems.push(fileItem);
+      }
     }
   }
 }

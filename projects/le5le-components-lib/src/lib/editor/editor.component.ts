@@ -5,8 +5,12 @@ import {
   EventEmitter,
   OnChanges,
   OnInit,
+  OnDestroy,
   ViewEncapsulation
 } from '@angular/core';
+
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 import { toolbarItems } from './config';
 import { FileUploader } from '../fileUpload/fileUploader';
@@ -19,7 +23,7 @@ import { UploadParam } from '../fileUpload/fileUpload.model';
   styleUrls: ['./editor.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class EditorComponent implements OnInit, OnChanges {
+export class EditorComponent implements OnInit, OnChanges, OnDestroy {
   @Input()
   content = '';
   @Output()
@@ -59,7 +63,14 @@ export class EditorComponent implements OnInit, OnChanges {
   img: any = { show: false, src: '' };
   toolbarItems: any[] = toolbarItems;
   private selectedRange: any;
-  constructor(private _noticeService: NoticeService) {}
+  keySubject = new Subject<string>();
+  constructor(private _noticeService: NoticeService) {
+    // 仅仅为了检测内容是否为空，配合错误提示
+    this.keySubject.pipe(debounceTime(300)).subscribe(async () => {
+      // 移除html标签
+      this.getContent();
+    });
+  }
 
   ngOnInit() {
     if (this.options.toolbarItems && this.options.toolbarItems.length) {
@@ -233,13 +244,14 @@ export class EditorComponent implements OnInit, OnChanges {
     } else {
       this.content = '';
     }
-
     this.contentChange.emit(this.content);
     return this.content;
   }
 
   onContentEdit() {
-    this.editor.innerHTML = this.content;
+    if (this.editor.innerHTML !== this.content) {
+      this.editor.innerHTML = this.content;
+    }
     this.getTitle();
     this.getAbstract();
   }
@@ -381,5 +393,11 @@ export class EditorComponent implements OnInit, OnChanges {
   onFileChange(event: any) {
     const elem: any = event.srcElement || event.target;
     this.uploader.addFiles(elem.files);
+  }
+
+  ngOnDestroy() {
+    if (this.keySubject) {
+      this.keySubject.unsubscribe();
+    }
   }
 }
