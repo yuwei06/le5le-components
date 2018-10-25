@@ -24,7 +24,7 @@ import {
       </ng-template>
     </div>
   `,
-  styleUrls: ['./wizard.css'],
+  styleUrls: ['./wizard.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class WizardHorizontalComponent {

@@ -1,7 +1,11 @@
+$color-primary: #26bbf0 !default;
+$color-success: #31bb67 !default;
+$color-error: #cc6164 !default;
+
 .ui-wizard-horizontal,
 ui-wizard-horizontal {
   display: block;
-  padding: .4rem;
+  padding: 0.4rem;
   overflow: hidden;
 }
 
@@ -19,40 +23,35 @@ ui-wizard-horizontal {
 }
 
 .wizard.horizontal > .item .desc {
-  width: .3rem;
-  height: .3rem;
+  width: 0.3rem;
+  height: 0.3rem;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  left: -.15rem;
+  left: -0.15rem;
 }
 
 .wizard.horizontal > .item .desc .icon {
-  width: .1rem;
-  height: .1rem;
+  width: 0.1rem;
+  height: 0.1rem;
   border-radius: 50%;
   background-color: #fff;
   border: 1px solid;
 }
 
 .wizard.horizontal > .item.error .desc .icon {
-  background-color: #cc6164 !important;
+  background-color: $color-error !important;
 }
 
 .wizard.horizontal > .item.error,
 .wizard.horizontal > .item.error .desc .name {
-  color: #cc6164 !important;
+  color: $color-error !important;
 }
-
-/* .wizard.horizontal > .item.item.active .desc .icon {
-  background-color: #fff !important;
-  border: 1px solid #26bbf0;
-} */
 
 .wizard.horizontal > .item.active,
 .wizard.horizontal > .item.active .desc .name {
-  color: #26bbf0 !important;
+  color: $color-primary !important;
 }
 
 .wizard.horizontal > .item .desc .name {
@@ -71,24 +70,24 @@ ui-wizard-horizontal {
 }
 
 .wizard.horizontal > .item .desc.click:hover .name {
-  color: #26bbf0;
+  color: $color-primary;
 }
 
 .wizard.horizontal > .item .desc.click:hover .icon {
-  background-color: #26bbf0 !important;
+  background-color: $color-primary !important;
 }
 
 .wizard.horizontal > .item .line {
   height: 100%;
   width: 100%;
-  margin-left: -.3rem;
+  margin-left: -0.3rem;
 }
 
 .wizard.horizontal > .item.success .icon,
 .wizard.horizontal > .item.success .line {
-  background-color: #c2d5a0 !important;
+  background-color: $color-success !important;
 }
 
 .wizard.horizontal > .item.active {
-  color: #26bbf0 !important;
+  color: $color-primary !important;
 }

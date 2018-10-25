@@ -75,14 +75,6 @@ export class ImageUploadComponent implements OnInit, OnChanges {
     }
     this.uploader = new FileUploader(params);
 
-    for (const item of this.urls) {
-      const fileItem: FileItem = new FileItem(null);
-      fileItem.status = FileStatus.Success;
-      fileItem.id = item;
-      fileItem.url = item;
-      this._fileItems.push(fileItem);
-    }
-
     this.uploader.emitter.subscribe(ret => {
       if (ret.event === 'error') {
         this._noticeService.notice({

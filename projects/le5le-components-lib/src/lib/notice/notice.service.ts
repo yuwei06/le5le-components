@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 export class NoticeService {
   noticeContainer = document.querySelector('.notice-container');
   systemContainer = document.querySelector('.system-container');
+  initialPos;
+  isDown;
   constructor() {
     if (!this.noticeContainer) {
       this.noticeContainer = document.createElement('div');
@@ -21,14 +23,14 @@ export class NoticeService {
 
   // noticeService.notice({body: '已经给您发送找回密码邮件了，请查收！', theme: 'success', timeout:3000, buttons:[{text, cb}]});
   // theme - 风格主题: default, success, warning, error 。
-  notice(options: any) {
+  notice(options) {
     if (!options.theme) {
       options.theme = '';
     }
 
-    let timeout: any;
+    let timeout;
 
-    let rootElem: any = document.createElement('div');
+    let rootElem = document.createElement('div');
     rootElem.className = 'notice in ' + options.theme;
 
     const close = (t?) => {
@@ -90,7 +92,10 @@ export class NoticeService {
 
     const timer = () => {
       if (!options.timeout) {
-        options.timeout = 5000;
+        options.timeout = 3000;
+        if (options.theme.indexOf('error') > -1) {
+          options.timeout = 5000;
+        }
       }
 
       timeout = setTimeout(() => {
@@ -133,7 +138,7 @@ export class NoticeService {
         const btn = document.createElement('button');
         btn.className = 'button default ml10';
         btn.innerHTML = item.text;
-        btn.onclick = (event: any) => {
+        btn.onclick = event => {
           event.stopPropagation();
           item.cb();
           close(0);
@@ -145,9 +150,27 @@ export class NoticeService {
     timer();
   }
 
-  makeHeaderElem(parentElem, title: string, cb?): any {
+  makeHeaderElem(parentElem, title: string, cb?) {
     const headerElem = document.createElement('div');
     headerElem.className = 'modal-header';
+
+    headerElem.onmousedown = e => {
+      this.isDown = e;
+      this.initialPos = this.getPos(headerElem.parentElement);
+    };
+    parentElem.onmousemove = e => {
+      if (!this.isDown) {
+        return;
+      }
+      headerElem.parentElement.style.transform = `translate(${e.clientX -
+        this.isDown.clientX +
+        this.initialPos.x}px, ${e.clientY -
+        this.isDown.clientY +
+        this.initialPos.y}px)`;
+    };
+    headerElem.onmouseup = () => {
+      this.isDown = null;
+    };
 
     const titleContentElem = document.createElement('div');
     titleContentElem.className = 'caption';
@@ -156,7 +179,7 @@ export class NoticeService {
 
     const closeElem = document.createElement('i');
     closeElem.className = 'fr iconfont icon-close';
-    closeElem.onclick = (event: any) => {
+    closeElem.onclick = event => {
       event.stopPropagation();
       document.body.removeChild(parentElem);
       if (cb) {
@@ -168,12 +191,30 @@ export class NoticeService {
     return headerElem;
   }
 
-  makeFooterElem(okCallback: any, cancelCallback: any, options?: any): any {
+  makeFooterElem(parentElem, okCallback, cancelCallback, options?) {
     const footerElem = document.createElement('div');
     footerElem.className = 'modal-footer';
 
     if (!options) {
       options = {};
+    }
+
+    if (options.leftCancel) {
+      const leftElem = document.createElement('div');
+      leftElem.className = 'full';
+
+      const leftBtn = document.createElement('button');
+      leftBtn.className = 'button default';
+      leftBtn.innerHTML = options.leftCancelText || '取消';
+      leftBtn.onclick = event => {
+        event.stopPropagation();
+        document.body.removeChild(parentElem);
+        if (options.leftCb) {
+          options.leftCb(null);
+        }
+      };
+      leftElem.appendChild(leftBtn);
+      footerElem.appendChild(leftElem);
     }
 
     if (cancelCallback && !options.noCancel) {
@@ -195,7 +236,7 @@ export class NoticeService {
 
   // noticeService.dialog({body: '是否继续？', callback:(ret:boolean)=>{}});
   // callback 单击确定 ret = true。其他： ret = false。
-  dialog(options: any) {
+  dialog(options) {
     const elem = document.createElement('div');
     elem.className = 'modal';
     if (options.theme) {
@@ -204,7 +245,7 @@ export class NoticeService {
     if (options.esc === false) {
       elem.className += ' disable-cancel';
     }
-    const cancelCallback = (event: any) => {
+    const cancelCallback = event => {
       event.stopPropagation();
       document.body.removeChild(elem);
       if (options.callback) {
@@ -214,7 +255,7 @@ export class NoticeService {
 
     const modalContentElem = document.createElement('div');
     modalContentElem.className = 'modal-content';
-    modalContentElem.onclick = (event: any) => {
+    modalContentElem.onclick = event => {
       event.stopPropagation();
     };
     elem.appendChild(modalContentElem);
@@ -231,7 +272,7 @@ export class NoticeService {
     bodyElem.innerHTML = options.body;
     contentElem.appendChild(bodyElem);
 
-    const okCallback = (event: any) => {
+    const okCallback = event => {
       event.stopPropagation();
       document.body.removeChild(elem);
       if (options.callback) {
@@ -239,14 +280,14 @@ export class NoticeService {
       }
     };
     modalContentElem.appendChild(
-      this.makeFooterElem(okCallback, cancelCallback, options)
+      this.makeFooterElem(elem, okCallback, cancelCallback, options)
     );
     document.body.appendChild(elem);
   }
 
-  // noticeService.input({text: '初始值', placeholder: '请输入', required: true, type: 'text', callback:(ret: any)=>{}});
+  // noticeService.input({text: '初始值', placeholder: '请输入', required: true, type: 'text', callback:(ret)=>{}});
   // required: true - 不允许为空。 type:可选，默认文本
-  input(options: any) {
+  input(options) {
     let inputElem;
     let errorElem;
     const elem = document.createElement('div');
@@ -254,14 +295,14 @@ export class NoticeService {
     if (options.theme) {
       elem.className += ' ' + options.theme;
     }
-    const cancelCallback = (event: any) => {
+    const cancelCallback = event => {
       event.stopPropagation();
       document.body.removeChild(elem);
     };
 
     const modalContentElem = document.createElement('div');
     modalContentElem.className = 'modal-content';
-    modalContentElem.onclick = (event: any) => {
+    modalContentElem.onclick = event => {
       event.stopPropagation();
     };
     elem.appendChild(modalContentElem);
@@ -295,18 +336,13 @@ export class NoticeService {
     if (options.type) {
       inputElem.setAttribute('type', options.type);
     }
-    inputElem.onclick = (event: any) => {
+    inputElem.onclick = event => {
       event.stopPropagation();
     };
-    const okCallback = (event: any) => {
+    const okCallback = event => {
       event.stopPropagation();
-      if (options.required && !inputElem.value) {
-        inputElem.className = 'input full input-error ng-invalid';
-        errorElem.className = 'block mt5 error';
+      if (!this.validate(inputElem, errorElem, options)) {
         return;
-      } else {
-        inputElem.className = 'input full';
-        errorElem.className = 'hidden';
       }
 
       document.body.removeChild(elem);
@@ -314,24 +350,21 @@ export class NoticeService {
         options.callback(inputElem.value);
       }
     };
-    inputElem.onkeyup = (event: any) => {
-      if (options.required && !inputElem.value) {
-        inputElem.className = 'input full input-error ng-invalid';
-        errorElem.className = 'block mt5 error';
-      } else {
-        inputElem.className = 'input full';
-        errorElem.className = 'hidden';
-      }
+    inputElem.onkeyup = event => {
+      this.validate(inputElem, errorElem, options);
 
-      const keyCode: any = event.which || event.keyCode;
+      const keyCode = event.which || event.keyCode;
       // tslint:disable-next-line:triple-equals
       if (keyCode == 13) {
         okCallback(event);
       }
     };
+    inputElem.onblur = () => {
+      this.validate(inputElem, errorElem, options);
+    };
     bodyElem.appendChild(inputElem);
     modalContentElem.appendChild(
-      this.makeFooterElem(okCallback, cancelCallback, options)
+      this.makeFooterElem(elem, okCallback, cancelCallback, options)
     );
 
     document.body.appendChild(elem);
@@ -341,5 +374,37 @@ export class NoticeService {
     errorElem.className = 'hidden';
     errorElem.innerHTML = options.errorTip || '请输入' + options.label;
     bodyElem.appendChild(errorElem);
+  }
+
+  validate(inputElem, errorElem, options) {
+    if (
+      (options.required && !inputElem.value) ||
+      (options.regExp && !new RegExp(options.regExp).test(inputElem.value))
+    ) {
+      inputElem.className = 'input full input-error ng-invalid';
+      errorElem.className = 'block mt5 error';
+      return false;
+    }
+
+    inputElem.className = 'input full';
+    errorElem.className = 'hidden';
+    return true;
+  }
+
+  getPos(nativeElement) {
+    const style = getComputedStyle(nativeElement);
+    const regExp = /matrix\((\d+,\s){4}([-]*\d+),\s([-]*\d+)/i;
+    const result = style.transform.match(regExp);
+    if (result) {
+      return {
+        x: parseInt(result[2], 10),
+        y: parseInt(result[3], 10)
+      };
+    } else {
+      return {
+        x: 0,
+        y: 0
+      };
+    }
   }
 }

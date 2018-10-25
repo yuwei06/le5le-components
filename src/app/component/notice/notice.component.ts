@@ -84,11 +84,12 @@ export class ComponentNoticeComponent {
     const _noticeService: NoticeService = new NoticeService();
     _noticeService.input({
       title: '名称',
-      label: 'hello',
+      label: 'hello（规则：/^hello$/）',
       theme: 'default',
       text: '',
       placeholder: '请输入名称',
       required: true,
+      regExp: /^hello$/,
       type: 'text',
       callback: (ret: string) => {
         _noticeService.dialog({
