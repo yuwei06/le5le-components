@@ -372,7 +372,9 @@ export class NoticeService {
 
     errorElem = document.createElement('div');
     errorElem.className = 'hidden';
-    errorElem.innerHTML = options.errorTip || '请输入' + options.label;
+    errorElem.innerHTML =
+      options.errorTip ||
+      '请输入' + (options.label || options.placeholder || '');
     bodyElem.appendChild(errorElem);
   }
 

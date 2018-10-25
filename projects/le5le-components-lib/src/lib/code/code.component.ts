@@ -105,7 +105,7 @@ export class CodeComponent
       this.updateValue(this.editor.getModel().getValue());
     });
 
-    this.editor.onDidBlurEditor(() => {
+    this.editor.onDidBlurEditorWidget(() => {
       this.change.emit(this._value);
       this.touch();
     });
