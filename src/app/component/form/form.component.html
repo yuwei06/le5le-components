@@ -1,0 +1,156 @@
+<form #myForm="ngForm">
+  <table>
+    <tr>
+      <td class="td">用户名</td>
+      <td>
+        <input
+          type="text"
+          name="username"
+          uiMin
+          required
+          minlength="2"
+          maxlength="6"
+          class="form-control input"
+          [(ngModel)]="username"
+          #username1="ngModel"
+          placeholder="请输入用户名(2~6位)"
+        />
+        <span
+          *ngIf="username1.invalid && (username1.dirty || username1.touched)"
+          class="alert alert-danger"
+        >
+          <span class="error" *ngIf="username1.errors.required"
+            >*用户名不能为空</span
+          >
+          <span class="error" *ngIf="username1.errors.minlength"
+            >用户名长度在2~6位</span
+          >
+          <span class="error" *ngIf="username1.errors.maxlength"
+            >用户名长度在2~6位</span
+          >
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td class="td">手机号</td>
+      <td>
+        <input
+          type="number"
+          name="phone"
+          uiIsPhone
+          required
+          class="form-control input"
+          [(ngModel)]="phone"
+          #phone1="ngModel"
+          placeholder="请输入你的手机号"
+        />
+        <span
+          *ngIf="phone1.invalid && (phone1.dirty || phone1.touched)"
+          class="alert alert-danger"
+        >
+          <span class="error" *ngIf="phone1.errors.required"
+            >*手机号码不能为空</span
+          >
+          <span class="error" *ngIf="phone1.errors.phone"
+            >手机号码输入有误</span
+          >
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td class="td">邮箱</td>
+      <td>
+        <input
+          type="text"
+          name="email"
+          uiIsEmail
+          required
+          class="form-control input"
+          [(ngModel)]="email"
+          #email1="ngModel"
+          placeholder="请输入常用邮箱号"
+        />
+
+        <span
+          *ngIf="email1.invalid && (email1.dirty || email1.touched)"
+          class="alert alert-danger"
+        >
+          <span class="error" *ngIf="email1.errors.required"
+            >*邮箱不能为空</span
+          >
+          <span class="error" *ngIf="email1.errors.email">邮箱输入不正确</span>
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td class="td">密码</td>
+      <td>
+        <input
+          type="password"
+          name="pwd"
+          required
+          uiIsPassword
+          class="form-control input"
+          [(ngModel)]="pwd"
+          #pwd1="ngModel"
+          placeholder="请设置一个密码"
+        />
+        <span
+          *ngIf="pwd1.invalid && (pwd1.dirty || pwd1.touched)"
+          class="alert alert-danger"
+        >
+          <span class="error" *ngIf="pwd1.errors.required">*密码不能为空</span>
+          <span class="error" *ngIf="pwd1.errors.password"
+            >密码长度为8-20位，且必须包含字母和数字</span
+          >
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td class="td">确认密码</td>
+      <td>
+        <input
+          type="password"
+          name="Pwd"
+          required
+          uiIsPassword
+          class="form-control input"
+          [(ngModel)]="Pwd"
+          #Pwd1="ngModel"
+          placeholder="注意和上面密码一致"
+        />
+        <span
+          *ngIf="Pwd1.invalid && (Pwd1.dirty || Pwd1.touched)"
+          class="alert alert-danger "
+        >
+          <span class="error" *ngIf="Pwd1.errors.required">*密码不能为空</span>
+          <span class="error" *ngIf="Pwd1 != pwd">两次密码不一致</span>
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td class="td">URL地址</td>
+      <td>
+        <input
+          type="text"
+          name="url"
+          uiIsUrl
+          class="form-control input"
+          [(ngModel)]="URL"
+          #url1="ngModel"
+          placeholder="请输入你的URL地址"
+        />
+        <span
+          *ngIf="url1.invalid && (url1.dirty || url1.touched)"
+          class="alert alert-danger"
+        >
+          <span class="error" *ngIf="url1.errors.url">url输入有误</span>
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><input class="input" type="submit" value="提交" /> (注:*为必填)</td>
+    </tr>
+  </table>
+</form>

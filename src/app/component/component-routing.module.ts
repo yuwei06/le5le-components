@@ -13,7 +13,7 @@ import { ComponentSliderComponent } from './slider/slider.component';
 import { ComponentCalendarComponent } from './calendar/calendar.component';
 import { ComponentUploadComponent } from './upload/upload.component';
 import { ComponentEditorComponent } from './editor/editor.component';
-
+import { ComponentFormComponent } from './form/form.component';
 const OperatingRoutes: Routes = [
   {
     path: '',
@@ -62,7 +62,8 @@ const OperatingRoutes: Routes = [
       {
         path: 'editor',
         component: ComponentEditorComponent
-      }
+      },
+      { path: 'form', component: ComponentFormComponent }
     ]
   }
 ];

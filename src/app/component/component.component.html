@@ -2,78 +2,69 @@
   <div class="tree">
     <div class="item">
       <a>
-        <i class="iconfont icon-triangledown"></i>
-        使用指南
+        <i class="iconfont icon-triangledown"></i> 使用指南
         <div class="item" [class.active]="isActive('/component/avatar')">
           <a routerLink="/component/avatar">
-            <i class="iconfont icon-angle-right"></i>
-            字母头像
+            <i class="iconfont icon-angle-right"></i> 字母头像
           </a>
         </div>
         <div class="item" [class.active]="isActive('/component/notice')">
           <a routerLink="/component/notice">
-            <i class="iconfont icon-angle-right"></i>
-            消息提示
+            <i class="iconfont icon-angle-right"></i> 消息提示
           </a>
         </div>
         <div class="item" [class.active]="isActive('/component/select')">
           <a routerLink="/component/select">
-            <i class="iconfont icon-angle-right"></i>
-            下拉选择框
+            <i class="iconfont icon-angle-right"></i> 下拉选择框
           </a>
         </div>
         <div class="item" [class.active]="isActive('/component/rate')">
           <a routerLink="/component/rate">
-            <i class="iconfont icon-angle-right"></i>
-            打分
+            <i class="iconfont icon-angle-right"></i> 打分
           </a>
         </div>
         <div class="item" [class.active]="isActive('/component/slider')">
           <a routerLink="/component/slider">
-            <i class="iconfont icon-angle-right"></i>
-            Slider
+            <i class="iconfont icon-angle-right"></i> Slider
           </a>
         </div>
         <div class="item" [class.active]="isActive('/component/xterm')">
           <a routerLink="/component/xterm">
-            <i class="iconfont icon-angle-right"></i>
-            xterm
+            <i class="iconfont icon-angle-right"></i> xterm
           </a>
         </div>
         <div class="item" [class.active]="isActive('/component/code')">
           <a routerLink="/component/code">
-            <i class="iconfont icon-angle-right"></i>
-            code
+            <i class="iconfont icon-angle-right"></i> code
           </a>
         </div>
         <div class="item" [class.active]="isActive('/component/echarts')">
           <a routerLink="/component/echarts">
-            <i class="iconfont icon-angle-right"></i>
-            echarts
+            <i class="iconfont icon-angle-right"></i> echarts
           </a>
         </div>
         <div class="item" [class.active]="isActive('/component/calendar')">
           <a routerLink="/component/calendar">
-            <i class="iconfont icon-angle-right"></i>
-            calendar
+            <i class="iconfont icon-angle-right"></i> calendar
           </a>
         </div>
         <div class="item" [class.active]="isActive('/component/upload')">
           <a routerLink="/component/upload">
-            <i class="iconfont icon-angle-right"></i>
-            upload
+            <i class="iconfont icon-angle-right"></i> upload
           </a>
         </div>
         <div class="item" [class.active]="isActive('/component/editor')">
           <a routerLink="/component/editor">
-            <i class="iconfont icon-angle-right"></i>
-            editor
+            <i class="iconfont icon-angle-right"></i> editor
+          </a>
+        </div>
+        <div class="item" [class.active]="isActive('/component/form')">
+          <a routerLink="/component/form">
+            <i class="iconfont icon-angle-right"></i> form
           </a>
         </div>
       </a>
     </div>
   </div>
-  <div class="body-height full text-left">
-    <router-outlet></router-outlet>
-  </div>
+  <div class="body-height full text-left"><router-outlet></router-outlet></div>
 </div>

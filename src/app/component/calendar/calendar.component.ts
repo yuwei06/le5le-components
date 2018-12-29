@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./calendar.component.scss']
 })
 export class ComponentCalendarComponent {
-  date;
+  date: any;
   constructor() {}
 
   onChange(data) {
