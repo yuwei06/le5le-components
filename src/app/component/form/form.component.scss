@@ -28,3 +28,24 @@ table {
 span {
   display: inline;
 }
+.formMain h2 {
+  padding-left: 50px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.formConent > div,
+.formShopping > div {
+  font-size: 16px;
+  padding-left: 50px;
+}
+img {
+  display: block;
+}
+.formCustomer h2,
+.formShop h2 {
+  margin-left: 100px;
+}
+.formConent,
+.formShopping {
+  margin-top: 50px;
+}
